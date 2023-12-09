@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * Project Service
+ */
 public interface ProjectService {
     List<Project> getAllProjects();
     void assignEmployeesToProject(Long projectId, List<Long> employeeIds) ;

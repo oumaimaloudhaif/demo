@@ -12,7 +12,7 @@ import java.util.Comparator;
 import java.util.List;
 
 /**
- *
+ * Company Service Implementation
  */
 @Service
 public class CompanyServiceImpl implements CompanyService {

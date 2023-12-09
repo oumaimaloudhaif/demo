@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- *
+ * Department Repository
  */
 @Repository
 public interface DepartmentRepository extends JpaRepository<Department, Long> {

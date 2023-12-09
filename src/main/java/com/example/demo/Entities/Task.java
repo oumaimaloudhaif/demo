@@ -6,7 +6,7 @@ import com.example.demo.Enums.TaskStatus;
 import javax.persistence.*;
 
 /**
- *
+ * Task Entity
  */
 @Entity
 public class Task {

@@ -4,7 +4,7 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 /**
- *
+ * WorkCalander Entity
  */
 @Entity
 public class WorkCalander {

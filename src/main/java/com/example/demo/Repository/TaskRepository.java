@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- *
+ * Task Repository
  */
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {

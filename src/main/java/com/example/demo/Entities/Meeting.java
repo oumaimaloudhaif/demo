@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import java.time.LocalDateTime;
 
 /**
- *
+ * Meeting Entity
  */
 @Entity
 public class Meeting {

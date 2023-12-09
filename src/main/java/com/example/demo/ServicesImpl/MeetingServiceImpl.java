@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Meeting Service Implementation
+ */
 @Service
 public class MeetingServiceImpl implements MeetingService {
     @Autowired

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Project Entity
  */
 @Entity
 public class Project {

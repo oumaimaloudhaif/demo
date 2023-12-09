@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ * Company Entity
  */
 @Entity
 public class Company {

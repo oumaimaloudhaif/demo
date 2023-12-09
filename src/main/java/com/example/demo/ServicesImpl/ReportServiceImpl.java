@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+/**
+ * Report Service Impl
+ */
 @Service
 public class ReportServiceImpl  implements ReportService {
     @Autowired

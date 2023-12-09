@@ -3,7 +3,7 @@ package com.example.demo.Entities;
 import javax.persistence.*;
 
 /**
- *
+ * Address Entity
  */
 @Entity
 public class Address {

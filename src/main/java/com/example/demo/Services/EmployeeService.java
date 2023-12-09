@@ -5,7 +5,7 @@ import com.example.demo.Enums.Gender;
 import java.util.List;
 
 /**
- *
+ * Employee Service
  */
 public interface EmployeeService {
     List<Employee> getAllEmployees();
