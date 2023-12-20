@@ -12,7 +12,7 @@ public class EmployeeController {
     @Autowired
     private EmployeeServiceImpl employeeServiceImpl;
 
-    @GetMapping
+    @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeServiceImpl.getAllEmployees();
     }
@@ -22,8 +22,11 @@ public class EmployeeController {
      * @param keyword
      * @return
      */
-    @GetMapping("/employees")
-    public List<Employee> searchEmployees(@RequestParam String keyword) {
+    @GetMapping("/searchEmployees")
+    public List<Employee> searchEmployees(@RequestParam(required = false) String keyword) {
+        if(keyword==null){
+           return  List.of();
+        }
         return employeeServiceImpl.searchEmployees(keyword);
     }
 
