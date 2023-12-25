@@ -1,5 +1,7 @@
 package com.example.demo.Entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +23,7 @@ public class Department {
     @ManyToOne
     @JoinColumn(name = "company_id")
     private Company company;
+    @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Employee> employees = new ArrayList<>();
 
