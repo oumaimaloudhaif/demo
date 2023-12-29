@@ -1,0 +1,28 @@
+# Demo
+
+## Prérequis
+
+Pour construire et exécuter l'application, vous aurez besoin de :
+
+1. [JDK 17](https://www.oracle.com/java/technologies/downloads/#java17)
+2. [Maven 3.8.4](https://maven.apache.org/)
+
+## Construction de l'application localement
+
+Pour construire l'application localement, exécutez la commande suivante dans le répertoire racine de votre projet :
+
+```bash
+mvn clean install
+
+## Exécuter l'application localement
+Il existe plusieurs façons d'exécuter une application Spring Boot sur votre machine locale :
+
+1. Utilisation de votre IDE
+Pour exécuter l'application Spring Boot depuis votre environnement de développement intégré (IDE) :
+
+Cherchez et exécutez la classe principale de votre application.
+2. Utilisation du plugin Spring Boot Maven
+Alternativement, vous pouvez exécuter l'application en utilisant le plugin Spring Boot Maven avec la commande suivante dans votre terminal ou invite de commande :
+
+```bash
+mvn spring-boot:run
