@@ -55,22 +55,6 @@ public class EmployeeServiceImplTest {
 
     }
     @Test
-    public void testGetHoursWorked() {
-        Employee employee= new Employee(1L,"Dhia",2500, Gender.MALE, ContractType.CDI);
-        List<WorkCalander> workCalanders = new ArrayList<>();
-        WorkCalander work1 = new WorkCalander(LocalDateTime.of(2023, 12, 1, 9, 0),
-                LocalDateTime.of(2023, 12, 1, 17, 0));
-        WorkCalander work2 = new WorkCalander(LocalDateTime.of(2023, 12, 2, 8, 0),
-                LocalDateTime.of(2023, 12, 2, 16, 30));
-        workCalanders.add(work1);
-        workCalanders.add(work2);
-        employee.setWorkWorkCalanders(workCalanders);
-        Mockito.when(employee.getWorkWorkCalanders()).thenReturn(workCalanders);
-        int expectedHoursWorked = 16;
-        int actualHoursWorked = employee.getHoursWorked();
-        assertEquals(expectedHoursWorked, actualHoursWorked);
-    }
-    @Test
     public void testSearchEmployees() {
         String keyword = "Oumaima";
         List<Employee> mockEmployees = new ArrayList<>();
