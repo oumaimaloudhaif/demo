@@ -12,7 +12,7 @@ Pour construire et exécuter l'application, vous aurez besoin de:
 Pour construire l'application localement, exécutez la commande suivante dans le répertoire racine de votre projet:
 
 ```bash
-mvn clean install
+mvn clean install   ```
 
 ## Exécuter l'application localement
 Il existe plusieurs façons d'exécuter une application Spring Boot sur votre machine locale:
@@ -25,4 +25,4 @@ Cherchez et exécutez la classe principale de votre application.
 Alternativement, vous pouvez exécuter l'application en utilisant le plugin Spring Boot Maven avec la commande suivante dans votre terminal ou invite de commande:
 
 ```bash
-mvn spring-boot:run
+mvn spring-boot:run   ```
