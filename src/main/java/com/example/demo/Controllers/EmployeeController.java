@@ -17,18 +17,29 @@ public class EmployeeController {
     private EmployeeServiceImpl employeeServiceImpl;
     @Autowired
     private EmployeeMapper employeeMapper;
-
-    // @GetMapping("/employees")
+    @GetMapping("/employees")
     public List<Employee> getAllEmployees() {
         return employeeServiceImpl.getAllEmployees();
     }
 
+    @PostMapping("/addEmployee")
+    public String addEmployee(@RequestBody  Employee employee) {
+        return employeeServiceImpl.addEmployee(employee);
+    }
+    @PutMapping("/updateEmployee")
+    public String updateEmployee(@RequestBody Employee employee) {
+        return employeeServiceImpl.updateEmployee(employee);
+    }
+    @DeleteMapping("/deleteEmployee/{employeeId}")
+    public String DeleteEmployee(@PathVariable  Long employeeId) {
+        return employeeServiceImpl.deleteEmployee(employeeId);
+    }
     /**
      *
      * @param keyword
      * @return
      */
-    @GetMapping("/employees")
+    @GetMapping("/searchEmployee")
     public List<Employee> searchEmployees(@RequestParam(required = false) String keyword) {
         if(keyword==null){
             return  List.of();
@@ -53,6 +64,6 @@ public class EmployeeController {
         // return new FetchEmployeeResponse(result);
         return  employeeMapper.toFetchEmployeeResponse(result);
         //return "salut";
-
     }
+
 }

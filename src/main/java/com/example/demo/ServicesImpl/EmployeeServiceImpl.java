@@ -1,6 +1,7 @@
 package com.example.demo.ServicesImpl;
 
 import com.example.demo.Entities.Employee;
+import com.example.demo.Entities.Meeting;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Repository.EmployeeRepository;
@@ -36,6 +37,43 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     /**
      *
+     * @return String
+     */
+    public String addEmployee(Employee employee) {
+        Employee savedEmployee = employeeRepository.save(employee);
+        if (savedEmployee != null && savedEmployee.getEmployee_id() != null) {
+            return "Employee added successfully";
+        } else {
+            return "Employee not added successfully";
+        }
+    }
+
+    /**
+     *
+     * @return String
+     */
+    public String updateEmployee(Employee employee) {
+        Employee updatedEmployee = employeeRepository.save(employee);
+        if (updatedEmployee != null && updatedEmployee.getEmployee_id() != null) {
+            return "Employee is updated successfully";
+        } else {
+            return "Employee not updated successfully";
+        }
+    }
+    /**
+     *
+     * @return String
+     */
+    public String deleteEmployee(Long employeeId) {
+        Optional<Employee> employee=employeeRepository.findById(employeeId);
+        if(employee.isPresent()){ employeeRepository.delete(employee.get());
+              return "Employee is deleted successfully";}
+       else{
+             return "Employee not deleted successfully";}
+
+    }
+    /**
+     *
      * @param keyword
      * @return
      */
@@ -61,18 +99,6 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     private int calculateExperience(LocalDate joiningDate) {
         return Period.between(joiningDate, LocalDate.now()).getYears();
-    }
-
-    /**
-     *
-     * @param numberOfEmployees
-     * @return
-     */
-    public List<Employee> getMostActiveEmployees(int numberOfEmployees) {
-        return employeeRepository.findAll().stream()
-                .sorted(Comparator.comparingInt(Employee::getHoursWorked).reversed())
-                .limit(numberOfEmployees)
-                .collect(Collectors.toList());
     }
 
     /**
