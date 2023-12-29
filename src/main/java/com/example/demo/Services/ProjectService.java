@@ -18,6 +18,5 @@ public interface ProjectService {
     void assignEmployeesToProject(Long projectId, List<Long> employeeIds) ;
     Map<Integer, List<Employee>> groupEmployeesByAgeInProject(Long projectId);
     Map<String, List<Employee>> filterAndGroupEmployeesBySkillsInProject(Long projectId, List<String> skills) ;
-    int calculateTotalProjectHours(Long projectId) ;
     boolean hasActiveEmployees(Long projectId) ;
 }

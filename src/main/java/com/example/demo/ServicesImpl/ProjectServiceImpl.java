@@ -95,24 +95,6 @@ public class ProjectServiceImpl implements ProjectService {
      * @param projectId
      * @return
      */
-    public int calculateTotalProjectHours(Long projectId) {
-        Project project = projectRepository.findById(projectId).orElse(null);
-        if (project != null) {
-            return project.getEmployees().stream()
-                    .mapToInt(Employee::getHoursWorked)
-                    .sum();
-        }
-        else{
-            LOG.error(PROJECT_NULL);
-        }
-        return 0;
-    }
-
-    /**
-     *
-     * @param projectId
-     * @return
-     */
     public boolean hasActiveEmployees(Long projectId) {
         Project project = projectRepository.findById(projectId).orElse(null);
         if (project != null) {
