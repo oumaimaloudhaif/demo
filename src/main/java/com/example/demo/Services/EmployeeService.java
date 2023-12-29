@@ -11,8 +11,6 @@ public interface EmployeeService {
     List<Employee> getAllEmployees();
     List<Employee> searchEmployees(String keyword);
     List<Employee> getExperiencedEmployees(int yearsOfExperience) ;
-    List<Employee> getMostActiveEmployees(int numberOfEmployees);
-
     public List<Employee> filterEmployeesByAge(int minAge, int maxAge);
     List<Employee> filterEmployeesByGender(Gender gender);
     int calculateEmployeeSeniority(Long employeeId) ;
