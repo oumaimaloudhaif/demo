@@ -7,10 +7,15 @@ import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
+@Validated
 @RestController
 public class EmployeeController {
     @Autowired
@@ -40,7 +45,7 @@ public class EmployeeController {
      * @return
      */
     @GetMapping("/searchEmployee")
-    public List<Employee> searchEmployees(@RequestParam(required = false) String keyword) {
+    public List<Employee> searchEmployees(@RequestParam(required = false) @Valid @NotEmpty @NotNull String keyword) {
         if(keyword==null){
             return  List.of();
         }
@@ -52,7 +57,7 @@ public class EmployeeController {
      */
     @GetMapping(value="/fetch", consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE)
-    public FetchEmployeeResponse fetchEmployees(@RequestBody EmployeeRequest employeeRequest) {
+    public FetchEmployeeResponse fetchEmployees(@RequestBody @Valid EmployeeRequest employeeRequest) {
         final String keyword=employeeRequest.getKeyword();
 
         if(keyword==null){

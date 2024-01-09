@@ -9,6 +9,8 @@ import java.util.List;
 @Component
 public class EmployeeMapper {
     public FetchEmployeeResponse toFetchEmployeeResponse(List<Employee> employees){
-        return new FetchEmployeeResponse(employees);
+        FetchEmployeeResponse fetchEmployeeResponse=new FetchEmployeeResponse();
+        fetchEmployeeResponse.setResult(employees);
+        return fetchEmployeeResponse;
     }
 }
