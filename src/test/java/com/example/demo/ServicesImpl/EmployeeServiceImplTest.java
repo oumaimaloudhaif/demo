@@ -1,6 +1,7 @@
 package com.example.demo.ServicesImpl;
 
 import com.example.demo.DemoApplication;
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Entities.WorkCalander;
 import com.example.demo.Enums.ContractType;
@@ -50,7 +51,7 @@ public class EmployeeServiceImplTest {
 
         );
         when(employeeRepository.findAll()).thenReturn(mockedEmployees);
-        List<Employee> employees = employeeService.getAllEmployees();
+        List<EmployeeDTO> employees = employeeService.getAllEmployees();
         assertEquals(mockedEmployees.size(), employees.size());
 
     }
