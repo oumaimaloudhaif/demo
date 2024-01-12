@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class TaskRequest {
+public class ProjectRequest {
     @NotNull
-    @NotEmpty(message = "TASK NAME NOT BE EMPTY")
+    @NotEmpty(message = "PROJECT NAME NOT BE EMPTY")
     private String keyword;
 }
