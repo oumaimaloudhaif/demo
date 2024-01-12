@@ -2,6 +2,7 @@ package com.example.demo.Controllers;
 
 import com.example.demo.Controllers.Request.EmployeeRequest;
 import com.example.demo.Controllers.Response.FetchEmployeeResponse;
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -39,13 +40,13 @@ class EmployeeControllerTest extends AbstractTest {
     public void getAllEmployeesTestWhenEmployeeExist() throws Exception {
         //given
         String uri = "/employees";
-        Employee employee = new Employee();
+        EmployeeDTO employee = new EmployeeDTO();
         employee.setName("ouma");
         employee.setSalary(5000);
-        Employee employee2 = new Employee();
+        EmployeeDTO employee2 = new EmployeeDTO();
         employee2.setName("ouma");
         employee2.setSalary(5000);
-        List<Employee> listOfEmployees = List.of(employee, employee2);
+        List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
 
         //when
         when(employeeServiceImpl.getAllEmployees()).thenReturn(listOfEmployees);
@@ -65,7 +66,7 @@ class EmployeeControllerTest extends AbstractTest {
     public void getAllEmployeesTestWhenNoEmployeeExist() throws Exception {
         //given
         String uri = "/employees";
-        List<Employee> listOfEmployees = List.of();
+        List<EmployeeDTO> listOfEmployees = List.of();
 
         //when
         when(employeeServiceImpl.getAllEmployees()).thenReturn(listOfEmployees);
