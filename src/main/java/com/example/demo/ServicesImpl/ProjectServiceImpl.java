@@ -106,4 +106,16 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return false;
     }
+    public  List<Project> searchProject(String keyword) {
+        return projectRepository.findByName(keyword);
+    }
+
+    public  Project addProject(Project project) {
+        return projectRepository.save(project);
+    }
+
+    public  Project updateProject(Project project) {
+        return projectRepository.save(project);
+    }
+
 }

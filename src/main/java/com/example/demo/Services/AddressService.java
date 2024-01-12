@@ -5,10 +5,12 @@ import com.example.demo.Entities.Address;
 import java.util.List;
 
 /**
- * AddressS ervice
+ * AddressService
  */
 public interface AddressService {
-    public List<Address> getAllAddresses();
-
+    List<Address> getAllAddresses();
+    List<Address> searchAddress(String keyword);
+   Address addAddress(Address address);
+   Address updateAddress(Address address);
 
 }

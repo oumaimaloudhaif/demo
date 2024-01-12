@@ -1,7 +1,8 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Dto.EmployeeDTO;
+import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Employee;
-import com.example.demo.Entities.Meeting;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Repository.EmployeeRepository;
@@ -26,13 +27,20 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository employeeRepository;
     private static final Log LOG = LogFactory.getLog(EmployeeServiceImpl.class);
     private static final String EMPLOYEE_NULL = "Employee cannot be null";
+    @Autowired
+    FromDOToDTO fromDOToDTO;
 
     /**
-     *
      * @return
      */
-    public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+    public List<EmployeeDTO> getAllEmployees() {
+        List<Employee> employees= employeeRepository.findAll();
+        List<EmployeeDTO> employeesDto=new ArrayList<>();
+        employees.forEach(employee -> {
+            EmployeeDTO employeeDTO=fromDOToDTO.MapEmployee(employee);
+            employeesDto.add(employeeDTO);
+        });
+        return employeesDto;
     }
 
     /**

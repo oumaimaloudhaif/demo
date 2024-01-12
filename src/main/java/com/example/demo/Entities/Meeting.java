@@ -1,5 +1,10 @@
 package com.example.demo.Entities;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -9,6 +14,10 @@ import java.time.LocalDateTime;
 /**
  * Meeting Entity
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Meeting {
     @Id
@@ -18,38 +27,7 @@ public class Meeting {
     private String title;
     private LocalDateTime startTime;
 
-    public Long getId() {
-        return id;
+    public Meeting(String meeting) {
+        this.title=meeting;
     }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    private LocalDateTime endTime;
-
 }

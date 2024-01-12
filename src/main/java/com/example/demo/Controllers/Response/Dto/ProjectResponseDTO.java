@@ -1,6 +1,6 @@
-package com.example.demo.Controllers.Response;
+package com.example.demo.Controllers.Response.Dto;
 
-import com.example.demo.Entities.Project;
+import com.example.demo.Dto.ProjectDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,6 +11,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class ProjectResponse {
-    List<Project> result;
+public class ProjectResponseDTO {
+    List<ProjectDTO> result;
 }

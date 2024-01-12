@@ -1,26 +1,58 @@
 package com.example.demo.Controllers;
 
+import com.example.demo.Controllers.Mappers.AddressMapper;
+import com.example.demo.Controllers.Request.AddressRequest;
+import com.example.demo.Controllers.Response.AddressResponse;
 import com.example.demo.Entities.Address;
 import com.example.demo.ServicesImpl.AddressServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class AddressController {
     @Autowired
     private AddressServiceImpl addressServiceImpl;
+    @Autowired
+    private AddressMapper addressMapper;
 
     /**
      *
-     * @return
+     * @return addresses
      */
-    @GetMapping("/addresses")
-    public List<Address> getAllAddresses() {
-        return addressServiceImpl.getAllAddresses();
-    }
+  /*  @GetMapping("/alladdresses")
+    public AddressResponse getAllAddresses() {
 
+        return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
+    }*/
+    @PostMapping("/addresses")
+    public Address addAddress(@RequestBody @Valid Address address) {
+        return addressServiceImpl.addAddress(address);
+    }
+    /**
+     *
+     *
+     *@return Address
+     */
+    @PutMapping("/addresses")
+    public Address updateAddress(@RequestBody @Valid Address address) {
+        return addressServiceImpl.updateAddress(address);
+    }
+    /**
+     *
+     * @return AddressResponse
+     */
+  /*  @GetMapping("/addresses")
+    public AddressResponse searchAddress(@RequestParam(required =false) @Valid AddressRequest addressRequest) {
+        return addressMapper.toAddressResponse(addressServiceImpl.searchAddress(addressRequest.getKeyword()));
+    }*/
+    @GetMapping("/addresses")
+    public AddressResponse getAddresses(@RequestParam(required = false) @Valid AddressRequest addressRequest) {
+        if (addressRequest != null && addressRequest.getKeyword() != null) {
+            return addressMapper.toAddressResponse(addressServiceImpl.searchAddress(addressRequest.getKeyword()));
+        } else {
+            return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
+        }
+    }
 }

@@ -23,4 +23,16 @@ public class MeetingServiceImpl implements MeetingService {
     public List<Meeting> getAllMeetings() {
         return meetingRepository.findAll();
     }
+    public  List<Meeting> searchMeeting(String keyword) {
+        return meetingRepository.findByTitle(keyword);
+    }
+
+    public  Meeting addMeeting(Meeting meeting) {
+        return meetingRepository.save(meeting);
+    }
+
+    public  Meeting updateMeeting(Meeting meeting) {
+        return meetingRepository.save(meeting);
+    }
+
 }

@@ -1,16 +1,16 @@
 package com.example.demo.Controllers.Mappers;
 
-import com.example.demo.Controllers.Response.AddressResponse;
-import com.example.demo.Entities.Address;
+import com.example.demo.Controllers.Response.CompanyResponse;
+import com.example.demo.Entities.Company;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
-public class AddressMapper {
-    public AddressResponse toAddressResponse(List<Address> addresses) {
-        AddressResponse addressResponse = new AddressResponse();
-        addressResponse.setResult(addresses);
-        return addressResponse;
+public class CompanyMapper {
+    public CompanyResponse toCompanyResponse(List<Company> companies) {
+        CompanyResponse companyResponse = new CompanyResponse();
+        companyResponse.setResult(companies);
+        return companyResponse;
     }
 }

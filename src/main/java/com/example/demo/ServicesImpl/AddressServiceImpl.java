@@ -19,4 +19,16 @@ public class AddressServiceImpl implements AddressService {
     public List<Address> getAllAddresses() {
         return addressRepository.findAll();
     }
+    public  List<Address> searchAddress(String keyword) {
+        return addressRepository.findByCity(keyword);
+    }
+
+    public  Address addAddress(Address address) {
+        return addressRepository.save(address);
+    }
+
+    public  Address updateAddress(Address address) {
+        return addressRepository.save(address);
+    }
+
 }

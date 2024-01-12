@@ -1,6 +1,6 @@
 package com.example.demo.Controllers.Response;
 
-import com.example.demo.Entities.Address;
+import com.example.demo.Entities.Company;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,6 +12,6 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class AddressResponse {
-    List<Address> result;
+public class CompanyResponse {
+    List<Company> result;
 }

@@ -65,6 +65,11 @@ public class Employee {
         this.contractType=contractType;
     }
 
+    public Employee(long employee_id, String name) {
+        this.employee_id=employee_id;
+        this.name=name;
+    }
+
     @Override
     public String toString() {
         return "Employee{" +

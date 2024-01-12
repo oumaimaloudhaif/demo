@@ -10,8 +10,8 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class AddressRequest {
+public class CompanyRequest {
     @NotNull
-    @NotEmpty(message = "ADDRESS NAME NOT BE EMPTY")
+    @NotEmpty(message = "COMPANY NAME NOT BE EMPTY")
     private String keyword;
 }

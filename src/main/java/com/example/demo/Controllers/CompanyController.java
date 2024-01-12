@@ -1,50 +1,58 @@
 package com.example.demo.Controllers;
 
-import com.example.demo.Controllers.Mappers.AddressMapper;
-import com.example.demo.Controllers.Request.DepartmentRequest;
-import com.example.demo.Controllers.Response.AddressResponse;
-import com.example.demo.Entities.Address;
-import com.example.demo.ServicesImpl.AddressServiceImpl;
+import com.example.demo.Controllers.Mappers.CompanyMapper;
+import com.example.demo.Controllers.Request.CompanyRequest;
+import com.example.demo.Controllers.Response.CompanyResponse;
+import com.example.demo.Entities. Company;
+import com.example.demo.ServicesImpl. CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 @RestController
-public class AddressController {
+public class CompanyController {
     @Autowired
-    private AddressServiceImpl addressServiceImpl;
+    private  CompanyServiceImpl  CompanyServiceImpl;
     @Autowired
-    private AddressMapper addressMapper;
+    private  CompanyMapper  companyMapper;
 
     /**
      *
      * @return
      */
-    @GetMapping("/addresses")
-    public AddressResponse getAllAddresses() {
+   /* @GetMapping("/companies")
+    public  CompanyResponse getAllCompanies() {
 
-        return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
-    }
-    @PostMapping("/addresses")
-    public Address addAddress(@RequestBody @Valid Address address) {
-        return addressServiceImpl.addAddress(address);
-    }
-    /**
-     *
-     *
-     *@return addresses
-     */
-    @PutMapping("/addresses")
-    public Address updateAddress(@RequestBody @Valid Address address) {
-        return addressServiceImpl.updateAddress(address);
+        return  companyMapper.toCompanyResponse( CompanyServiceImpl.getAllCompanies());
+    }*/
+    @PostMapping("/companies")
+    public  Company addCompany(@RequestBody @Valid  Company  Company) {
+        return  CompanyServiceImpl.addCompany( Company);
     }
     /**
      *
-     * @return AddressResponse
+     *
+     *@return  Companies
      */
-    @GetMapping("/addresses")
-    public AddressResponse searchDepartment(@RequestParam(required = false) @Valid DepartmentRequest departmentRequest) {
-        return addressMapper.toAddressResponse(addressServiceImpl.searchAddress(departmentRequest.getKeyword()));
+    @PutMapping("/companies")
+    public  Company updateCompany(@RequestBody @Valid  Company  Company) {
+        return  CompanyServiceImpl.updateCompany( Company);
+    }
+    /**
+     *
+     * @return  CompanyResponse
+     */
+   /* @GetMapping("/companies")
+    public  CompanyResponse searchDepartment(@RequestParam(required = false) @Valid CompanyRequest companyRequest) {
+        return  companyMapper.toCompanyResponse( CompanyServiceImpl.searchCompany(companyRequest.getKeyword()));
+    }*/
+    @GetMapping("/companies")
+    public CompanyResponse getCompanies(@RequestParam(required = false) @Valid CompanyRequest companyRequest) {
+        if (companyRequest != null && companyRequest.getKeyword() != null) {
+            return companyMapper.toCompanyResponse(CompanyServiceImpl.searchCompany(companyRequest.getKeyword()));
+        } else {
+            return companyMapper.toCompanyResponse(CompanyServiceImpl.getAllCompanies());
+        }
     }
 }

@@ -10,6 +10,12 @@ import java.util.List;
 public interface DepartmentService {
 
 
-    public List<Department> getAllDepartments() ;
+   List<Department> getAllDepartments() ;
+   List<Department> searchDepartment(String keyword) ;
+
+   Department addDepartment(Department department);
+
+   Department updateDepartment(Department department) ;
+
 
 }
