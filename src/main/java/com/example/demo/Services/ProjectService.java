@@ -19,4 +19,10 @@ public interface ProjectService {
     Map<Integer, List<Employee>> groupEmployeesByAgeInProject(Long projectId);
     Map<String, List<Employee>> filterAndGroupEmployeesBySkillsInProject(Long projectId, List<String> skills) ;
     boolean hasActiveEmployees(Long projectId) ;
+    List<Project> searchProject(String keyword);
+
+   Project addProject(Project project);
+
+   Project updateProject(Project project);
+
 }

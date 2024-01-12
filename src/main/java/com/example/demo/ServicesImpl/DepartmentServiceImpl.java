@@ -127,4 +127,16 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return Collections.emptyMap();
     }
+    public  List<Department> searchDepartment(String keyword) {
+        return departmentRepository.findByName(keyword);
+    }
+
+    public  Department addDepartment(Department department) {
+        return departmentRepository.save(department);
+    }
+
+    public  Department updateDepartment(Department department) {
+        return departmentRepository.save(department);
+    }
+
 }

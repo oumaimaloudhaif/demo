@@ -1,6 +1,10 @@
 package com.example.demo.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -9,6 +13,10 @@ import java.util.List;
 /**
  * Company Entity
  */
+@AllArgsConstructor
+@NoArgsConstructor
+@Setter
+@Getter
 @Entity
 public class Company {
     @Id
@@ -20,27 +28,8 @@ public class Company {
     @JsonIgnore
     private List<Department> departments = new ArrayList<>();
 
-    public Long getCompany_id() {
-        return company_id;
+    public Company(String companyName) {
+        this.name=companyName;
     }
 
-    public void setCompany_id(Long company_id) {
-        this.company_id = company_id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public List<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
-    }
 }

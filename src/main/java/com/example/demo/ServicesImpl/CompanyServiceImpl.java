@@ -1,7 +1,9 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Department;
 import com.example.demo.Entities.Employee;
+import com.example.demo.Repository.CompanyRepository;
 import com.example.demo.Repository.DepartmentRepository;
 import com.example.demo.Repository.EmployeeRepository;
 import com.example.demo.Services.CompanyService;
@@ -20,6 +22,10 @@ public class CompanyServiceImpl implements CompanyService {
     private EmployeeRepository employeeRepository;
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private CompanyRepository companyRepository;
+
+
     public boolean isSkillDiverse(String skill) {
         List<Employee> employees = employeeRepository.findAll();
         long countEmployeesWithSkill = employees.stream()
@@ -34,4 +40,21 @@ public class CompanyServiceImpl implements CompanyService {
                 .max(Comparator.comparingInt(department -> department.getEmployees().size()))
                 .orElse(null);
     }
+    @Override
+    public  List<Company> searchCompany(String keyword) {
+        return companyRepository.findByName(keyword);
+    }
+    @Override
+    public  Company addCompany(Company company) {
+        return companyRepository.save(company);
+    }
+    @Override
+    public  Company updateCompany(Company company) {
+        return companyRepository.save(company);
+    }
+    @Override
+    public List<Company> getAllCompanies() {
+        return companyRepository.findAll();
+    }
+
 }

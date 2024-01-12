@@ -23,5 +23,16 @@ public class ReportServiceImpl  implements ReportService {
     public List<Report> getAllReports() {
         return reportRepository.findAll();
     }
+    public  List<Report> searchReports(String keyword) {
+        return reportRepository.findByTitle(keyword);
+    }
+
+    public  Report addReport(Report report) {
+        return reportRepository.save(report);
+    }
+
+    public  Report updateReport(Report report) {
+        return reportRepository.save(report);
+    }
 }
 

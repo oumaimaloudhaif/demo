@@ -1,12 +1,20 @@
 package com.example.demo.Entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 /**
  * Address Entity
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Address {
     @Id
@@ -19,43 +27,10 @@ public class Address {
     @JsonIgnore
     private Employee employee;
 
-    public Long getAddress_id() {
-        return address_id;
+    public Address(String street, String city, String postalCode) {
+        this.street=street;
+        this.city=city;
+        this.postalCode=postalCode;
     }
 
-    public void setAddress_id(Long address_id) {
-        this.address_id = address_id;
-    }
-
-    public String getStreet() {
-        return street;
-    }
-
-    public void setStreet(String street) {
-        this.street = street;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
-    public String getPostalCode() {
-        return postalCode;
-    }
-
-    public void setPostalCode(String postalCode) {
-        this.postalCode = postalCode;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
 }

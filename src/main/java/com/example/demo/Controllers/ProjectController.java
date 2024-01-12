@@ -1,25 +1,64 @@
 package com.example.demo.Controllers;
 
+import com.example.demo.Controllers.Mappers.ProjectMapper;
+import com.example.demo.Controllers.Request.MeetingRequest;
+import com.example.demo.Controllers.Request.ProjectRequest;
+import com.example.demo.Controllers.Response.MeetingResponse;
+import com.example.demo.Controllers.Response.ProjectResponse;
 import com.example.demo.Entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RestController
 public class ProjectController {
     @Autowired
     private ProjectServiceImpl projectServiceImpl;
+    @Autowired
+    private ProjectMapper projectMapper;
 
     /**
      *
      * @return
      */
+   /* @GetMapping("/projects")
+    public ProjectResponse getAllProjects() {
+        return projectMapper.toProjectResponse(projectServiceImpl.getAllProjects());
+    }*/
+    /**
+     *
+     *
+     *@return Project
+     */
+    @PostMapping("/projects")
+    public Project addProject(@RequestBody @Valid Project project) {
+        return projectServiceImpl.addProject(project);
+    }
+    /**
+     *
+     *
+     *@return Project
+     */
+    @PutMapping("/projects")
+    public Project updateProject(@RequestBody @Valid Project project) {
+        return projectServiceImpl.updateProject(project);
+    }
+    /**
+     *
+     * @return ProjectResponse
+     */
+   /* @GetMapping("/projects")
+    public ProjectResponse searchProject(@RequestParam(required = false) @Valid ProjectRequest projectRequest) {
+        return projectMapper.toProjectResponse(projectServiceImpl.searchProject(projectRequest.getKeyword()));
+    }*/
     @GetMapping("/projects")
-    public List<Project> getAllProjects() {
-        return projectServiceImpl.getAllProjects();
+    public ProjectResponse getMeetings(@RequestParam(required = false) @Valid  ProjectRequest projectRequest) {
+        if (projectRequest != null && projectRequest.getKeyword() != null) {
+            return projectMapper.toProjectResponse(projectServiceImpl.searchProject(projectRequest.getKeyword()));
+        } else {
+            return projectMapper.toProjectResponse(projectServiceImpl.getAllProjects());
+        }
     }
 }

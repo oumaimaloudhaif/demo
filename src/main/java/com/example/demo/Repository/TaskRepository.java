@@ -13,4 +13,6 @@ import java.util.List;
 @Repository
 public interface TaskRepository extends JpaRepository<Task, Long> {
     List<Task> findByPriority(Priority priority);
+
+    List<Task> findByName(String keyword);
 }

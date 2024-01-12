@@ -2,12 +2,20 @@ package com.example.demo.Entities;
 
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 /**
  * Task Entity
  */
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
 public class Task {
     @Id
@@ -26,59 +34,11 @@ public class Task {
     private Priority priority;
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
-    public Long getId_Task() {
-        return id_Task;
-    }
 
-    public void setId_Task(Long id_Task) {
-        this.id_Task = id_Task;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public Priority getPriority() {
-        return priority;
-    }
-
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-    public TaskStatus getTaskStatus() {
-        return taskStatus;
-    }
-
-    public void setTaskStatus(TaskStatus taskStatus) {
-        this.taskStatus = taskStatus;
+    public Task(String taskName,String description, TaskStatus taskStatus, Priority priority) {
+        this.name=taskName;
+        this.description=description;
+        this.taskStatus=taskStatus;
+        this.priority=priority;
     }
 }

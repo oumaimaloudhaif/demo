@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Enums.Gender;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
  * Employee Service
  */
 public interface EmployeeService {
-    List<Employee> getAllEmployees();
+    List<EmployeeDTO> getAllEmployees();
     List<Employee> searchEmployees(String keyword);
     List<Employee> getExperiencedEmployees(int yearsOfExperience) ;
     public List<Employee> filterEmployeesByAge(int minAge, int maxAge);
