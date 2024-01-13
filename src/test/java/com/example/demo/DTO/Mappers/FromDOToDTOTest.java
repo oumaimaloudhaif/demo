@@ -8,15 +8,11 @@ import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,12 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = DemoApplication.class)
-@AutoConfigureMockMvc
 public class FromDOToDTOTest {
     FromDOToDTO mapper = new FromDOToDTO();
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
+
     }
     @Test
     public void testMapAddress() {

@@ -2,17 +2,14 @@ package com.example.demo.DTO.Mappers;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.Dto.*;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Dto.Mappers.FromDTOToDO;
 import com.example.demo.Entities.*;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.util.List;
@@ -21,12 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(
         webEnvironment = SpringBootTest.WebEnvironment.MOCK,
         classes = DemoApplication.class)
-@AutoConfigureMockMvc
 class FromDTOToDOTest {
     FromDTOToDO mapper = new FromDTOToDO();
-    @Before
+    @BeforeEach
     public void setUp() {
-        MockitoAnnotations.openMocks(this);
     }
 
     @Test
