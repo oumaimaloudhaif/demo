@@ -1,5 +1,7 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Dto.DepartmentDTO;
+import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Department;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Repository.DepartmentRepository;
@@ -20,6 +22,8 @@ import java.util.stream.Collectors;
 public class DepartmentServiceImpl implements DepartmentService {
     @Autowired
     private DepartmentRepository departmentRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
     private static final Log LOG = LogFactory.getLog(DepartmentServiceImpl.class);
     private static final String DEPARTMENT_NULL = "Department cannot be null";
 
@@ -27,8 +31,14 @@ public class DepartmentServiceImpl implements DepartmentService {
      *
      * @return
      */
-    public List<Department> getAllDepartments() {
-        return departmentRepository.findAll();
+    public List<DepartmentDTO> getAllDepartments() {
+        List<Department> departments=departmentRepository.findAll();
+        List<DepartmentDTO> departmentDTOS=new ArrayList<>();
+        departments.forEach(department ->{
+            DepartmentDTO departmentDTO=fromDOToDTO.MapDepartment(department);
+            departmentDTOS.add(departmentDTO);}
+        );
+        return departmentDTOS;
     }
 
     /**
@@ -127,8 +137,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         }
         return Collections.emptyMap();
     }
-    public  List<Department> searchDepartment(String keyword) {
-        return departmentRepository.findByName(keyword);
+    public  List<DepartmentDTO> searchDepartment(String keyword) {
+        List<Department> departments=departmentRepository.findByName(keyword);
+        List<DepartmentDTO> departmentDTOS=new ArrayList<>();
+        departments.forEach(department ->{
+                DepartmentDTO departmentDTO=fromDOToDTO.MapDepartment(department);
+                    departmentDTOS.add(departmentDTO);}
+                );
+        return departmentDTOS;
     }
 
     public  Department addDepartment(Department department) {

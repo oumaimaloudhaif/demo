@@ -1,5 +1,7 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Dto.CompanyDTO;
+import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Department;
 import com.example.demo.Entities.Employee;
@@ -10,6 +12,7 @@ import com.example.demo.Services.CompanyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -24,6 +27,8 @@ public class CompanyServiceImpl implements CompanyService {
     private DepartmentRepository departmentRepository;
     @Autowired
     private CompanyRepository companyRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
 
 
     public boolean isSkillDiverse(String skill) {
@@ -41,8 +46,14 @@ public class CompanyServiceImpl implements CompanyService {
                 .orElse(null);
     }
     @Override
-    public  List<Company> searchCompany(String keyword) {
-        return companyRepository.findByName(keyword);
+    public  List<CompanyDTO> searchCompany(String keyword) {
+        List<Company> companies=companyRepository.findByName(keyword);
+        List<CompanyDTO> companyDTOS=new ArrayList<>();
+        companies.forEach(company -> {
+            CompanyDTO companyDTO=fromDOToDTO.MapCompany(company);
+            companyDTOS.add(companyDTO);
+        });
+        return companyDTOS;
     }
     @Override
     public  Company addCompany(Company company) {
@@ -53,8 +64,14 @@ public class CompanyServiceImpl implements CompanyService {
         return companyRepository.save(company);
     }
     @Override
-    public List<Company> getAllCompanies() {
-        return companyRepository.findAll();
+    public List<CompanyDTO> getAllCompanies() {
+        List<Company> companies=companyRepository.findAll();
+        List<CompanyDTO> companyDTOS=new ArrayList<>();
+        companies.forEach(company -> {
+            CompanyDTO companyDTO=fromDOToDTO.MapCompany(company);
+            companyDTOS.add(companyDTO);
+        });
+        return companyDTOS;
     }
 
 }

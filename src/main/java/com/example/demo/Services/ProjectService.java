@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.Dto.ProjectDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Entities.Project;
 
@@ -14,12 +15,12 @@ import java.util.stream.Collectors;
  * Project Service
  */
 public interface ProjectService {
-    List<Project> getAllProjects();
+    List<ProjectDTO> getAllProjects();
     void assignEmployeesToProject(Long projectId, List<Long> employeeIds) ;
     Map<Integer, List<Employee>> groupEmployeesByAgeInProject(Long projectId);
     Map<String, List<Employee>> filterAndGroupEmployeesBySkillsInProject(Long projectId, List<String> skills) ;
     boolean hasActiveEmployees(Long projectId) ;
-    List<Project> searchProject(String keyword);
+    List<ProjectDTO> searchProject(String keyword);
 
    Project addProject(Project project);
 

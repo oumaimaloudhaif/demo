@@ -1,12 +1,10 @@
 package com.example.demo.Controllers.Mappers;
 
-import com.example.demo.Controllers.Response.FetchEmployeeResponse;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

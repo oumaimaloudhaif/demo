@@ -3,11 +3,9 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.EmployeeMapper;
 import com.example.demo.Controllers.Request.EmployeeRequest;
 import com.example.demo.Controllers.Response.FetchEmployeeResponse;
-import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -80,8 +78,7 @@ public class EmployeeController {
         } else if (employeeRequest != null && employeeRequest.getKeyword() != null) {
              return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.searchEmployees(employeeRequest.getKeyword()));
         } else {
-            return employeeMapper.toFetchEmployeeResponse(List.of());
-            //return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.getAllEmployees());
+            return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.getAllEmployees());
         }
     }
 

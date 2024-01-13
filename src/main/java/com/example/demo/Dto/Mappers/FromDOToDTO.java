@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FromDOToDTO {
 
-    public AdressDTO MapAdress(Address address){
-        AdressDTO adressDTO=new AdressDTO();
+    public AddressDTO MapAdress(Address address){
+        AddressDTO adressDTO=new AddressDTO();
         adressDTO.setStreet(address.getStreet());
         adressDTO.setCity(address.getCity());
         adressDTO.setPostalCode(address.getPostalCode());

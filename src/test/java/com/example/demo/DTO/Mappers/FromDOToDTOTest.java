@@ -30,7 +30,7 @@ public class FromDOToDTOTest {
     public void testMapAddress() {
         Address address = new Address("Street", "City", "7034");
 
-        AdressDTO result = mapper.MapAdress(address);
+        AddressDTO result = mapper.MapAdress(address);
 
         assertEquals("Street", result.getStreet());
         assertEquals("City", result.getCity());

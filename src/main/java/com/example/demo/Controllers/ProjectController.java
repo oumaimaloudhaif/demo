@@ -1,9 +1,7 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Controllers.Mappers.ProjectMapper;
-import com.example.demo.Controllers.Request.MeetingRequest;
 import com.example.demo.Controllers.Request.ProjectRequest;
-import com.example.demo.Controllers.Response.MeetingResponse;
 import com.example.demo.Controllers.Response.ProjectResponse;
 import com.example.demo.Entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;

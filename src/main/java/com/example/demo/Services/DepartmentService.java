@@ -1,5 +1,6 @@
 package com.example.demo.Services;
 
+import com.example.demo.Dto.DepartmentDTO;
 import com.example.demo.Entities.Department;
 
 import java.util.List;
@@ -10,8 +11,8 @@ import java.util.List;
 public interface DepartmentService {
 
 
-   List<Department> getAllDepartments() ;
-   List<Department> searchDepartment(String keyword) ;
+   List<DepartmentDTO> getAllDepartments() ;
+   List<DepartmentDTO> searchDepartment(String keyword) ;
 
    Department addDepartment(Department department);
 

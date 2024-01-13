@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdressDTO {
+public class AddressDTO {
     private String street;
     private String city;
     private String postalCode;

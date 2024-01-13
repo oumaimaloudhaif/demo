@@ -1,11 +1,14 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Dto.Mappers.FromDOToDTO;
+import com.example.demo.Dto.ReportDTO;
 import com.example.demo.Entities.Report;
 import com.example.demo.Repository.ReportRepository;
 import com.example.demo.Services.ReportService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,16 +18,30 @@ import java.util.List;
 public class ReportServiceImpl  implements ReportService {
     @Autowired
     private ReportRepository reportRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
 
     /**
      *
      * @return all Reports
      */
-    public List<Report> getAllReports() {
-        return reportRepository.findAll();
+    public List<ReportDTO> getAllReports() {
+        List<Report> reports=reportRepository.findAll();
+        List<ReportDTO> reportDTOS=new ArrayList<>();
+        reports.forEach(report -> {
+            ReportDTO reportDTO=fromDOToDTO.MapReport(report);
+            reportDTOS.add(reportDTO);
+        });
+        return reportDTOS;
     }
-    public  List<Report> searchReports(String keyword) {
-        return reportRepository.findByTitle(keyword);
+    public  List<ReportDTO> searchReports(String keyword) {
+        List<Report> reports= reportRepository.findByTitle(keyword);
+        List<ReportDTO> reportDTOS=new ArrayList<>();
+        reports.forEach(report -> {
+            ReportDTO reportDTO=fromDOToDTO.MapReport(report);
+            reportDTOS.add(reportDTO);
+        });
+        return reportDTOS;
     }
 
     public  Report addReport(Report report) {

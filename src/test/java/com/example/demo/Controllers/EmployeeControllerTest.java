@@ -1,7 +1,6 @@
 package com.example.demo.Controllers;
 
 import com.example.demo.Controllers.Request.EmployeeRequest;
-import com.example.demo.Controllers.Response.FetchEmployeeResponse;
 import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
