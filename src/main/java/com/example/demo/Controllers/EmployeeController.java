@@ -70,7 +70,7 @@ public class EmployeeController {
     }*/
     @GetMapping("/employees")
     public FetchEmployeeResponse getEmployees(
-            @RequestParam(required = false) @Valid @NotEmpty @NotNull String keyword,
+            @RequestParam(required = false) @Valid String keyword,
             @RequestBody(required = false) @Valid EmployeeRequest employeeRequest) {
 
         if (keyword != null) {
