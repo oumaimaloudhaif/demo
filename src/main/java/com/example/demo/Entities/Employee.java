@@ -8,6 +8,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -56,7 +58,12 @@ public class Employee {
     private Gender gender;
     @Enumerated(EnumType.STRING)
     private ContractType contractType;
-
+    //This annotation of Data JPA allows to insert the Date of creation of the data
+    @CreatedDate
+    private Date created;
+    //This annotation of Data JPA allows to insert the last Date of modification of the data
+    @LastModifiedDate
+    private Date updated;
     public Employee(long employee_id, String name, float salary, Gender gender, ContractType contractType) {
         this.employee_id=employee_id;
         this.name=name;
