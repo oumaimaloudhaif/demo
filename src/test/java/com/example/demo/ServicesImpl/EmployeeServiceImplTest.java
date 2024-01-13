@@ -48,12 +48,10 @@ public class EmployeeServiceImplTest {
         List<Employee> mockedEmployees = Arrays.asList(
                 new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                 new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI)
-
         );
         when(employeeRepository.findAll()).thenReturn(mockedEmployees);
         List<EmployeeDTO> employees = employeeService.getAllEmployees();
         assertEquals(mockedEmployees.size(), employees.size());
-
     }
     @Test
     public void testSearchEmployees() {
