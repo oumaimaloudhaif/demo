@@ -1,5 +1,7 @@
 package com.example.demo.ServicesImpl;
 
+import com.example.demo.Dto.Mappers.FromDOToDTO;
+import com.example.demo.Dto.ProjectDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Entities.Project;
 import com.example.demo.Repository.EmployeeRepository;
@@ -12,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +29,8 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRepository projectRepository;
     @Autowired
     private EmployeeRepository employeeRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
     private static final Log LOG = LogFactory.getLog(ProjectServiceImpl.class);
     private static final String PROJECT_NULL = "Project cannot be null";
 
@@ -33,8 +38,14 @@ public class ProjectServiceImpl implements ProjectService {
      *
      * @return all Projects
      */
-    public List<Project> getAllProjects() {
-        return projectRepository.findAll();
+    public List<ProjectDTO> getAllProjects() {
+        List<Project> projects=projectRepository.findAll();
+        List<ProjectDTO> projectDTOS=new ArrayList<>();
+        projects.forEach(project -> {
+            ProjectDTO projectDTO=fromDOToDTO.MapProject(project);
+            projectDTOS.add(projectDTO);
+        });
+        return projectDTOS;
     }
 
     /**
@@ -106,8 +117,14 @@ public class ProjectServiceImpl implements ProjectService {
         }
         return false;
     }
-    public  List<Project> searchProject(String keyword) {
-        return projectRepository.findByName(keyword);
+    public  List<ProjectDTO> searchProject(String keyword) {
+        List<Project> projects=projectRepository.findByName(keyword);
+        List<ProjectDTO> projectDTOS=new ArrayList<>();
+        projects.forEach(project -> {
+            ProjectDTO projectDTO=fromDOToDTO.MapProject(project);
+            projectDTOS.add(projectDTO);
+        });
+        return projectDTOS;
     }
 
     public  Project addProject(Project project) {

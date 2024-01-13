@@ -1,6 +1,6 @@
 package com.example.demo.Controllers.Response;
 
-import com.example.demo.Entities.Task;
+import com.example.demo.Dto.TaskDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskResponse {
-    List<Task> result;
+    List<TaskDTO> result;
 }

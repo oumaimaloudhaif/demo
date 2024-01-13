@@ -28,7 +28,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     private static final Log LOG = LogFactory.getLog(EmployeeServiceImpl.class);
     private static final String EMPLOYEE_NULL = "Employee cannot be null";
     @Autowired
-    FromDOToDTO fromDOToDTO;
+    private FromDOToDTO fromDOToDTO;
 
     /**
      * @return
@@ -85,8 +85,14 @@ public class EmployeeServiceImpl implements EmployeeService {
      * @param keyword
      * @return
      */
-    public List<Employee> searchEmployees(String keyword) {
-        return employeeRepository.findByNameContaining(keyword);
+    public List<EmployeeDTO> searchEmployees(String keyword) {
+        List<Employee> employees= employeeRepository.findByNameContaining(keyword);
+        List<EmployeeDTO> employeesDto=new ArrayList<>();
+        employees.forEach(employee -> {
+            EmployeeDTO employeeDTO=fromDOToDTO.MapEmployee(employee);
+            employeesDto.add(employeeDTO);
+        });
+        return employeesDto;
     }
 
     /**

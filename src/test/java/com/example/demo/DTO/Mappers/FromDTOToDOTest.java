@@ -26,7 +26,7 @@ class FromDTOToDOTest {
 
     @Test
     void mapAddressDTO() {
-        AdressDTO addressDto = new AdressDTO("Street", "City", "7034");
+        AddressDTO addressDto = new AddressDTO("Street", "City", "7034");
 
         Address result = mapper.MapAddressDTO(addressDto);
 

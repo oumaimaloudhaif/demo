@@ -10,7 +10,7 @@ import java.util.List;
  */
 public interface EmployeeService {
     List<EmployeeDTO> getAllEmployees();
-    List<Employee> searchEmployees(String keyword);
+    List<EmployeeDTO> searchEmployees(String keyword);
     List<Employee> getExperiencedEmployees(int yearsOfExperience) ;
     public List<Employee> filterEmployeesByAge(int minAge, int maxAge);
     List<Employee> filterEmployeesByGender(Gender gender);
