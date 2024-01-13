@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.AddressMapper;
 import com.example.demo.Controllers.Request.AddressRequest;
 import com.example.demo.Controllers.Response.AddressResponse;
+import com.example.demo.Dto.AddressDTO;
 import com.example.demo.Entities.Address;
 import com.example.demo.ServicesImpl.AddressServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +28,7 @@ public class AddressController {
         return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
     }*/
     @PostMapping("/addresses")
-    public Address addAddress(@RequestBody @Valid Address address) {
+    public AddressDTO addAddress(@RequestBody @Valid Address address) {
         return addressServiceImpl.addAddress(address);
     }
     /**
@@ -36,7 +37,7 @@ public class AddressController {
      *@return Address
      */
     @PutMapping("/addresses")
-    public Address updateAddress(@RequestBody @Valid Address address) {
+    public AddressDTO updateAddress(@RequestBody @Valid Address address) {
         return addressServiceImpl.updateAddress(address);
     }
     /**

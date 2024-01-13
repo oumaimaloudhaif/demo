@@ -12,7 +12,7 @@ public interface ReportService {
     List<ReportDTO> getAllReports();
     List<ReportDTO> searchReports(String keyword);
 
-    Report addReport(Report report);
+    ReportDTO addReport(Report report);
 
-    Report updateReport(Report report) ;
+    ReportDTO updateReport(Report report) ;
 }

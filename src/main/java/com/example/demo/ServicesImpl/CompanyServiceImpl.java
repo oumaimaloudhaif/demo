@@ -2,6 +2,7 @@ package com.example.demo.ServicesImpl;
 
 import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
+import com.example.demo.Entities.Address;
 import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Department;
 import com.example.demo.Entities.Employee;
@@ -56,12 +57,14 @@ public class CompanyServiceImpl implements CompanyService {
         return companyDTOS;
     }
     @Override
-    public  Company addCompany(Company company) {
-        return companyRepository.save(company);
+    public  CompanyDTO addCompany(Company company) {
+        Company savedCompany= companyRepository.save(company);
+        return fromDOToDTO.MapCompany(savedCompany);
     }
     @Override
-    public  Company updateCompany(Company company) {
-        return companyRepository.save(company);
+    public  CompanyDTO updateCompany(Company company) {
+        Company updatedAddress= companyRepository.save(company);
+        return fromDOToDTO.MapCompany(updatedAddress);
     }
     @Override
     public List<CompanyDTO> getAllCompanies() {

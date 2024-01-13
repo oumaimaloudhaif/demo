@@ -12,8 +12,8 @@ public interface MeetingService {
    List<MeetingDTO> getAllMeetings();
    List<MeetingDTO> searchMeeting(String keyword);
 
-   Meeting addMeeting(Meeting meeting);
+    MeetingDTO addMeeting(Meeting meeting);
 
-  Meeting updateMeeting(Meeting meeting);
+    MeetingDTO updateMeeting(Meeting meeting);
 
 }

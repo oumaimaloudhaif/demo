@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.MeetingMapper;
 import com.example.demo.Controllers.Request.MeetingRequest;
 import com.example.demo.Controllers.Response.MeetingResponse;
+import com.example.demo.Dto.MeetingDTO;
 import com.example.demo.Entities.Meeting;
 import com.example.demo.ServicesImpl.MeetingServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class MeetingController {
      *@return Meeting
      */
     @PostMapping("/meetings")
-    public Meeting addMeeting(@RequestBody @Valid Meeting meeting) {
+    public MeetingDTO addMeeting(@RequestBody @Valid Meeting meeting) {
         return meetingServiceImpl.addMeeting(meeting);
     }
     /**
@@ -44,7 +45,7 @@ public class MeetingController {
      *@return Meeting
      */
     @PutMapping("/meetings")
-    public Meeting updateMeeting(@RequestBody @Valid Meeting meeting) {
+    public MeetingDTO updateMeeting(@RequestBody @Valid Meeting meeting) {
         return meetingServiceImpl.updateMeeting(meeting);
     }
     /**

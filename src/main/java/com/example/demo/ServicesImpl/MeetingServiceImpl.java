@@ -43,12 +43,14 @@ public class MeetingServiceImpl implements MeetingService {
         return meetingDTOS;
     }
 
-    public  Meeting addMeeting(Meeting meeting) {
-        return meetingRepository.save(meeting);
+    public  MeetingDTO addMeeting(Meeting meeting) {
+        Meeting savedMeeting=meetingRepository.save(meeting);
+        return fromDOToDTO.MapMeeting(savedMeeting);
     }
 
-    public  Meeting updateMeeting(Meeting meeting) {
-        return meetingRepository.save(meeting);
+    public  MeetingDTO updateMeeting(Meeting meeting) {
+        Meeting updatedMeeting=meetingRepository.save(meeting);
+        return fromDOToDTO.MapMeeting(updatedMeeting);
     }
 
 }

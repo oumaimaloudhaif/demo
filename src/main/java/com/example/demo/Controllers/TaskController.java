@@ -3,6 +3,7 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.TaskMapper;
 import com.example.demo.Controllers.Request.TaskRequest;
 import com.example.demo.Controllers.Response.TaskResponse;
+import com.example.demo.Dto.TaskDTO;
 import com.example.demo.Entities.Task;
 import com.example.demo.ServicesImpl.TaskServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class TaskController {
      *@return Task
      */
     @PostMapping("/tasks")
-    public Task addTask(@RequestBody @Valid Task task) {
+    public TaskDTO addTask(@RequestBody @Valid Task task) {
         return taskServiceImpl.addTask(task);
     }
     /**
@@ -39,7 +40,7 @@ public class TaskController {
      *@return Task
      */
     @PutMapping("/tasks")
-    public Task updateTask(@RequestBody @Valid Task task) {
+    public TaskDTO updateTask(@RequestBody @Valid Task task) {
         return taskServiceImpl.updateTask(task);
     }
     /**

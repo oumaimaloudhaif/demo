@@ -13,8 +13,8 @@ public interface CompanyService {
     boolean isSkillDiverse(String skill);
     Department getMostOccupiedDepartment() ;
     List<CompanyDTO> searchCompany(String keyword);
-    Company addCompany(Company company);
-    Company updateCompany(Company company);
+    CompanyDTO addCompany(Company company);
+    CompanyDTO updateCompany(Company company);
     List<CompanyDTO> getAllCompanies();
 
 }

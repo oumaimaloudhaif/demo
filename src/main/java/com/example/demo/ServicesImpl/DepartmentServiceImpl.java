@@ -147,12 +147,14 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTOS;
     }
 
-    public  Department addDepartment(Department department) {
-        return departmentRepository.save(department);
+    public  DepartmentDTO addDepartment(Department department) {
+        Department savedDepartment=departmentRepository.save(department);
+        return fromDOToDTO.MapDepartment(savedDepartment);
     }
 
-    public  Department updateDepartment(Department department) {
-        return departmentRepository.save(department);
+    public  DepartmentDTO updateDepartment(Department department) {
+        Department updatedDepartment=departmentRepository.save(department);
+        return fromDOToDTO.MapDepartment(updatedDepartment);
     }
 
 }

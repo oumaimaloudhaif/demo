@@ -1,9 +1,7 @@
 package com.example.demo.ServicesImpl;
 
-import com.example.demo.Dto.AddressDTO;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Dto.TaskDTO;
-import com.example.demo.Entities.Address;
 import com.example.demo.Entities.Task;
 import com.example.demo.Repository.TaskRepository;
 import com.example.demo.Services.TaskService;
@@ -34,12 +32,14 @@ public class TaskServiceImpl implements TaskService {
 
     }
     @Override
-    public  Task addTask(Task task) {
-       return taskRepository.save(task);
+    public  TaskDTO addTask(Task task) {
+       Task savedTask=taskRepository.save(task);
+       return fromDOToDTO.MapTask(savedTask);
     }
     @Override
-    public  Task updateTask(Task task) {
-        return taskRepository.save(task);
+    public  TaskDTO updateTask(Task task) {
+        Task updatedTask=taskRepository.save(task);
+        return fromDOToDTO.MapTask(updatedTask);
     }
 
     @Override

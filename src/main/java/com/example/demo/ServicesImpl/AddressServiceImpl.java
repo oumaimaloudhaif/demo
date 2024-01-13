@@ -42,12 +42,14 @@ public class AddressServiceImpl implements AddressService {
         return addressDTOS;
     }
 
-    public  Address addAddress(Address address) {
-        return addressRepository.save(address);
+    public  AddressDTO addAddress(Address address) {
+        Address savedAddress= addressRepository.save(address);
+        return fromDOToDTO.MapAdress(savedAddress);
     }
 
-    public  Address updateAddress(Address address) {
-        return addressRepository.save(address);
+    public  AddressDTO updateAddress(Address address) {
+        Address updatedAddress= addressRepository.save(address);
+        return fromDOToDTO.MapAdress(updatedAddress);
     }
 
 }

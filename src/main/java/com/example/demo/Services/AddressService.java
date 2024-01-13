@@ -11,7 +11,7 @@ import java.util.List;
 public interface AddressService {
     List<AddressDTO> getAllAddresses();
     List<AddressDTO> searchAddress(String keyword);
-   Address addAddress(Address address);
-   Address updateAddress(Address address);
+    AddressDTO addAddress(Address address);
+    AddressDTO updateAddress(Address address);
 
 }
