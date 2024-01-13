@@ -5,9 +5,12 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -34,7 +37,12 @@ public class Department {
     @JsonIgnore
     @OneToMany(mappedBy = "department")
     private List<Employee> employees = new ArrayList<>();
-
+    //This annotation of Data JPA allows to insert the Date of creation of the data
+    @CreatedDate
+    private Date created;
+    //This annotation of Data JPA allows to insert the last Date of modification of the data
+    @LastModifiedDate
+    private Date updated;
     public Department(String name, List<Employee> employees) {
         this.name=name;
         this.employees=employees;

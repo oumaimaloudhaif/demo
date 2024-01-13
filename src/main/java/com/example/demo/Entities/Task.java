@@ -6,8 +6,11 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import java.util.Date;
 
 /**
  * Task Entity
@@ -34,7 +37,12 @@ public class Task {
     private Priority priority;
     @Enumerated(EnumType.STRING)
     private TaskStatus taskStatus;
-
+    //This annotation of Data JPA allows to insert the Date of creation of the data
+    @CreatedDate
+    private Date created;
+    //This annotation of Data JPA allows to insert the last Date of modification of the data
+    @LastModifiedDate
+    private Date updated;
     public Task(String taskName,String description, TaskStatus taskStatus, Priority priority) {
         this.name=taskName;
         this.description=description;
