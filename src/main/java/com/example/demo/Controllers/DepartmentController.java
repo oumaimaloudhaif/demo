@@ -7,9 +7,11 @@ import com.example.demo.Dto.DepartmentDTO;
 import com.example.demo.Entities.Department;
 import com.example.demo.ServicesImpl.DepartmentServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 ;import javax.validation.Valid;
 
+@Validated
 @RestController
 public class DepartmentController {
     @Autowired

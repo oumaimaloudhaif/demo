@@ -7,11 +7,13 @@ import com.example.demo.Dto.ReportDTO;
 import com.example.demo.Entities.Report;
 import com.example.demo.ServicesImpl.ReportServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 
+@Validated
 @RestController
 public class ReportController {
     @Autowired

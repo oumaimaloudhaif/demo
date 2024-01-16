@@ -7,10 +7,12 @@ import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Entities. Company;
 import com.example.demo.ServicesImpl. CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Validated
 @RestController
 public class CompanyController {
     @Autowired

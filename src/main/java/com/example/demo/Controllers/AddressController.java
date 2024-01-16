@@ -7,10 +7,12 @@ import com.example.demo.Dto.AddressDTO;
 import com.example.demo.Entities.Address;
 import com.example.demo.ServicesImpl.AddressServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Validated
 @RestController
 public class AddressController {
     @Autowired
