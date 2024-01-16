@@ -1,16 +1,16 @@
 package com.example.demo.Controllers.Response;
 
 import com.example.demo.Dto.TaskDTO;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
 @Setter
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskResponse {
-    List<TaskDTO> result;
+  List<TaskDTO> result;
 }

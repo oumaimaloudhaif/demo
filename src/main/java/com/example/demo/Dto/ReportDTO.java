@@ -10,10 +10,10 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportDTO {
-    private String title;
-    private String content;
+  private String title;
+  private String content;
 
-    public ReportDTO(String project) {
-        this.title=project;
-    }
+  public ReportDTO(String project) {
+    this.title = project;
+  }
 }

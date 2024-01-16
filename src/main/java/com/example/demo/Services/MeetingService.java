@@ -2,18 +2,15 @@ package com.example.demo.Services;
 
 import com.example.demo.Dto.MeetingDTO;
 import com.example.demo.Entities.Meeting;
-
 import java.util.List;
 
-/**
- * Meeting Service
- */
+/** Meeting Service */
 public interface MeetingService {
-   List<MeetingDTO> getAllMeetings();
-   List<MeetingDTO> searchMeeting(String keyword);
+  List<MeetingDTO> getAllMeetings();
 
-    MeetingDTO addMeeting(Meeting meeting);
+  List<MeetingDTO> searchMeeting(String keyword);
 
-    MeetingDTO updateMeeting(Meeting meeting);
+  MeetingDTO addMeeting(Meeting meeting);
 
+  MeetingDTO updateMeeting(Meeting meeting);
 }
