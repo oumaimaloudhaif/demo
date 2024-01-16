@@ -2,8 +2,8 @@ package com.example.demo.ServicesImpl;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.Dto.EmployeeDTO;
+import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Employee;
-import com.example.demo.Entities.WorkCalander;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Repository.EmployeeRepository;
@@ -12,14 +12,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -34,9 +32,10 @@ import static org.mockito.Mockito.when;
 public class EmployeeServiceImplTest {
     @Mock
     private EmployeeRepository employeeRepository;
-
     @InjectMocks
     private EmployeeServiceImpl employeeService;
+    @Mock
+    private FromDOToDTO fromDOToDTO;
 
     @BeforeEach
     void setUp() {
@@ -60,7 +59,7 @@ public class EmployeeServiceImplTest {
         mockEmployees.add(new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI));
         mockEmployees.add(new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
         when(employeeRepository.findByNameContaining(keyword)).thenReturn(mockEmployees);
-        List<Employee> employees = employeeService.searchEmployees(keyword);
+        List<EmployeeDTO> employees = employeeService.searchEmployees(keyword);
         assertEquals(mockEmployees.size(), employees.size());
     }
     @Test
@@ -90,6 +89,4 @@ public class EmployeeServiceImplTest {
         List<Employee> filteredEmployees = employeeService.filterEmployeesByAge(minAge, maxAge);
         assertEquals(1, filteredEmployees.size());
      }
-
-
 }
