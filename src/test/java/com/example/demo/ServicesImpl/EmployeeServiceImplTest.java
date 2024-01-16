@@ -60,7 +60,7 @@ public class EmployeeServiceImplTest {
         mockEmployees.add(new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI));
         mockEmployees.add(new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
         when(employeeRepository.findByNameContaining(keyword)).thenReturn(mockEmployees);
-        List<Employee> employees = employeeService.searchEmployees(keyword);
+        List<EmployeeDTO> employees = employeeService.searchEmployees(keyword);
         assertEquals(mockEmployees.size(), employees.size());
     }
     @Test
