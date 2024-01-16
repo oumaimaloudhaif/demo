@@ -3,13 +3,16 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.CompanyMapper;
 import com.example.demo.Controllers.Request.CompanyRequest;
 import com.example.demo.Controllers.Response.CompanyResponse;
+import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Entities. Company;
 import com.example.demo.ServicesImpl. CompanyServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Validated
 @RestController
 public class CompanyController {
     @Autowired
@@ -27,7 +30,7 @@ public class CompanyController {
         return  companyMapper.toCompanyResponse( CompanyServiceImpl.getAllCompanies());
     }*/
     @PostMapping("/companies")
-    public  Company addCompany(@RequestBody @Valid  Company  Company) {
+    public  CompanyDTO addCompany(@RequestBody @Valid  Company  Company) {
         return  CompanyServiceImpl.addCompany( Company);
     }
     /**
@@ -36,7 +39,7 @@ public class CompanyController {
      *@return  Companies
      */
     @PutMapping("/companies")
-    public  Company updateCompany(@RequestBody @Valid  Company  Company) {
+    public CompanyDTO updateCompany(@RequestBody @Valid  Company  Company) {
         return  CompanyServiceImpl.updateCompany( Company);
     }
     /**

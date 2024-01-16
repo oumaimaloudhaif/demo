@@ -44,12 +44,14 @@ public class ReportServiceImpl  implements ReportService {
         return reportDTOS;
     }
 
-    public  Report addReport(Report report) {
-        return reportRepository.save(report);
+    public  ReportDTO addReport(Report report) {
+        Report savedReport=reportRepository.save(report);
+        return fromDOToDTO.MapReport(savedReport);
     }
 
-    public  Report updateReport(Report report) {
-        return reportRepository.save(report);
+    public  ReportDTO updateReport(Report report) {
+        Report updateReport=reportRepository.save(report);
+        return fromDOToDTO.MapReport(updateReport);
     }
 }
 

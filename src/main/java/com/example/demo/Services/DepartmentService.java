@@ -14,9 +14,9 @@ public interface DepartmentService {
    List<DepartmentDTO> getAllDepartments() ;
    List<DepartmentDTO> searchDepartment(String keyword) ;
 
-   Department addDepartment(Department department);
+   DepartmentDTO addDepartment(Department department);
 
-   Department updateDepartment(Department department) ;
+   DepartmentDTO updateDepartment(Department department) ;
 
 
 }

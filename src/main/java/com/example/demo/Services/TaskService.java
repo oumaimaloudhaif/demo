@@ -11,9 +11,9 @@ import java.util.List;
 public interface TaskService {
     List<TaskDTO> searchTasks(String keyword);
 
-    Task addTask(Task task);
+    TaskDTO addTask(Task task);
 
-    Task updateTask(Task task);
+    TaskDTO updateTask(Task task);
 
 
     List<TaskDTO> getAllTasks();

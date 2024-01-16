@@ -127,12 +127,14 @@ public class ProjectServiceImpl implements ProjectService {
         return projectDTOS;
     }
 
-    public  Project addProject(Project project) {
-        return projectRepository.save(project);
+    public  ProjectDTO addProject(Project project) {
+        Project savedProject=projectRepository.save(project);
+        return fromDOToDTO.MapProject(savedProject);
     }
 
-    public  Project updateProject(Project project) {
-        return projectRepository.save(project);
+    public  ProjectDTO updateProject(Project project) {
+        Project updatedProject=projectRepository.save(project);
+        return fromDOToDTO.MapProject(updatedProject);
     }
 
 }

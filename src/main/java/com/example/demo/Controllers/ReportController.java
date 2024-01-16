@@ -3,14 +3,17 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.ReportMapper;
 import com.example.demo.Controllers.Request.ReportRequest;
 import com.example.demo.Controllers.Response.ReportResponse;
+import com.example.demo.Dto.ReportDTO;
 import com.example.demo.Entities.Report;
 import com.example.demo.ServicesImpl.ReportServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
 
+@Validated
 @RestController
 public class ReportController {
     @Autowired
@@ -32,7 +35,7 @@ public class ReportController {
      *@return Report
      */
     @PostMapping("/reports")
-    public Report addReport(@RequestBody @Valid Report report) {
+    public ReportDTO addReport(@RequestBody @Valid Report report) {
         return reportServiceImpl.addReport(report);
     }
     /**
@@ -41,7 +44,7 @@ public class ReportController {
      *@return Report
      */
     @PutMapping("/reports")
-    public Report updateReport(@RequestBody @Valid Report report) {
+    public ReportDTO updateReport(@RequestBody @Valid Report report) {
         return reportServiceImpl.updateReport(report);
     }
     /**
