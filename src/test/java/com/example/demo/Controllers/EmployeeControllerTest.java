@@ -1,6 +1,8 @@
 package com.example.demo.Controllers;
 
+import com.example.demo.Controllers.Mappers.EmployeeMapper;
 import com.example.demo.Controllers.Request.EmployeeRequest;
+import com.example.demo.Controllers.Response.FetchEmployeeResponse;
 import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
@@ -43,10 +45,9 @@ class EmployeeControllerTest extends AbstractTest {
         employee.setName("ouma");
         employee.setSalary(5000);
         EmployeeDTO employee2 = new EmployeeDTO();
-        employee2.setName("ouma");
+        employee2.setName("ouma1");
         employee2.setSalary(5000);
         List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
-
         //when
         when(employeeServiceImpl.getAllEmployees()).thenReturn(listOfEmployees);
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
@@ -56,8 +57,8 @@ class EmployeeControllerTest extends AbstractTest {
         //then
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
-        Employee[] employees = super.mapFromJson(content, Employee[].class);
-        assertTrue(employees.length > 0);
+        FetchEmployeeResponse employees = super.mapFromJson(content, FetchEmployeeResponse.class);
+        assertEquals(2, employees.getResult().size());
 
     }
 
@@ -76,8 +77,8 @@ class EmployeeControllerTest extends AbstractTest {
         //then
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
-        Employee[] employees = super.mapFromJson(content, Employee[].class);
-        assertEquals(0, employees.length);
+        FetchEmployeeResponse employees = super.mapFromJson(content, FetchEmployeeResponse.class);
+        assertEquals(0, employees.getResult().size());
 
     }
 
@@ -107,15 +108,15 @@ class EmployeeControllerTest extends AbstractTest {
     @Test
     public void searchEmployeeTestWhenKeyWordNotNull() throws Exception {
         // given
-        String uri = "/searchEmployee";
+        String uri = "/employees";
         String keyword = "o";
-        Employee employee = new Employee();
+        EmployeeDTO employee = new EmployeeDTO();
         employee.setName("ouma");
         employee.setSalary(5000);
-        Employee employee2 = new Employee();
+        EmployeeDTO employee2 = new EmployeeDTO();
         employee2.setName("ouma1");
         employee2.setSalary(6000);
-        List<Employee> listOfEmployees = List.of(employee, employee2);
+        List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
 
         // when
         when(employeeServiceImpl.searchEmployees(keyword)).thenReturn(listOfEmployees);
@@ -127,10 +128,10 @@ class EmployeeControllerTest extends AbstractTest {
         // then
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
-        Employee[] employees = super.mapFromJson(content, Employee[].class);
-        assertEquals(2, employees.length);
-        assertEquals("ouma", employees[0].getName());
-        assertEquals("ouma1", employees[1].getName());
+        FetchEmployeeResponse employees = super.mapFromJson(content, FetchEmployeeResponse.class);
+        assertEquals(2, employees.getResult().size());
+        assertEquals("ouma", employees.getResult().get(0).getName());
+        assertEquals("ouma1", employees.getResult().get(1).getName());
     }
 
     public void searchEmployeeTestWhenKeywordIsNull() throws Exception {
@@ -147,23 +148,23 @@ class EmployeeControllerTest extends AbstractTest {
         // then
         assertEquals(200, status);
         String content = mvcResult.getResponse().getContentAsString();
-        Employee[] employees = super.mapFromJson(content, Employee[].class);
+        EmployeeDTO[] employees = super.mapFromJson(content, EmployeeDTO[].class);
         assertEquals(0, employees.length);
     }
 
     @Test
     public void fetchEmployees_WithNonNullKeyword_ReturnsEmployees() throws Exception {
         // given
-        String uri = "/fetch";
+        String uri = "/employees";
         EmployeeRequest employeeRequest = new EmployeeRequest();
         employeeRequest.setKeyword("test");
-        Employee employee = new Employee();
+        EmployeeDTO employee = new EmployeeDTO();
         employee.setName("ouma");
         employee.setSalary(5000);
-        Employee employee2 = new Employee();
+        EmployeeDTO employee2 = new EmployeeDTO();
         employee2.setName("ouma1");
         employee2.setSalary(6000);
-        List<Employee> listOfEmployees = List.of(employee, employee2);
+        List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
         FetchEmployeeResponse fetchEmployeeResponse = new FetchEmployeeResponse();
         fetchEmployeeResponse.setResult(listOfEmployees);
         // when
@@ -188,14 +189,12 @@ class EmployeeControllerTest extends AbstractTest {
     @Test
     public void fetchEmployees_WithNullKeyword_ReturnsEmptyList() throws Exception {
         // given
-        String uri = "/fetch";
+        String uri = "/employees";
         EmployeeRequest employeeRequest = new EmployeeRequest();
         employeeRequest.setKeyword("");
-        List<Employee> listOfEmployees = List.of();
-        FetchEmployeeResponse fetchEmployeeResponse = new FetchEmployeeResponse();
-        fetchEmployeeResponse.setResult(listOfEmployees);
+        List<EmployeeDTO> listOfEmployees = List.of();
         // when
-        when(employeeServiceImpl.searchEmployees(employeeRequest.getKeyword())).thenReturn(fetchEmployeeResponse.getResult());
+        when(employeeServiceImpl.searchEmployees(employeeRequest.getKeyword())).thenReturn(listOfEmployees);
 
         MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(uri)
                         .contentType(MediaType.APPLICATION_JSON)
@@ -216,7 +215,7 @@ class EmployeeControllerTest extends AbstractTest {
     public void addEmployeeTest() throws Exception {
 
         //given
-        String uri = "/addEmployee";
+        String uri = "/employees";
         Employee employee = new Employee();
         employee.setName("oumaima");
         employee.setSalary(50000);
@@ -238,7 +237,7 @@ class EmployeeControllerTest extends AbstractTest {
     @Test
     public void updateEmployee() throws Exception {
         //given
-        String uri = "/updateEmployee";
+        String uri = "/employees";
         Employee employee = new Employee();
         employee.setEmployee_id(1L);
         employee.setName("ouma1");
@@ -261,7 +260,7 @@ class EmployeeControllerTest extends AbstractTest {
     @Test
     public void deleteEmployeeExistTest() throws Exception {
         //given
-        String uri = "/deleteEmployee/29";
+        String uri = "/employees/29";
 
         //when
         when(employeeServiceImpl.deleteEmployee(29L)).thenReturn("Employee is deleted successfully");
@@ -276,7 +275,7 @@ class EmployeeControllerTest extends AbstractTest {
     @Test
     public void deleteEmployeeNotExistTest() throws Exception {
         //given
-        String uri = "/deleteEmployee/70";
+        String uri = "/employees/70";
 
         //when
         when(employeeServiceImpl.deleteEmployee(70L)).thenReturn("Employee not deleted successfully");

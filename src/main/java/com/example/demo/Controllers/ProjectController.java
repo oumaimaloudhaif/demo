@@ -7,10 +7,12 @@ import com.example.demo.Dto.ProjectDTO;
 import com.example.demo.Entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+@Validated
 @RestController
 public class ProjectController {
     @Autowired

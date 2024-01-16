@@ -1,5 +1,7 @@
 package com.example.demo.Controllers.Mappers;
 
+import com.example.demo.Controllers.Response.FetchEmployeeResponse;
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
@@ -25,9 +27,9 @@ public class EmployeeMapperTest {
    @Test
    public void toFetchEmployeeResponseTest() {
         //Given
-       Employee employee1=new Employee(1L,"oumaima",1200, Gender.FEMALE, ContractType.CDI);
-       Employee employee2=new Employee(1L,"Basssem",5200, Gender.MALE, ContractType.CDI);
-       List<Employee> employees=List.of(employee1,employee2);
+       EmployeeDTO employee1=new EmployeeDTO("oumaima",1200, Gender.FEMALE, ContractType.CDI);
+       EmployeeDTO employee2=new EmployeeDTO("Basssem",5200, Gender.MALE, ContractType.CDI);
+       List<EmployeeDTO> employees=List.of(employee1,employee2);
 
        //When
        FetchEmployeeResponse result=employeeMapper.toFetchEmployeeResponse(employees);
