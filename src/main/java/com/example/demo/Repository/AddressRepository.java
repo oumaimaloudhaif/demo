@@ -1,16 +1,13 @@
 package com.example.demo.Repository;
 
 import com.example.demo.Entities.Address;
+import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
-/**
- * Address Repository
- */
+/** Address Repository */
 @Repository
 public interface AddressRepository extends JpaRepository<Address, Long> {
 
-    List<Address> findByCity(String keyword);
+  List<Address> findByCity(String keyword);
 }

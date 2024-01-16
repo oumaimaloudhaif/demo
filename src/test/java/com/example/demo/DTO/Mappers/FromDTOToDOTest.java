@@ -1,5 +1,7 @@
 package com.example.demo.DTO.Mappers;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.example.demo.DemoApplication;
 import com.example.demo.Dto.*;
 import com.example.demo.Dto.Mappers.FromDTOToDO;
@@ -8,103 +10,100 @@ import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = DemoApplication.class)
+    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+    classes = DemoApplication.class)
 class FromDTOToDOTest {
-    FromDTOToDO mapper = new FromDTOToDO();
-    @BeforeEach
-    public void setUp() {
-    }
+  FromDTOToDO mapper = new FromDTOToDO();
 
-    @Test
-    void mapAddressDTO() {
-        AddressDTO addressDto = new AddressDTO("Street", "City", "7034");
+  @BeforeEach
+  public void setUp() {}
 
-        Address result = mapper.MapAddressDTO(addressDto);
+  @Test
+  void mapAddressDTO() {
+    AddressDTO addressDto = new AddressDTO("Street", "City", "7034");
 
-        assertEquals("Street", result.getStreet());
-        assertEquals("City", result.getCity());
-        assertEquals("7034", result.getPostalCode());
+    Address result = mapper.MapAddressDTO(addressDto);
 
-    }
+    assertEquals("Street", result.getStreet());
+    assertEquals("City", result.getCity());
+    assertEquals("7034", result.getPostalCode());
+  }
 
-    @Test
-    void mapCompanyDTO() {
-        CompanyDTO companyDTO = new CompanyDTO("Company Name");
+  @Test
+  void mapCompanyDTO() {
+    CompanyDTO companyDTO = new CompanyDTO("Company Name");
 
-        Company result = mapper.MapCompanyDTO(companyDTO);
+    Company result = mapper.MapCompanyDTO(companyDTO);
 
-        assertEquals("Company Name", result.getName());
-    }
+    assertEquals("Company Name", result.getName());
+  }
 
-    @Test
-    void mapDepartmentDTO() {
-        Employee employee=new Employee(1L,"oumaima");
-        List<Employee> employees=List.of(employee);
-        DepartmentDTO departmentDTO = new DepartmentDTO("Informatique", employees);
+  @Test
+  void mapDepartmentDTO() {
+    Employee employee = new Employee(1L, "oumaima");
+    List<Employee> employees = List.of(employee);
+    DepartmentDTO departmentDTO = new DepartmentDTO("Informatique", employees);
 
-        Department result = mapper.MapDepartmentDTO(departmentDTO);
+    Department result = mapper.MapDepartmentDTO(departmentDTO);
 
-        assertEquals("Informatique", result.getName());
-        assertEquals(employees.size(), result.getEmployees().size());
-    }
+    assertEquals("Informatique", result.getName());
+    assertEquals(employees.size(), result.getEmployees().size());
+  }
 
-    @Test
-    void mapEmployeeDTO() {
-        EmployeeDTO  employeeDTO=new EmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+  @Test
+  void mapEmployeeDTO() {
+    EmployeeDTO employeeDTO = new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
 
-        Employee result = mapper.MapEmployeeDTO(employeeDTO);
+    Employee result = mapper.MapEmployeeDTO(employeeDTO);
 
-        assertEquals("Oumaima L", result.getName());
-        assertEquals(Gender.FEMALE, result.getGender());
-        assertEquals(ContractType.CDI, result.getContractType());
-        assertEquals( 1000, result.getSalary());
-    }
-    @Test
-    void mapMeetingDTO() {
-        MeetingDTO meetingDTO=new MeetingDTO("meeting");
+    assertEquals("Oumaima L", result.getName());
+    assertEquals(Gender.FEMALE, result.getGender());
+    assertEquals(ContractType.CDI, result.getContractType());
+    assertEquals(1000, result.getSalary());
+  }
 
-        Meeting result = mapper.MapMeetingDTO(meetingDTO);
+  @Test
+  void mapMeetingDTO() {
+    MeetingDTO meetingDTO = new MeetingDTO("meeting");
 
-        assertEquals("meeting", result.getTitle());
-    }
+    Meeting result = mapper.MapMeetingDTO(meetingDTO);
 
-    @Test
-    void mapProject() {
-        ProjectDTO projectDTO=new ProjectDTO("project");
+    assertEquals("meeting", result.getTitle());
+  }
 
-        Project result = mapper.MapProjectDTO(projectDTO);
+  @Test
+  void mapProject() {
+    ProjectDTO projectDTO = new ProjectDTO("project");
 
-        assertEquals("project", result.getName());
+    Project result = mapper.MapProjectDTO(projectDTO);
 
-    }
+    assertEquals("project", result.getName());
+  }
 
-    @Test
-    void mapReport() {
-        ReportDTO reportDTO=new ReportDTO("report");
+  @Test
+  void mapReport() {
+    ReportDTO reportDTO = new ReportDTO("report");
 
-        Report result = mapper.MapReport(reportDTO);
+    Report result = mapper.MapReport(reportDTO);
 
-        assertEquals("report", result.getTitle());
-    }
+    assertEquals("report", result.getTitle());
+  }
 
-    @Test
-    void mapTask() {
-        TaskDTO taskDTO=new TaskDTO("task","description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+  @Test
+  void mapTask() {
+    TaskDTO taskDTO = new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
-        Task result = mapper.MapTask(taskDTO);
+    Task result = mapper.MapTask(taskDTO);
 
-        assertEquals("task", result.getName());
-        assertEquals("description", result.getDescription());
-        assertEquals(TaskStatus.IN_PROGRESS, result.getTaskStatus());
-        assertEquals(Priority.HIGH, result.getPriority());
-    }
+    assertEquals("task", result.getName());
+    assertEquals("description", result.getDescription());
+    assertEquals(TaskStatus.IN_PROGRESS, result.getTaskStatus());
+    assertEquals(Priority.HIGH, result.getPriority());
+  }
 }

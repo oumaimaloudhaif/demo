@@ -1,5 +1,7 @@
 package com.example.demo.DTO.Mappers;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 import com.example.demo.DemoApplication;
 import com.example.demo.Dto.*;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
@@ -8,117 +10,113 @@ import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
+import java.time.LocalDateTime;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
-
 @SpringBootTest(
-        webEnvironment = SpringBootTest.WebEnvironment.MOCK,
-        classes = DemoApplication.class)
+    webEnvironment = SpringBootTest.WebEnvironment.MOCK,
+    classes = DemoApplication.class)
 public class FromDOToDTOTest {
-    FromDOToDTO mapper = new FromDOToDTO();
-    @BeforeEach
-    public void setUp() {
+  FromDOToDTO mapper = new FromDOToDTO();
 
-    }
-    @Test
-    public void testMapAddress() {
-        Address address = new Address("Street", "City", "7034");
+  @BeforeEach
+  public void setUp() {}
 
-        AddressDTO result = mapper.MapAdress(address);
+  @Test
+  public void testMapAddress() {
+    Address address = new Address("Street", "City", "7034");
 
-        assertEquals("Street", result.getStreet());
-        assertEquals("City", result.getCity());
-        assertEquals("7034", result.getPostalCode());
-    }
+    AddressDTO result = mapper.MapAdress(address);
 
-    @Test
-    public void testMapCompany() {
-        Company company = new Company("Company Name");
+    assertEquals("Street", result.getStreet());
+    assertEquals("City", result.getCity());
+    assertEquals("7034", result.getPostalCode());
+  }
 
-        CompanyDTO result = mapper.MapCompany(company);
+  @Test
+  public void testMapCompany() {
+    Company company = new Company("Company Name");
 
-        assertEquals("Company Name", result.getName());
-    }
+    CompanyDTO result = mapper.MapCompany(company);
 
-    @Test
-    public void testMapWorkCalander() {
-        LocalDateTime startTime=LocalDateTime.now();
-        LocalDateTime endTime=LocalDateTime.now().minusHours(8);
-        WorkCalander workCalander = new WorkCalander(startTime, endTime);
+    assertEquals("Company Name", result.getName());
+  }
 
-        WorkCalanderDTO result = mapper.MapWorkCalander(workCalander);
+  @Test
+  public void testMapWorkCalander() {
+    LocalDateTime startTime = LocalDateTime.now();
+    LocalDateTime endTime = LocalDateTime.now().minusHours(8);
+    WorkCalander workCalander = new WorkCalander(startTime, endTime);
 
-        assertEquals(startTime, result.getStartTime());
-        assertEquals(endTime, result.getEndTime());
-    }
+    WorkCalanderDTO result = mapper.MapWorkCalander(workCalander);
 
-    @Test
-    void mapDepartment() {
-        Employee employee=new Employee(1L,"oumaima");
-        List<Employee> employees=List.of(employee);
-        Department department = new Department("Informatique", employees);
+    assertEquals(startTime, result.getStartTime());
+    assertEquals(endTime, result.getEndTime());
+  }
 
-        DepartmentDTO result = mapper.MapDepartment(department);
+  @Test
+  void mapDepartment() {
+    Employee employee = new Employee(1L, "oumaima");
+    List<Employee> employees = List.of(employee);
+    Department department = new Department("Informatique", employees);
 
-        assertEquals("Informatique", result.getName());
-        assertEquals(employees.size(), result.getEmployees().size());
-    }
+    DepartmentDTO result = mapper.MapDepartment(department);
 
-    @Test
-    void mapEmployee() {
-        Employee employee=new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    assertEquals("Informatique", result.getName());
+    assertEquals(employees.size(), result.getEmployees().size());
+  }
 
-        EmployeeDTO result = mapper.MapEmployee(employee);
+  @Test
+  void mapEmployee() {
+    Employee employee = new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
 
-        assertEquals("Oumaima L", result.getName());
-        assertEquals(Gender.FEMALE, result.getGender());
-        assertEquals(ContractType.CDI, result.getContractType());
-        assertEquals( 1000, result.getSalary());
-    }
+    EmployeeDTO result = mapper.MapEmployee(employee);
 
-    @Test
-    void mapMeeting() {
-        Meeting meeting=new Meeting("meeting");
+    assertEquals("Oumaima L", result.getName());
+    assertEquals(Gender.FEMALE, result.getGender());
+    assertEquals(ContractType.CDI, result.getContractType());
+    assertEquals(1000, result.getSalary());
+  }
 
-        MeetingDTO result = mapper.MapMeeting(meeting);
+  @Test
+  void mapMeeting() {
+    Meeting meeting = new Meeting("meeting");
 
-        assertEquals("meeting", result.getTitle());
-    }
+    MeetingDTO result = mapper.MapMeeting(meeting);
 
-    @Test
-    void mapProject() {
-        Project project=new Project("project");
+    assertEquals("meeting", result.getTitle());
+  }
 
-        ProjectDTO result = mapper.MapProject(project);
+  @Test
+  void mapProject() {
+    Project project = new Project("project");
 
-        assertEquals("project", result.getName());
-    }
+    ProjectDTO result = mapper.MapProject(project);
 
-    @Test
-    void mapReport() {
-        Report report=new Report("report");
+    assertEquals("project", result.getName());
+  }
 
-        ReportDTO result = mapper.MapReport(report);
+  @Test
+  void mapReport() {
+    Report report = new Report("report");
 
-        assertEquals("report", result.getTitle());
-    }
+    ReportDTO result = mapper.MapReport(report);
 
-    @Test
-    void mapTask() {
-        Task task=new Task("task","description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    assertEquals("report", result.getTitle());
+  }
 
-        TaskDTO result = mapper.MapTask(task);
+  @Test
+  void mapTask() {
+    Task task = new Task("task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
 
-        assertEquals("task", result.getName());
-        assertEquals("description", result.getDescription());
-        assertEquals(TaskStatus.IN_PROGRESS, result.getTaskStatus());
-        assertEquals(Priority.HIGH, result.getPriority());
-    }
+    TaskDTO result = mapper.MapTask(task);
 
+    assertEquals("task", result.getName());
+    assertEquals("description", result.getDescription());
+    assertEquals(TaskStatus.IN_PROGRESS, result.getTaskStatus());
+    assertEquals(Priority.HIGH, result.getPriority());
+  }
 }

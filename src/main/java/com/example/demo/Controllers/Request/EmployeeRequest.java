@@ -1,10 +1,9 @@
 package com.example.demo.Controllers.Request;
 
-import lombok.*;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
+import lombok.*;
 
 @Setter
 @Getter
@@ -12,11 +11,11 @@ import javax.validation.constraints.Pattern;
 @NoArgsConstructor
 @Data
 public class EmployeeRequest {
-   @NotNull
-   @NotEmpty(message = "The keyword MUST NOT BE EMPTY")
-   @Pattern(regexp = "[a-zA-Z]*",message = "The keyword must contains only letters")
-   //@Email
-   //@Past
-   //@Size
-   String keyword;
+  @NotNull
+  @NotEmpty(message = "The keyword MUST NOT BE EMPTY")
+  @Pattern(regexp = "[a-zA-Z]*", message = "The keyword must contains only letters")
+  // @Email
+  // @Past
+  // @Size
+  String keyword;
 }

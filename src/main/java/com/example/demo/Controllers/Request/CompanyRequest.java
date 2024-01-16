@@ -1,9 +1,8 @@
 package com.example.demo.Controllers.Request;
 
-import lombok.*;
-
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import lombok.*;
 
 @Setter
 @Getter
@@ -11,7 +10,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Data
 public class CompanyRequest {
-    @NotNull
-    @NotEmpty(message = "COMPANY NAME NOT BE EMPTY")
-    private String keyword;
+  @NotNull
+  @NotEmpty(message = "COMPANY NAME NOT BE EMPTY")
+  private String keyword;
 }
