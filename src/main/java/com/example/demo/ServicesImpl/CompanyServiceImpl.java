@@ -31,7 +31,6 @@ public class CompanyServiceImpl implements CompanyService {
     @Autowired
     private FromDOToDTO fromDOToDTO;
 
-
     public boolean isSkillDiverse(String skill) {
         List<Employee> employees = employeeRepository.findAll();
         long countEmployeesWithSkill = employees.stream()
@@ -68,7 +67,7 @@ public class CompanyServiceImpl implements CompanyService {
     }
     @Override
     public List<CompanyDTO> getAllCompanies() {
-        List<Company> companies=companyRepository.findAll();
+        List<Company> companies= companyRepository.findAll();
         List<CompanyDTO> companyDTOS=new ArrayList<>();
         companies.forEach(company -> {
             CompanyDTO companyDTO=fromDOToDTO.MapCompany(company);

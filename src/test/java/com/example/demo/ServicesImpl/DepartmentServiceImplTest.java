@@ -14,8 +14,10 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.Arrays;
@@ -32,9 +34,9 @@ import static org.mockito.Mockito.when;
         classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class DepartmentServiceImplTest {
-    @Mock
+    @MockBean
     private DepartmentRepository departmentRepository;
-    @InjectMocks
+    @Autowired
     private DepartmentServiceImpl departmentService;
     @Mock
     private FromDOToDTO fromDOToDTO;
@@ -43,9 +45,9 @@ public class DepartmentServiceImplTest {
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
-    Date date=new Date(2024, Calendar.JANUARY,13);
     @Test
     public void testGetAllDepartments() {
+        // Given
         List<Employee> employees = Arrays.asList(
                 new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                 new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI)
@@ -54,13 +56,18 @@ public class DepartmentServiceImplTest {
                 new Department("Department1",employees),
                 new Department("Department2",employees)
         );
+        // When
         when(departmentRepository.findAll()).thenReturn(mockedDepartments);
         List<DepartmentDTO> Departments = departmentService.getAllDepartments();
+
+        // Then
         assertEquals(mockedDepartments.size(), Departments.size());
     }
     @Test
     public void testSearchDepartments() {
-        String keyword = "Oumaima";
+        // Given
+
+        final String keyword = "Oumaima";
         List<Employee> employees = Arrays.asList(
                 new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                 new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI)
@@ -75,6 +82,8 @@ public class DepartmentServiceImplTest {
     }
     @Test
     public void testAddDepartment() {
+        // Given
+
         List<Employee> employees = Arrays.asList(
                 new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                 new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI)
@@ -92,6 +101,8 @@ public class DepartmentServiceImplTest {
     }
     @Test
    public void testUpdateDepartment() {
+        // Given
+
         List<Employee> employees = Arrays.asList(
                 new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                 new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI)
