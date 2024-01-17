@@ -13,10 +13,11 @@ import com.example.demo.Enums.Gender;
 import com.example.demo.Repository.DepartmentRepository;
 import java.util.Arrays;
 import java.util.List;
+
+import com.example.demo.tools.DepartmentTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -32,7 +33,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 public class DepartmentServiceImplTest {
   @MockBean private DepartmentRepository departmentRepository;
   @Autowired private DepartmentServiceImpl departmentService;
-  @Mock private FromDOToDTO fromDOToDTO;
+  @MockBean private FromDOToDTO fromDOToDTO;
 
   @BeforeEach
   void setUp() {
@@ -42,16 +43,15 @@ public class DepartmentServiceImplTest {
   @Test
   public void testGetAllDepartments() {
     // Given
-    List<Employee> employees =
+    final Department department1= DepartmentTools.createDepartment(1L,"Department1");
+    final Department department2= DepartmentTools.createDepartment(2L,"Department2");
+    final List<Department> mockedDepartments =
         Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
-    List<Department> mockedDepartments =
-        Arrays.asList(
-            new Department("Department1", employees), new Department("Department2", employees));
+            department1,department2);
+
     // When
     when(departmentRepository.findAll()).thenReturn(mockedDepartments);
-    List<DepartmentDTO> Departments = departmentService.getAllDepartments();
+    final List<DepartmentDTO> Departments = departmentService.getAllDepartments();
 
     // Then
     assertEquals(mockedDepartments.size(), Departments.size());
@@ -60,57 +60,49 @@ public class DepartmentServiceImplTest {
   @Test
   public void testSearchDepartments() {
     // Given
-
     final String keyword = "Oumaima";
-    List<Employee> employees =
-        Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
-    List<Department> mockedDepartments =
-        Arrays.asList(
-            new Department("Department1", employees), new Department("Department2", employees));
+    final Department department1= DepartmentTools.createDepartment(1L,"Department1");
+    final  Department department2= DepartmentTools.createDepartment(2L,"Department2");
+    final List<Department> mockedDepartments = Arrays.asList(department1,department2);
+
+    // When
     when(departmentRepository.findByName(keyword)).thenReturn(mockedDepartments);
-    List<DepartmentDTO> Departments = departmentService.searchDepartment(keyword);
+    final List<DepartmentDTO> Departments = departmentService.searchDepartment(keyword);
+
+    // Then
     assertEquals(mockedDepartments.size(), Departments.size());
   }
 
   @Test
   public void testAddDepartment() {
     // Given
-
     List<Employee> employees =
-        Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
-    Department inputDepartment = new Department("Department1", employees);
-    Department savedDepartment = new Department("Department1", employees);
-    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1", employees);
+            Arrays.asList(
+                    new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
+                    new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
+    Department inputDepartment= DepartmentTools.createDepartment(1L,"Department1");
+    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
 
-    when(departmentRepository.save(inputDepartment)).thenReturn(savedDepartment);
-    when(fromDOToDTO.MapDepartment(savedDepartment)).thenReturn(expectedDepartmentDTO);
-
+    // When
+    when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);
+    when(fromDOToDTO.MapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
     DepartmentDTO resultDepartmentDTO = departmentService.addDepartment(inputDepartment);
 
+    // Then
     assertEquals(expectedDepartmentDTO, resultDepartmentDTO);
   }
 
   @Test
   public void testUpdateDepartment() {
-    // Given
+    Department inputDepartment= DepartmentTools.createDepartment(1L,"Department1");
+    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
 
-    List<Employee> employees =
-        Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
-    Department inputDepartment = new Department("Department1", employees);
-    Department savedDepartment = new Department("Department1", employees);
-    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1", employees);
-
-    when(departmentRepository.save(inputDepartment)).thenReturn(savedDepartment);
-    when(fromDOToDTO.MapDepartment(savedDepartment)).thenReturn(expectedDepartmentDTO);
-
+    // When
+    when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);
+    when(fromDOToDTO.MapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
     DepartmentDTO resultDepartmentDTO = departmentService.addDepartment(inputDepartment);
 
+    // Then
     assertEquals(expectedDepartmentDTO, resultDepartmentDTO);
   }
 }

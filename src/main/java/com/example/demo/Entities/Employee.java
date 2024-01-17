@@ -7,10 +7,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.time.LocalDate;
 import java.util.*;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,6 +20,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@With
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Employee {
   @Id
@@ -34,7 +33,7 @@ public class Employee {
 
   @OneToMany(mappedBy = "employee")
   @JsonIgnore
-  private List<WorkCalander> workWorkCalanders = new ArrayList<>();
+  private List<WorkCalendar> workWorkCalanders = new ArrayList<>();
 
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;

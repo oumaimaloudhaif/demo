@@ -5,22 +5,25 @@ import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
 import com.example.demo.Dto.EmployeeDTO;
+import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Repository.EmployeeRepository;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import com.example.demo.tools.EmployeeTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -29,10 +32,12 @@ import org.springframework.test.context.junit4.SpringRunner;
     classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class EmployeeServiceImplTest {
-  @Mock private EmployeeRepository employeeRepository;
+  @MockBean
+  private EmployeeRepository employeeRepository;
 
-  @InjectMocks private EmployeeServiceImpl employeeService;
-
+  @Autowired
+  private EmployeeServiceImpl employeeService;
+  @MockBean private FromDOToDTO fromDOToDTO;
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
@@ -40,53 +45,77 @@ public class EmployeeServiceImplTest {
 
   @Test
   public void testGetAllEmployees() {
-    List<Employee> mockedEmployees =
-        Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
+    // Given
+    final Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee1DTO= new EmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2DTO= new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
+
+    // When
     when(employeeRepository.findAll()).thenReturn(mockedEmployees);
-    List<EmployeeDTO> employees = employeeService.getAllEmployees();
+    when(fromDOToDTO.MapEmployee(employee1)).thenReturn(employee1DTO);
+    when(fromDOToDTO.MapEmployee(employee2)).thenReturn(employee2DTO);
+    final List<EmployeeDTO> employees = employeeService.getAllEmployees();
+
+    // Then
     assertEquals(mockedEmployees.size(), employees.size());
   }
 
   @Test
   public void testSearchEmployees() {
-    String keyword = "Oumaima";
-    List<Employee> mockEmployees = new ArrayList<>();
-    mockEmployees.add(new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI));
-    mockEmployees.add(new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
-    when(employeeRepository.findByNameContaining(keyword)).thenReturn(mockEmployees);
-    List<EmployeeDTO> employees = employeeService.searchEmployees(keyword);
-    assertEquals(mockEmployees.size(), employees.size());
+    // Given
+    final String keyword = "Oumaima";
+    final Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee1DTO= new EmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2DTO= new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
+
+    // When
+    when(employeeRepository.findByNameContaining(keyword)).thenReturn(mockedEmployees);
+    when(fromDOToDTO.MapEmployee(employee1)).thenReturn(employee1DTO);
+    when(fromDOToDTO.MapEmployee(employee2)).thenReturn(employee2DTO);
+    final List<EmployeeDTO> employees = employeeService.searchEmployees(keyword);
+
+    // Then
+    assertEquals(mockedEmployees.size(), employees.size());
   }
 
   @Test
   public void testGetExperiencedEmployees() {
-    int yearsOfExperience = 5;
-    List<Employee> mockEmployees = new ArrayList<>();
-    mockEmployees.add(new Employee(1L, "oumaima", 1000, Gender.FEMALE, ContractType.CDI));
-    mockEmployees.add(new Employee(2L, "mayssa", 1200, Gender.FEMALE, ContractType.CDI));
-    mockEmployees.get(0).setJoiningDate(LocalDate.now().minusYears(6));
-    mockEmployees.get(1).setJoiningDate(LocalDate.now().minusYears(3));
+    // Given
+    final int yearsOfExperience = 5;
+    final Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
 
-    when(employeeRepository.findAll()).thenReturn(mockEmployees);
+    // When
+    mockedEmployees.get(0).setJoiningDate(LocalDate.now().minusYears(6));
+    mockedEmployees.get(1).setJoiningDate(LocalDate.now().minusYears(3));
+    when(employeeRepository.findAll()).thenReturn(mockedEmployees);
+    final List<Employee> experiencedEmployees = employeeService.getExperiencedEmployees(yearsOfExperience);
 
-    List<Employee> experiencedEmployees =
-        employeeService.getExperiencedEmployees(yearsOfExperience);
+    // Then
     assertEquals(1, experiencedEmployees.size());
   }
 
   @Test
   public void testFilterEmployeesByAge() {
-    int minAge = 25;
-    int maxAge = 35;
-    List<Employee> mockEmployees = new ArrayList<>();
-    mockEmployees.add(new Employee(1L, "Oumaima", 1000, Gender.FEMALE, ContractType.CDI));
-    mockEmployees.add(new Employee(2L, "Oumaima l", 1200, Gender.FEMALE, ContractType.CDI));
-    mockEmployees.get(0).setDateOfBirth(LocalDate.now().minusYears(30));
-    mockEmployees.get(1).setDateOfBirth(LocalDate.now().minusYears(40));
-    when(employeeRepository.findAll()).thenReturn(mockEmployees);
-    List<Employee> filteredEmployees = employeeService.filterEmployeesByAge(minAge, maxAge);
+    // Given
+    final int minAge = 25;
+    final int maxAge = 35;
+    Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
+
+    // When
+    mockedEmployees.get(0).setDateOfBirth(LocalDate.now().minusYears(30));
+    mockedEmployees.get(1).setDateOfBirth(LocalDate.now().minusYears(40));
+    when(employeeRepository.findAll()).thenReturn(mockedEmployees);
+    final List<Employee> filteredEmployees = employeeService.filterEmployeesByAge(minAge, maxAge);
+
+    // Then
     assertEquals(1, filteredEmployees.size());
   }
 }

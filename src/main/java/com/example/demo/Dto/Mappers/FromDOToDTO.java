@@ -70,7 +70,7 @@ public class FromDOToDTO {
     return taskDTO;
   }
 
-  public WorkCalanderDTO MapWorkCalander(WorkCalander workCalander) {
+  public WorkCalanderDTO MapWorkCalander(WorkCalendar workCalander) {
     WorkCalanderDTO workCalanderDTO = new WorkCalanderDTO();
     workCalanderDTO.setStartTime(workCalander.getStartTime());
     workCalanderDTO.setEndTime(workCalander.getEndTime());
