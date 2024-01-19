@@ -1,6 +1,7 @@
 package com.example.demo.Services;
 
 import com.example.demo.Dto.CompanyDTO;
+import com.example.demo.Dto.DepartmentDTO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Entities.Department;
 import java.util.List;
@@ -9,7 +10,7 @@ import java.util.List;
 public interface CompanyService {
   boolean isSkillDiverse(String skill);
 
-  Department getMostOccupiedDepartment();
+  DepartmentDTO getMostOccupiedDepartment();
 
   List<CompanyDTO> searchCompany(String keyword);
 
