@@ -21,13 +21,6 @@ public class CompanyServiceImpl implements CompanyService {
   @Autowired private CompanyRepository companyRepository;
   @Autowired private FromDOToDTO fromDOToDTO;
 
-  public boolean isSkillDiverse(String skill) {
-    List<EmployeeDTO> employees = employeeServiceImpl.getAllEmployees();
-    long countEmployeesWithSkill =
-        employees.stream().filter(employee -> employee.getSkills().contains(skill)).count();
-    return countEmployeesWithSkill > 1;
-  }
-
   public DepartmentDTO getMostOccupiedDepartment() {
     List<DepartmentDTO> departments = departmentServiceImpl.getAllDepartments();
     return departments

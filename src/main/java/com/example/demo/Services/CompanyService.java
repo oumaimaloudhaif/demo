@@ -8,7 +8,6 @@ import java.util.List;
 
 /** Company Service */
 public interface CompanyService {
-  boolean isSkillDiverse(String skill);
 
   DepartmentDTO getMostOccupiedDepartment();
 
