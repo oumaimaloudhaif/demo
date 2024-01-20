@@ -15,4 +15,8 @@ import lombok.Setter;
 public class DepartmentDTO {
   private String name;
   private List<Employee> employees = new ArrayList<>();
+
+    public DepartmentDTO(String department1) {
+      this.name=department1;
+    }
 }

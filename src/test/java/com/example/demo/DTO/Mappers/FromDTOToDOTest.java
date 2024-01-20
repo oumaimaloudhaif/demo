@@ -13,22 +13,24 @@ import com.example.demo.Enums.TaskStatus;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest(
     webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = DemoApplication.class)
 class FromDTOToDOTest {
-  FromDTOToDO mapper = new FromDTOToDO();
+  @Autowired
+  FromDTOToDO mapper;
 
   @BeforeEach
   public void setUp() {}
 
   @Test
   void mapAddressDTO() {
-    AddressDTO addressDto = new AddressDTO("Street", "City", "7034");
+    final AddressDTO addressDto = new AddressDTO("Street", "City", "7034");
 
-    Address result = mapper.MapAddressDTO(addressDto);
+    final Address result = mapper.MapAddressDTO(addressDto);
 
     assertEquals("Street", result.getStreet());
     assertEquals("City", result.getCity());
@@ -37,30 +39,30 @@ class FromDTOToDOTest {
 
   @Test
   void mapCompanyDTO() {
-    CompanyDTO companyDTO = new CompanyDTO("Company Name");
+    final CompanyDTO companyDTO = new CompanyDTO("Company Name");
 
-    Company result = mapper.MapCompanyDTO(companyDTO);
+    final Company result = mapper.MapCompanyDTO(companyDTO);
 
     assertEquals("Company Name", result.getName());
   }
 
   @Test
   void mapDepartmentDTO() {
-    Employee employee = new Employee(1L, "oumaima");
-    List<Employee> employees = List.of(employee);
-    DepartmentDTO departmentDTO = new DepartmentDTO("Informatique", employees);
+    final Employee employee = new Employee(1L, "oumaima");
+    final List<Employee> employees = List.of(employee);
+    final DepartmentDTO departmentDTO = new DepartmentDTO("Info", employees);
 
-    Department result = mapper.MapDepartmentDTO(departmentDTO);
+    final Department result = mapper.MapDepartmentDTO(departmentDTO);
 
-    assertEquals("Informatique", result.getName());
+    assertEquals("Info", result.getName());
     assertEquals(employees.size(), result.getEmployees().size());
   }
 
   @Test
   void mapEmployeeDTO() {
-    EmployeeDTO employeeDTO = new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employeeDTO = new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
 
-    Employee result = mapper.MapEmployeeDTO(employeeDTO);
+    final Employee result = mapper.MapEmployeeDTO(employeeDTO);
 
     assertEquals("Oumaima L", result.getName());
     assertEquals(Gender.FEMALE, result.getGender());
@@ -70,36 +72,36 @@ class FromDTOToDOTest {
 
   @Test
   void mapMeetingDTO() {
-    MeetingDTO meetingDTO = new MeetingDTO("meeting");
+    final MeetingDTO meetingDTO = new MeetingDTO("meeting");
 
-    Meeting result = mapper.MapMeetingDTO(meetingDTO);
+    final Meeting result = mapper.MapMeetingDTO(meetingDTO);
 
     assertEquals("meeting", result.getTitle());
   }
 
   @Test
   void mapProject() {
-    ProjectDTO projectDTO = new ProjectDTO("project");
+    final ProjectDTO projectDTO = new ProjectDTO("project");
 
-    Project result = mapper.MapProjectDTO(projectDTO);
+    final Project result = mapper.MapProjectDTO(projectDTO);
 
     assertEquals("project", result.getName());
   }
 
   @Test
   void mapReport() {
-    ReportDTO reportDTO = new ReportDTO("report");
+    final ReportDTO reportDTO = new ReportDTO("report");
 
-    Report result = mapper.MapReport(reportDTO);
+    final Report result = mapper.MapReport(reportDTO);
 
     assertEquals("report", result.getTitle());
   }
 
   @Test
   void mapTask() {
-    TaskDTO taskDTO = new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO = new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
-    Task result = mapper.MapTask(taskDTO);
+    final Task result = mapper.MapTask(taskDTO);
 
     assertEquals("task", result.getName());
     assertEquals("description", result.getDescription());

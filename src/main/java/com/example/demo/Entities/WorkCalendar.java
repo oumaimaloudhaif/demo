@@ -3,10 +3,8 @@ package com.example.demo.Entities;
 import java.time.LocalDateTime;
 import java.util.Date;
 import javax.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -17,8 +15,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@With
 @Entity
-public class WorkCalander {
+public class WorkCalendar {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id_WorkCalander;
@@ -34,7 +33,7 @@ public class WorkCalander {
   // This annotation of Data JPA allows to insert the last Date of modification of the data
   @LastModifiedDate private Date updated;
 
-  public WorkCalander(LocalDateTime start, LocalDateTime end) {
+  public WorkCalendar(LocalDateTime start, LocalDateTime end) {
     this.startTime = start;
     this.endTime = end;
   }

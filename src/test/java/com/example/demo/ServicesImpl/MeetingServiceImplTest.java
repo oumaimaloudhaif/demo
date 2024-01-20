@@ -8,19 +8,19 @@ import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Dto.MeetingDTO;
 import com.example.demo.Entities.Meeting;
 import com.example.demo.Repository.MeetingRepository;
-import java.time.LocalDateTime;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
+
 import java.util.List;
+
+import com.example.demo.tools.MeetingTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
@@ -29,71 +29,83 @@ import org.springframework.test.context.junit4.SpringRunner;
     classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class MeetingServiceImplTest {
-  @Mock private MeetingRepository meetingRepository;
-  @InjectMocks private MeetingServiceImpl meetingService;
-  @Mock private FromDOToDTO fromDOToDTO;
+  @MockBean
+  private MeetingRepository meetingRepository;
+  @Autowired
+  private MeetingServiceImpl meetingService;
+  @MockBean private FromDOToDTO fromDOToDTO;
 
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);
   }
 
-  Date date = new Date(2024, Calendar.JANUARY, 13);
-
   @Test
   public void testGetAllMeetings() {
-    List<Meeting> mockedMeetings =
-        Arrays.asList(
-            new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date),
-            new Meeting(2L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date));
+    // Given
+    final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
+    final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
+    final MeetingDTO meetingDTO= new  MeetingDTO( "Meeting");
+    final MeetingDTO meeting1DTO= new  MeetingDTO("Meeting1");
+    final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
+
+    // When
     when(meetingRepository.findAll()).thenReturn(mockedMeetings);
-    List<MeetingDTO> Meetings = meetingService.getAllMeetings();
+    when(fromDOToDTO.MapMeeting(meeting)).thenReturn(meetingDTO);
+    when(fromDOToDTO.MapMeeting(meeting1)).thenReturn(meeting1DTO);
+    final List<MeetingDTO> Meetings = meetingService.getAllMeetings();
+
+    // Then
     assertEquals(mockedMeetings.size(), Meetings.size());
   }
 
   @Test
   public void testSearchMeetings() {
-    String keyword = "Oumaima";
-    List<Meeting> mockedMeetings =
-        Arrays.asList(
-            new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date),
-            new Meeting(2L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date));
+    // Given
+    final  String keyword = "Oumaima";
+    final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
+    final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
+    final MeetingDTO meetingDTO= new  MeetingDTO( "Meeting");
+    final MeetingDTO meeting1DTO= new  MeetingDTO("Meeting1");
+    final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
+
+    // When
     when(meetingRepository.findByTitle(keyword)).thenReturn(mockedMeetings);
-    List<MeetingDTO> Meetings = meetingService.searchMeeting(keyword);
+    when(fromDOToDTO.MapMeeting(meeting)).thenReturn(meetingDTO);
+    when(fromDOToDTO.MapMeeting(meeting1)).thenReturn(meeting1DTO);
+    final List<MeetingDTO> Meetings = meetingService.searchMeeting(keyword);
+
+    // Then
     assertEquals(mockedMeetings.size(), Meetings.size());
   }
 
   @Test
   public void testAddMeeting() {
-    Meeting inputMeeting =
-        new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date);
-    Meeting savedMeeting =
-        new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date);
-    MeetingDTO expectedMeetingDTO =
-        new MeetingDTO("Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0));
+    // Given
+    final Meeting inputMeeting= MeetingTools.createMeeting(1L, "Meeting");
+    final  MeetingDTO expectedMeetingDTO = new MeetingDTO("Meeting1");
 
-    when(meetingRepository.save(inputMeeting)).thenReturn(savedMeeting);
-    when(fromDOToDTO.MapMeeting(savedMeeting)).thenReturn(expectedMeetingDTO);
+    // When
+    when(meetingRepository.save(inputMeeting)).thenReturn(inputMeeting);
+    when(fromDOToDTO.MapMeeting(inputMeeting)).thenReturn(expectedMeetingDTO);
+    final MeetingDTO resultMeetingDTO = meetingService.addMeeting(inputMeeting);
 
-    MeetingDTO resultMeetingDTO = meetingService.addMeeting(inputMeeting);
-
+    // Then
     assertEquals(expectedMeetingDTO, resultMeetingDTO);
   }
 
   @Test
   public void testUpdateMeeting() {
-    Meeting inputMeeting =
-        new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date);
-    Meeting updatedMeeting =
-        new Meeting(1L, "Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0), date, date);
-    MeetingDTO expectedMeetingDTO =
-        new MeetingDTO("Meeting1", LocalDateTime.of(2024, 1, 13, 12, 0));
+    // Given
+    final Meeting updatedMeeting= MeetingTools.createMeeting(1L, "Meeting");
+    final MeetingDTO expectedMeetingDTO = new MeetingDTO("Meeting1");
 
-    when(meetingRepository.save(inputMeeting)).thenReturn(updatedMeeting);
+    // When
+    when(meetingRepository.save(updatedMeeting)).thenReturn(updatedMeeting);
     when(fromDOToDTO.MapMeeting(updatedMeeting)).thenReturn(expectedMeetingDTO);
+    final MeetingDTO resultMeetingDTO = meetingService.addMeeting(updatedMeeting);
 
-    MeetingDTO resultMeetingDTO = meetingService.addMeeting(inputMeeting);
-
+    // Then
     assertEquals(expectedMeetingDTO, resultMeetingDTO);
   }
 }
