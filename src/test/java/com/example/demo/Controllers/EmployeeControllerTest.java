@@ -79,7 +79,7 @@ class EmployeeControllerTest extends AbstractTest {
 
   @Test
   public void getAllEmployeesTestWrongPath() throws Exception {
-    // given
+    // Given
     final String uri = "/emloyees";
 
     // when
@@ -94,15 +94,17 @@ class EmployeeControllerTest extends AbstractTest {
 
   @Test
   public void getAllEmployeesTestThenThrowException() throws Exception {
-    // given
+    // Given
     final String uri = "/employees";
 
-    // when
+    // When
     when(employeeServiceImpl.getAllEmployees()).thenThrow(new RuntimeException());
     MvcResult mvcResult =
         mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
+
+    //Then
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
   }
 

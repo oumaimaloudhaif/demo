@@ -10,7 +10,5 @@ import lombok.*;
 @NoArgsConstructor
 @Data
 public class ProjectRequest {
-  @NotNull
-  @NotEmpty(message = "PROJECT NAME NOT BE EMPTY")
   private String keyword;
 }
