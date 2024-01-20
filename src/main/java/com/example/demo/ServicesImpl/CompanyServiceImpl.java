@@ -1,13 +1,11 @@
 package com.example.demo.ServicesImpl;
 
 import com.example.demo.Dto.CompanyDTO;
+import com.example.demo.Dto.DepartmentDTO;
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Company;
-import com.example.demo.Entities.Department;
-import com.example.demo.Entities.Employee;
 import com.example.demo.Repository.CompanyRepository;
-import com.example.demo.Repository.DepartmentRepository;
-import com.example.demo.Repository.EmployeeRepository;
 import com.example.demo.Services.CompanyService;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -18,24 +16,16 @@ import org.springframework.stereotype.Service;
 /** Company Service Implementation */
 @Service
 public class CompanyServiceImpl implements CompanyService {
-  @Autowired private EmployeeRepository employeeRepository;
-  @Autowired private DepartmentRepository departmentRepository;
+  @Autowired private EmployeeServiceImpl employeeServiceImpl;
+  @Autowired private DepartmentServiceImpl departmentServiceImpl;
   @Autowired private CompanyRepository companyRepository;
   @Autowired private FromDOToDTO fromDOToDTO;
 
-  public boolean isSkillDiverse(String skill) {
-    List<Employee> employees = employeeRepository.findAll();
-    long countEmployeesWithSkill =
-        employees.stream().filter(employee -> employee.getSkills().contains(skill)).count();
-
-    return countEmployeesWithSkill > 1;
-  }
-
-  public Department getMostOccupiedDepartment() {
-    List<Department> departments = departmentRepository.findAll();
+  public DepartmentDTO getMostOccupiedDepartment() {
+    List<DepartmentDTO> departments = departmentServiceImpl.getAllDepartments();
     return departments
         .stream()
-        .max(Comparator.comparingInt(department -> department.getEmployees().size()))
+        .max(Comparator.comparingInt(departmentDTO -> departmentDTO.getEmployees().size()))
         .orElse(null);
   }
 
