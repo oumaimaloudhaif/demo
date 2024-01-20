@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import java.util.List;
 
+import com.example.demo.tools.MeetingDTOTools;
 import com.example.demo.tools.MeetingTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +46,8 @@ public class MeetingServiceImplTest {
     // Given
     final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
     final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
-    final MeetingDTO meetingDTO= new  MeetingDTO( "Meeting");
-    final MeetingDTO meeting1DTO= new  MeetingDTO("Meeting1");
+    final MeetingDTO meetingDTO= MeetingDTOTools.createMeeting( "Meeting");
+    final MeetingDTO meeting1DTO= MeetingDTOTools.createMeeting("Meeting1");
     final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
 
     // When
@@ -65,8 +66,8 @@ public class MeetingServiceImplTest {
     final  String keyword = "Oumaima";
     final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
     final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
-    final MeetingDTO meetingDTO= new  MeetingDTO( "Meeting");
-    final MeetingDTO meeting1DTO= new  MeetingDTO("Meeting1");
+    final MeetingDTO meetingDTO= MeetingDTOTools.createMeeting( "Meeting");
+    final MeetingDTO meeting1DTO= MeetingDTOTools.createMeeting("Meeting1");
     final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
 
     // When
@@ -83,7 +84,7 @@ public class MeetingServiceImplTest {
   public void testAddMeeting() {
     // Given
     final Meeting inputMeeting= MeetingTools.createMeeting(1L, "Meeting");
-    final  MeetingDTO expectedMeetingDTO = new MeetingDTO("Meeting1");
+    final  MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
 
     // When
     when(meetingRepository.save(inputMeeting)).thenReturn(inputMeeting);
@@ -98,7 +99,7 @@ public class MeetingServiceImplTest {
   public void testUpdateMeeting() {
     // Given
     final Meeting updatedMeeting= MeetingTools.createMeeting(1L, "Meeting");
-    final MeetingDTO expectedMeetingDTO = new MeetingDTO("Meeting1");
+    final MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
 
     // When
     when(meetingRepository.save(updatedMeeting)).thenReturn(updatedMeeting);

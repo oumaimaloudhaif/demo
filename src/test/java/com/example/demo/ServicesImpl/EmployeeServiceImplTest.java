@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.demo.tools.EmployeeDTOTools;
 import com.example.demo.tools.EmployeeTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -48,8 +49,8 @@ public class EmployeeServiceImplTest {
     // Given
     final Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee1DTO= new EmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee2DTO= new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee1DTO= EmployeeDTOTools.createEmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2DTO= EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
 
     // When
@@ -68,8 +69,8 @@ public class EmployeeServiceImplTest {
     final String keyword = "Oumaima";
     final Employee employee1=EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final Employee employee2=EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee1DTO= new EmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee2DTO= new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee1DTO= EmployeeDTOTools.createEmployeeDTO( "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2DTO= EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final List<Employee> mockedEmployees = Arrays.asList(employee1,employee2);
 
     // When

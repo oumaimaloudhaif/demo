@@ -14,6 +14,7 @@ import com.example.demo.Repository.DepartmentRepository;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.demo.tools.DepartmentDTOTools;
 import com.example.demo.tools.DepartmentTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -81,7 +82,7 @@ public class DepartmentServiceImplTest {
                     new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
                     new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
     Department inputDepartment= DepartmentTools.createDepartment(1L,"Department1");
-    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
+    DepartmentDTO expectedDepartmentDTO = DepartmentDTOTools.createDepartmentDTO("Department1");
 
     // When
     when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);

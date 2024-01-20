@@ -8,6 +8,7 @@ import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Repository.CompanyRepository;
+import com.example.demo.tools.CompanyDTOTools;
 import com.example.demo.tools.CompanyTools;
 import java.util.Arrays;
 import java.util.List;
@@ -44,8 +45,8 @@ public class CompanyServiceImplTest {
     final Company secondCompany = CompanyTools.createCompany(1L, "Company1");
     final List<Company> mockedCompanies = Arrays.asList(firstCompany, secondCompany);
 
-    final CompanyDTO firstCompanyDto = new CompanyDTO("Company1");
-    final CompanyDTO secondCompanyDto = new CompanyDTO("Company2");
+    final CompanyDTO firstCompanyDto = CompanyDTOTools.createCompanyDTO("Company1");
+    final CompanyDTO secondCompanyDto = CompanyDTOTools.createCompanyDTO("Company2");
 
     // When
     when(companyRepository.findAll()).thenReturn(mockedCompanies);
@@ -65,8 +66,8 @@ public class CompanyServiceImplTest {
     final Company firstCompany = CompanyTools.createCompany(1L, "Company1");
     final Company secondCompany = CompanyTools.createCompany(2L, "Company1");
     final List<Company> mockedCompanies = Arrays.asList(firstCompany, secondCompany);
-    final CompanyDTO firstCompanyDto = new CompanyDTO("Company1");
-    final CompanyDTO secondCompanyDto = new CompanyDTO("Company2");
+    final CompanyDTO firstCompanyDto = CompanyDTOTools.createCompanyDTO("Company1");
+    final CompanyDTO secondCompanyDto = CompanyDTOTools.createCompanyDTO("Company2");
     when(fromDOToDTO.MapCompany(firstCompany)).thenReturn(firstCompanyDto);
     when(fromDOToDTO.MapCompany(secondCompany)).thenReturn(secondCompanyDto);
 
@@ -81,7 +82,7 @@ public class CompanyServiceImplTest {
   public void testAddCompany() {
        // Given
        final Company inputCompany = CompanyTools.createCompany(1L,"Company1");
-       final CompanyDTO expectedCompanyDTO = new CompanyDTO("Company1");
+       final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
 
        // When
        when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
@@ -96,7 +97,7 @@ public class CompanyServiceImplTest {
   public void testUpdateCompany() {
        // Given
        final Company inputCompany = CompanyTools.createCompany(1L,"Company1");
-       final CompanyDTO expectedCompanyDTO = new CompanyDTO("Company1");
+       final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
 
       // When
        when(companyRepository.save(inputCompany)).thenReturn(inputCompany);

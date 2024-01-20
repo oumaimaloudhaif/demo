@@ -13,6 +13,7 @@ import com.example.demo.Repository.TaskRepository;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.demo.tools.TaskDTOTools;
 import com.example.demo.tools.TaskTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,8 +47,8 @@ public class TaskServiceImplTest {
     // Given
     final Task task= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
     final Task task1= TaskTools.createTask(2L,"Task1","description",  TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO taskDTO= new TaskDTO("Task","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
-    final TaskDTO task1DTO= new TaskDTO("Task1","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
+    final TaskDTO task1DTO= TaskDTOTools.createTaskDTO("Task1","description", TaskStatus.IN_PROGRESS, Priority.HIGH );
     final List<Task> mockedTasks = Arrays.asList(task,task1);
 
     // When
@@ -66,8 +67,8 @@ public class TaskServiceImplTest {
     final String keyword = "Oumaima";
     final Task task= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
     final Task task1= TaskTools.createTask(2L,"Task1","description",  TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO taskDTO= new TaskDTO("Task","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
-    final TaskDTO task1DTO= new TaskDTO("Task1","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
+    final TaskDTO task1DTO= TaskDTOTools.createTaskDTO("Task1","description", TaskStatus.IN_PROGRESS, Priority.HIGH );
     final List<Task> mockedTasks = Arrays.asList(task,task1);
 
     // When
@@ -84,11 +85,9 @@ public class TaskServiceImplTest {
   public void testAddTask() {
     // Given
     final Task inputTask= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO expectedTaskDTO= new TaskDTO("Task","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
-
+    final TaskDTO expectedTaskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);
-    when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
     when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
     final TaskDTO resultTaskDTO = taskService.addTask(inputTask);
 
@@ -100,11 +99,10 @@ public class TaskServiceImplTest {
   public void testUpdateTask() {
     // Given
     final Task inputTask= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO expectedTaskDTO= new TaskDTO("Task","description", Priority.HIGH , TaskStatus.IN_PROGRESS);
+    final TaskDTO expectedTaskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
 
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);
-    when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
     when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
     final TaskDTO resultTaskDTO = taskService.addTask(inputTask);
 
