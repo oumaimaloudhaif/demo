@@ -12,6 +12,7 @@ import java.util.Arrays;
 
 import java.util.List;
 
+import com.example.demo.tools.ReportDTOTools;
 import com.example.demo.tools.ReportTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -45,8 +46,8 @@ public class ReportServiceImplTest {
         // Given
         final Report Report= ReportTools.createReport(1L, "Report");
         final Report Report1= ReportTools.createReport(2L, "Report1");
-        final ReportDTO ReportDTO= new  ReportDTO( "Report");
-        final ReportDTO Report1DTO= new  ReportDTO("Report1");
+        final ReportDTO ReportDTO= ReportDTOTools.createReportDTO( "Report");
+        final ReportDTO Report1DTO= ReportDTOTools.createReportDTO("Report1");
         final List<Report> mockedReports = Arrays.asList(Report,Report1);
 
         // When
@@ -65,8 +66,8 @@ public class ReportServiceImplTest {
         final String keyword = "Oumaima";
         final Report Report= ReportTools.createReport(1L, "Report");
         final Report Report1= ReportTools.createReport(2L, "Report1");
-        final ReportDTO ReportDTO= new  ReportDTO( "Report");
-        final ReportDTO Report1DTO= new  ReportDTO("Report1");
+        final ReportDTO ReportDTO= ReportDTOTools.createReportDTO( "Report");
+        final ReportDTO Report1DTO= ReportDTOTools.createReportDTO("Report1");
         final List<Report> mockedReports = Arrays.asList(Report,Report1);
 
         // When
@@ -83,7 +84,7 @@ public class ReportServiceImplTest {
     public void testAddReport() {
         // Given
         final Report inputReport= ReportTools.createReport(1L, "Report");
-        final ReportDTO expectedReportDTO = new ReportDTO("Report1");
+        final ReportDTO expectedReportDTO = ReportDTOTools.createReportDTO("Report1");
 
         // When
         when(ReportRepository.save(inputReport)).thenReturn(inputReport);
@@ -98,7 +99,7 @@ public class ReportServiceImplTest {
     public void testUpdateReport() {
         // Given
         final Report updatedReport= ReportTools.createReport(1L, "Report");
-        final ReportDTO expectedReportDTO = new ReportDTO("Report1");
+        final ReportDTO expectedReportDTO = ReportDTOTools.createReportDTO("Report1");
 
         // When
         when(ReportRepository.save(updatedReport)).thenReturn(updatedReport);

@@ -12,6 +12,7 @@ import com.example.demo.Repository.AddressRepository;
 import java.util.Arrays;
 import java.util.List;
 
+import com.example.demo.tools.AddressDTOTools;
 import com.example.demo.tools.AddressTools;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,8 +47,8 @@ public class AddressServiceImplTest {
         // Given
         final Address address1 = AddressTools.createAddress(1L, "street", "city", "codePostal");
         final Address address2 = AddressTools.createAddress(2L, "street1", "city1", "codePostal1");
-        final AddressDTO address1DTO = new AddressDTO("street", "city", "codePostal");
-        final AddressDTO address2DTO = new AddressDTO("street1", "city1", "codePostal1");
+        final AddressDTO address1DTO = AddressDTOTools.createAddressDTO("street", "city", "codePostal");
+        final AddressDTO address2DTO = AddressDTOTools.createAddressDTO("street1", "city1", "codePostal1");
 
         final List<Address> mockedAddress = Arrays.asList(address1, address2);
 
@@ -67,8 +68,8 @@ public class AddressServiceImplTest {
         final String keyword = "Oumaima";
         final Address address1 = AddressTools.createAddress(1L, "street", "city", "codePostal");
         final Address address2 = AddressTools.createAddress(2L, "street1", "city1", "codePostal1");
-        final AddressDTO address1DTO = new AddressDTO("street", "city", "codePostal");
-        final AddressDTO address2DTO = new AddressDTO("street1", "city1", "codePostal1");
+        final AddressDTO address1DTO = AddressDTOTools.createAddressDTO("street", "city", "codePostal");
+        final AddressDTO address2DTO = AddressDTOTools.createAddressDTO("street1", "city1", "codePostal1");
         final List<Address> mockedAddress = Arrays.asList(address1, address2);
 
         // When
@@ -85,7 +86,7 @@ public class AddressServiceImplTest {
     public void testAddAddress() {
         // Given
         final Address inputAddress = AddressTools.createAddress(1L, "street", "city", "codePostal");
-        final AddressDTO expectedAddressDTO = new AddressDTO("street", "city", "codePostal");
+        final AddressDTO expectedAddressDTO =AddressDTOTools.createAddressDTO("street", "city", "codePostal");
 
         // When
         when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
@@ -102,7 +103,7 @@ public class AddressServiceImplTest {
     public void testUpdateAddress() {
         // Given
         final Address inputAddress = AddressTools.createAddress(1L, "street", "city", "codePostal");
-        final AddressDTO expectedAddressDTO = new AddressDTO("street", "city", "codePostal");
+        final AddressDTO expectedAddressDTO = AddressDTOTools.createAddressDTO("street", "city", "codePostal");
 
         // When
         when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
