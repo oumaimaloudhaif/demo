@@ -1,11 +1,17 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.AddressRequest;
 import com.example.demo.Controllers.Response.AddressResponse;
 import com.example.demo.Dto.AddressDTO;
 import com.example.demo.Entities.Address;
 import com.example.demo.ServicesImpl.AddressServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class AddressControllerTest extends AbstractTest {
 
-  @MockBean
-  AddressServiceImpl addressServiceImpl;
+  @MockBean AddressServiceImpl addressServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -37,8 +35,8 @@ class AddressControllerTest extends AbstractTest {
   public void getAllAddressTestWhenAddressExist() throws Exception {
     // Given
     final String uri = "/addresses";
-    final AddressDTO addressDTO = new  AddressDTO("street1","city","address");
-    final AddressDTO addressDTO1 = new AddressDTO("street1","city","address");
+    final AddressDTO addressDTO = new AddressDTO("street1", "city", "address");
+    final AddressDTO addressDTO1 = new AddressDTO("street1", "city", "address");
     final List<AddressDTO> listOfAddress = List.of(addressDTO, addressDTO1);
 
     // When
@@ -71,7 +69,7 @@ class AddressControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    AddressResponse addresss= super.mapFromJson(content, AddressResponse.class);
+    AddressResponse addresss = super.mapFromJson(content, AddressResponse.class);
     assertEquals(0, addresss.getResult().size());
   }
 
@@ -82,8 +80,8 @@ class AddressControllerTest extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -145,7 +143,7 @@ class AddressControllerTest extends AbstractTest {
     Address address = new Address();
     address.setCity("city");
     String inputJson = new ObjectMapper().writeValueAsString(address);
-    final AddressDTO addressDTO = new AddressDTO("street","city","address");
+    final AddressDTO addressDTO = new AddressDTO("street", "city", "address");
 
     // When
     when(addressServiceImpl.addAddress(any(Address.class))).thenReturn(addressDTO);
@@ -162,7 +160,7 @@ class AddressControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
-    assertEquals(addressDTO.getCity(), result.getCity());
+    assertEquals(addressDTO.city(), result.city());
   }
 
   @Test
@@ -172,7 +170,7 @@ class AddressControllerTest extends AbstractTest {
     Address address = new Address();
     address.setCity("address");
     String inputJson = new ObjectMapper().writeValueAsString(address);
-    final AddressDTO addressDTO = new AddressDTO("street","city","address");
+    final AddressDTO addressDTO = new AddressDTO("street", "city", "address");
 
     // When
     when(addressServiceImpl.updateAddress(any(Address.class))).thenReturn(addressDTO);
@@ -188,7 +186,6 @@ class AddressControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
-    assertEquals(addressDTO.getCity(), result.getCity());
+    assertEquals(addressDTO.city(), result.city());
   }
-
 }

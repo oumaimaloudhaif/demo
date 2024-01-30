@@ -22,8 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     classes = DemoApplication.class)
 public class FromDOToDTOTest {
 
-  @Autowired
-  FromDOToDTO mapper;
+  @Autowired FromDOToDTO mapper;
 
   @BeforeEach
   public void setUp() {}
@@ -34,9 +33,9 @@ public class FromDOToDTOTest {
 
     final AddressDTO result = mapper.MapAdress(address);
 
-    assertEquals("Street", result.getStreet());
-    assertEquals("City", result.getCity());
-    assertEquals("7034", result.getPostalCode());
+    assertEquals("Street", result.street());
+    assertEquals("City", result.city());
+    assertEquals("7034", result.postalCode());
   }
 
   @Test
@@ -45,7 +44,7 @@ public class FromDOToDTOTest {
 
     final CompanyDTO result = mapper.MapCompany(company);
 
-    assertEquals("Company Name", result.getName());
+    assertEquals("Company Name", result.name());
   }
 
   @Test
@@ -56,8 +55,8 @@ public class FromDOToDTOTest {
 
     final WorkCalanderDTO result = mapper.MapWorkCalander(workCalendar);
 
-    assertEquals(startTime, result.getStartTime());
-    assertEquals(endTime, result.getEndTime());
+    assertEquals(startTime, result.startTime());
+    assertEquals(endTime, result.endTime());
   }
 
   @Test
@@ -68,8 +67,8 @@ public class FromDOToDTOTest {
 
     final DepartmentDTO result = mapper.MapDepartment(department);
 
-    assertEquals("Info", result.getName());
-    assertEquals(employees.size(), result.getEmployees().size());
+    assertEquals("Info", result.name());
+    assertEquals(employees.size(), result.employees().size());
   }
 
   @Test
@@ -78,10 +77,10 @@ public class FromDOToDTOTest {
 
     final EmployeeDTO result = mapper.MapEmployee(employee);
 
-    assertEquals("Oumaima L", result.getName());
-    assertEquals(Gender.FEMALE, result.getGender());
-    assertEquals(ContractType.CDI, result.getContractType());
-    assertEquals(1000, result.getSalary());
+    assertEquals("Oumaima L", result.name());
+    assertEquals(Gender.FEMALE, result.gender());
+    assertEquals(ContractType.CDI, result.contractType());
+    assertEquals(1000, result.salary());
   }
 
   @Test
@@ -90,7 +89,7 @@ public class FromDOToDTOTest {
 
     final MeetingDTO result = mapper.MapMeeting(meeting);
 
-    assertEquals("meeting", result.getTitle());
+    assertEquals("meeting", result.title());
   }
 
   @Test
@@ -99,7 +98,7 @@ public class FromDOToDTOTest {
 
     final ProjectDTO result = mapper.MapProject(project);
 
-    assertEquals("project", result.getName());
+    assertEquals("project", result.name());
   }
 
   @Test
@@ -108,7 +107,7 @@ public class FromDOToDTOTest {
 
     final ReportDTO result = mapper.MapReport(report);
 
-    assertEquals("report", result.getTitle());
+    assertEquals("report", result.title());
   }
 
   @Test
@@ -117,9 +116,9 @@ public class FromDOToDTOTest {
 
     final TaskDTO result = mapper.MapTask(task);
 
-    assertEquals("task", result.getName());
-    assertEquals("description", result.getDescription());
-    assertEquals(TaskStatus.IN_PROGRESS, result.getTaskStatus());
-    assertEquals(Priority.HIGH, result.getPriority());
+    assertEquals("task", result.name());
+    assertEquals("description", result.description());
+    assertEquals(TaskStatus.IN_PROGRESS, result.taskStatus());
+    assertEquals(Priority.HIGH, result.priority());
   }
 }

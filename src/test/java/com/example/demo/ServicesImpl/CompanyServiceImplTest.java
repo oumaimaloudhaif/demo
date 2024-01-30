@@ -12,7 +12,6 @@ import com.example.demo.tools.CompanyDTOTools;
 import com.example.demo.tools.CompanyTools;
 import java.util.Arrays;
 import java.util.List;
-
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -78,34 +77,36 @@ public class CompanyServiceImplTest {
     // Then
     assertEquals(mockedCompanies.size(), companies.size());
   }
+
   @Test
   public void testAddCompany() {
-       // Given
-       final Company inputCompany = CompanyTools.createCompany(1L,"Company1");
-       final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
+    // Given
+    final Company inputCompany = CompanyTools.createCompany(1L, "Company1");
+    final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
 
-       // When
-       when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
-       when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
+    // When
+    when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
+    when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
 
-      final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
+    final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
 
-       // Then
-       assertEquals(expectedCompanyDTO.getName(), resultCompanyDTO.getName());
-   }
-   @Test
+    // Then
+    assertEquals(expectedCompanyDTO.name(), resultCompanyDTO.name());
+  }
+
+  @Test
   public void testUpdateCompany() {
-       // Given
-       final Company inputCompany = CompanyTools.createCompany(1L,"Company1");
-       final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
+    // Given
+    final Company inputCompany = CompanyTools.createCompany(1L, "Company1");
+    final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
 
-      // When
-       when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
-       when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
+    // When
+    when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
+    when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
 
-       final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
+    final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
 
-       // Then
-       assertEquals(expectedCompanyDTO.getName(), resultCompanyDTO.getName());
-   }
+    // Then
+    assertEquals(expectedCompanyDTO.name(), resultCompanyDTO.name());
+  }
 }

@@ -1,11 +1,23 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.ProjectRequest;
 import com.example.demo.Controllers.Response.ProjectResponse;
 import com.example.demo.Dto.ProjectDTO;
+import com.example.demo.Entities.Employee;
 import com.example.demo.Entities.Project;
+import com.example.demo.Enums.ContractType;
+import com.example.demo.Enums.Gender;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
+import com.example.demo.tools.EmployeeTools;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +25,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProjectControllerTest extends AbstractTest {
 
@@ -36,8 +41,12 @@ class ProjectControllerTest extends AbstractTest {
   public void getAllProjectsTestWhenProjectExist() throws Exception {
     // Given
     final String uri = "/projects";
-    final ProjectDTO project = new ProjectDTO("project");
-    final ProjectDTO project2 = new ProjectDTO("project1");
+    List<Employee> employees =
+            Arrays.asList(
+                    new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
+                    new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
+    final ProjectDTO project = new ProjectDTO("project",employees);
+    final ProjectDTO project2 = new ProjectDTO("project1",employees);
     final List<ProjectDTO> listOfProjects = List.of(project, project2);
 
     // When
@@ -81,8 +90,8 @@ class ProjectControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -115,8 +124,13 @@ class ProjectControllerTest extends AbstractTest {
     final String uri = "/projects";
     ProjectRequest projectRequest = new ProjectRequest();
     projectRequest.setKeyword("");
-    final ProjectDTO project = new ProjectDTO("project-Test");
-    final ProjectDTO project2 = new ProjectDTO("project-Test");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final ProjectDTO project = new ProjectDTO("project-Test",employees);
+    final ProjectDTO project2 = new ProjectDTO("project-Test",employees);
     final List<ProjectDTO> listOfProjects = List.of(project, project2);
 
     // When
@@ -146,11 +160,15 @@ class ProjectControllerTest extends AbstractTest {
     Project project = new Project();
     project.setName("project");
     String inputJson = new ObjectMapper().writeValueAsString(project);
-    final ProjectDTO projectDTO = new ProjectDTO("project");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final ProjectDTO projectDTO = new ProjectDTO("project",employees);
 
     // When
-    when(projectServiceImpl.addProject(any(Project.class)))
-        .thenReturn(projectDTO);
+    when(projectServiceImpl.addProject(any(Project.class))).thenReturn(projectDTO);
     MvcResult mvcResult =
         mvc.perform(
                 MockMvcRequestBuilders.post(uri)
@@ -164,7 +182,7 @@ class ProjectControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     ProjectDTO result = objectMapper.readValue(content, ProjectDTO.class);
-    assertEquals(projectDTO.getName(), result.getName());
+    assertEquals(projectDTO.name(), result.name());
   }
 
   @Test
@@ -174,11 +192,15 @@ class ProjectControllerTest extends AbstractTest {
     Project project = new Project();
     project.setName("project");
     String inputJson = new ObjectMapper().writeValueAsString(project);
-    final ProjectDTO projectDTO = new ProjectDTO("project");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final ProjectDTO projectDTO = new ProjectDTO("project",employees);
 
     // When
-    when(projectServiceImpl.updateProject(any(Project.class)))
-        .thenReturn(projectDTO);
+    when(projectServiceImpl.updateProject(any(Project.class))).thenReturn(projectDTO);
     MvcResult mvcResult =
         mvc.perform(
                 MockMvcRequestBuilders.put(uri)
@@ -191,7 +213,6 @@ class ProjectControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     ProjectDTO result = objectMapper.readValue(content, ProjectDTO.class);
-    assertEquals(projectDTO.getName(), result.getName());
+    assertEquals(projectDTO.name(), result.name());
   }
-
 }

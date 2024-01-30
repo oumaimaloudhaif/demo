@@ -8,72 +8,38 @@ import org.springframework.stereotype.Component;
 public class FromDOToDTO {
 
   public AddressDTO MapAdress(Address address) {
-    AddressDTO adressDTO = new AddressDTO();
-    adressDTO.setStreet(address.getStreet());
-    adressDTO.setCity(address.getCity());
-    adressDTO.setPostalCode(address.getPostalCode());
-    return adressDTO;
+      return new AddressDTO(address.getStreet(),address.getCity(),address.getPostalCode());
   }
 
   public CompanyDTO MapCompany(Company company) {
-    CompanyDTO companyDTO = new CompanyDTO();
-    companyDTO.setName(company.getName());
-    return companyDTO;
+      return new CompanyDTO(company.getName());
   }
 
   public DepartmentDTO MapDepartment(Department department) {
-    DepartmentDTO departmentDTO = new DepartmentDTO();
-    departmentDTO.setName(department.getName());
-    departmentDTO.setEmployees(department.getEmployees());
-    return departmentDTO;
+      return new DepartmentDTO(department.getName(),department.getEmployees());
   }
 
   public EmployeeDTO MapEmployee(Employee employee) {
-    EmployeeDTO employeeDTO = new EmployeeDTO();
-    employeeDTO.setGender(employee.getGender());
-    employeeDTO.setAddress(employee.getAddress());
-    employeeDTO.setContractType(employee.getContractType());
-    employeeDTO.setSalary(employee.getSalary());
-    employeeDTO.setJoiningDate(employee.getJoiningDate());
-    employeeDTO.setName(employee.getName());
-    employeeDTO.setDateOfBirth(employee.getJoiningDate());
-    return employeeDTO;
+      return new EmployeeDTO(employee.getName(),employee.getSalary(),employee.getDateOfBirth(),employee.getAddress(),employee.getJoiningDate(),employee.getGender(),employee.getContractType());
   }
 
   public MeetingDTO MapMeeting(Meeting meeting) {
-    MeetingDTO meetingDTO = new MeetingDTO();
-    meetingDTO.setTitle(meeting.getTitle());
-    meetingDTO.setStartTime(meeting.getStartTime());
-    return meetingDTO;
+      return new MeetingDTO(meeting.getTitle(),meeting.getStartTime());
   }
 
   public ProjectDTO MapProject(Project project) {
-    ProjectDTO projectDTO = new ProjectDTO();
-    projectDTO.setName(project.getName());
-    projectDTO.setEmployees(project.getEmployees());
-    return projectDTO;
+      return new ProjectDTO(project.getName(),project.getEmployees());
   }
 
   public ReportDTO MapReport(Report report) {
-    ReportDTO reportDTO = new ReportDTO();
-    reportDTO.setTitle(report.getTitle());
-    reportDTO.setContent(report.getContent());
-    return reportDTO;
+      return new ReportDTO(report.getTitle(),report.getContent());
   }
 
   public TaskDTO MapTask(Task task) {
-    TaskDTO taskDTO = new TaskDTO();
-    taskDTO.setDescription(task.getDescription());
-    taskDTO.setPriority(task.getPriority());
-    taskDTO.setName(task.getName());
-    taskDTO.setTaskStatus(task.getTaskStatus());
-    return taskDTO;
+      return new TaskDTO(task.getDescription(),task.getName(),task.getPriority(),task.getTaskStatus());
   }
 
   public WorkCalanderDTO MapWorkCalander(WorkCalendar workCalander) {
-    WorkCalanderDTO workCalanderDTO = new WorkCalanderDTO();
-    workCalanderDTO.setStartTime(workCalander.getStartTime());
-    workCalanderDTO.setEndTime(workCalander.getEndTime());
-    return workCalanderDTO;
+      return new WorkCalanderDTO(workCalander.getStartTime(),workCalander.getEndTime());
   }
 }

@@ -1,11 +1,23 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.DepartmentRequest;
 import com.example.demo.Controllers.Response.DepartmentResponse;
 import com.example.demo.Dto.DepartmentDTO;
 import com.example.demo.Entities.Department;
+import com.example.demo.Entities.Employee;
+import com.example.demo.Enums.ContractType;
+import com.example.demo.Enums.Gender;
 import com.example.demo.ServicesImpl.DepartmentServiceImpl;
+import com.example.demo.tools.EmployeeTools;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.util.Arrays;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +26,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class DepartmentControllerTest extends AbstractTest {
 
-  @MockBean
-  DepartmentServiceImpl departmentServiceImpl;
+  @MockBean DepartmentServiceImpl departmentServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -37,8 +41,13 @@ class DepartmentControllerTest extends AbstractTest {
   public void getAllDepartmentsTestWhenDepartmentExist() throws Exception {
     // Given
     final String uri = "/departments";
-    final DepartmentDTO departmentDTO = new  DepartmentDTO("department");
-    final DepartmentDTO departmentDTO1 = new DepartmentDTO("department");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final DepartmentDTO departmentDTO = new DepartmentDTO("department",employees);
+    final DepartmentDTO departmentDTO1 = new DepartmentDTO("department",employees);
     final List<DepartmentDTO> listOfDepartments = List.of(departmentDTO, departmentDTO1);
 
     // When
@@ -71,7 +80,7 @@ class DepartmentControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    DepartmentResponse departments= super.mapFromJson(content, DepartmentResponse.class);
+    DepartmentResponse departments = super.mapFromJson(content, DepartmentResponse.class);
     assertEquals(0, departments.getResult().size());
   }
 
@@ -82,8 +91,8 @@ class DepartmentControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -109,6 +118,7 @@ class DepartmentControllerTest extends AbstractTest {
     DepartmentDTO[] departments = super.mapFromJson(content, DepartmentDTO[].class);
     assertEquals(0, departments.length);
   }
+
   @Test
   public void fetchDepartments_WithNullKeyword_ReturnsEmptyList() throws Exception {
     // Given
@@ -144,7 +154,12 @@ class DepartmentControllerTest extends AbstractTest {
     Department department = new Department();
     department.setName("department");
     String inputJson = new ObjectMapper().writeValueAsString(department);
-    final DepartmentDTO departmentDTO = new DepartmentDTO("department");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final DepartmentDTO departmentDTO = new DepartmentDTO("department",employees);
 
     // When
     when(departmentServiceImpl.addDepartment(any(Department.class))).thenReturn(departmentDTO);
@@ -161,7 +176,7 @@ class DepartmentControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
-    assertEquals(departmentDTO.getName(), result.getName());
+    assertEquals(departmentDTO.name(), result.name());
   }
 
   @Test
@@ -171,7 +186,12 @@ class DepartmentControllerTest extends AbstractTest {
     Department department = new Department();
     department.setName("department");
     String inputJson = new ObjectMapper().writeValueAsString(department);
-    final DepartmentDTO departmentDTO = new DepartmentDTO("department");
+    Employee employee1 =
+            EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Employee employee2 =
+            EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final List<Employee> employees = Arrays.asList(employee1, employee2);
+    final DepartmentDTO departmentDTO = new DepartmentDTO("department",employees);
 
     // When
     when(departmentServiceImpl.updateDepartment(any(Department.class))).thenReturn(departmentDTO);
@@ -187,7 +207,6 @@ class DepartmentControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
-    assertEquals(departmentDTO.getName(), result.getName());
+    assertEquals(departmentDTO.name(), result.name());
   }
-
 }

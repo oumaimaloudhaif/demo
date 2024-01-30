@@ -10,6 +10,9 @@ import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,8 +23,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = DemoApplication.class)
 class FromDTOToDOTest {
-  @Autowired
-  FromDTOToDO mapper;
+  @Autowired FromDTOToDO mapper;
 
   @BeforeEach
   public void setUp() {}
@@ -60,7 +62,10 @@ class FromDTOToDOTest {
 
   @Test
   void mapEmployeeDTO() {
-    final EmployeeDTO employeeDTO = new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    Address address = new Address();
+    address.setCity("address");
+    final EmployeeDTO employeeDTO =
+        new EmployeeDTO("Oumaima L", 1000, LocalDate.now(),address,LocalDate.now(),Gender.FEMALE, ContractType.CDI);
 
     final Employee result = mapper.MapEmployeeDTO(employeeDTO);
 
@@ -72,7 +77,7 @@ class FromDTOToDOTest {
 
   @Test
   void mapMeetingDTO() {
-    final MeetingDTO meetingDTO = new MeetingDTO("meeting");
+    final MeetingDTO meetingDTO = new MeetingDTO("meeting", LocalDateTime.now());
 
     final Meeting result = mapper.MapMeetingDTO(meetingDTO);
 
@@ -81,7 +86,9 @@ class FromDTOToDOTest {
 
   @Test
   void mapProject() {
-    final ProjectDTO projectDTO = new ProjectDTO("project");
+    final Employee employee = new Employee(1L, "oumaima");
+    final List<Employee> employees = List.of(employee);
+    final ProjectDTO projectDTO = new ProjectDTO("project",employees);
 
     final Project result = mapper.MapProjectDTO(projectDTO);
 
@@ -90,7 +97,7 @@ class FromDTOToDOTest {
 
   @Test
   void mapReport() {
-    final ReportDTO reportDTO = new ReportDTO("report");
+    final ReportDTO reportDTO = new ReportDTO("report","content");
 
     final Report result = mapper.MapReport(reportDTO);
 
@@ -99,7 +106,8 @@ class FromDTOToDOTest {
 
   @Test
   void mapTask() {
-    final TaskDTO taskDTO = new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
     final Task result = mapper.MapTask(taskDTO);
 
