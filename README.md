@@ -13,3 +13,6 @@ It's a Restful service API backend developed with [springBoot](https://spring.io
 - To lean more about maven you can visit the following link [maven](https://maven.apache.org/)
 
 
+## Swagger
+
+This project is documented using [Swagger](https://swagger.io/). You can explore the API documentation by following these [url](https://company-management-ao9h.onrender.com/swagger-ui/index.html)
