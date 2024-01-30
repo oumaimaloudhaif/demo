@@ -25,7 +25,7 @@ public class CompanyServiceImpl implements CompanyService {
     List<DepartmentDTO> departments = departmentServiceImpl.getAllDepartments();
     return departments
         .stream()
-        .max(Comparator.comparingInt(departmentDTO -> departmentDTO.getEmployees().size()))
+        .max(Comparator.comparingInt(departmentDTO -> departmentDTO.employees().size()))
         .orElse(null);
   }
 
