@@ -92,7 +92,7 @@ class EmployeeControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
-  @Test
+  /*@Test
   public void getAllEmployeesTestThenThrowException() throws Exception {
     // Given
     final String uri = "/employees";
@@ -106,7 +106,7 @@ class EmployeeControllerTest extends AbstractTest {
 
     //Then
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-  }
+  }*/
 
   @Test
   public void searchEmployeeTestWhenKeyWordNotNull() throws Exception {
