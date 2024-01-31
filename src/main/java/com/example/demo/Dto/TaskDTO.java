@@ -4,7 +4,6 @@ import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-
 import lombok.*;
 
 @Setter

@@ -1,11 +1,17 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.CompanyRequest;
 import com.example.demo.Controllers.Response.CompanyResponse;
 import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Entities.Company;
 import com.example.demo.ServicesImpl.CompanyServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class CompanyControllerTest extends AbstractTest {
 
-  @MockBean
-  CompanyServiceImpl companyServiceImpl;
+  @MockBean CompanyServiceImpl companyServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -37,7 +35,7 @@ class CompanyControllerTest extends AbstractTest {
   public void getAllCompaniesTestWhenCompanyExist() throws Exception {
     // Given
     final String uri = "/companies";
-    final CompanyDTO companyDTO = new  CompanyDTO("company");
+    final CompanyDTO companyDTO = new CompanyDTO("company");
     final CompanyDTO companyDTO1 = new CompanyDTO("company");
     final List<CompanyDTO> listOfCompanies = List.of(companyDTO, companyDTO1);
 
@@ -71,7 +69,7 @@ class CompanyControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    CompanyResponse companies= super.mapFromJson(content, CompanyResponse.class);
+    CompanyResponse companies = super.mapFromJson(content, CompanyResponse.class);
     assertEquals(0, companies.getResult().size());
   }
 
@@ -82,8 +80,8 @@ class CompanyControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -118,7 +116,7 @@ class CompanyControllerTest extends AbstractTest {
     companyRequest.setKeyword("test");
     final CompanyDTO companyDTO = new CompanyDTO("company-Test");
     final CompanyDTO companyDTO1 = new CompanyDTO("company1-Test");
-    final List<CompanyDTO> listOfCompanies= List.of(companyDTO, companyDTO1);
+    final List<CompanyDTO> listOfCompanies = List.of(companyDTO, companyDTO1);
     CompanyResponse companyResponse = new CompanyResponse();
     companyResponse.setResult(listOfCompanies);
 
@@ -223,5 +221,4 @@ class CompanyControllerTest extends AbstractTest {
     CompanyDTO result = objectMapper.readValue(content, CompanyDTO.class);
     assertEquals(companyDTO.getName(), result.getName());
   }
-
 }

@@ -1,5 +1,10 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.TaskRequest;
 import com.example.demo.Controllers.Response.TaskResponse;
 import com.example.demo.Dto.TaskDTO;
@@ -8,6 +13,7 @@ import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
 import com.example.demo.ServicesImpl.TaskServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,17 +22,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class TaskControllerTest extends AbstractTest {
 
-  @MockBean
-  TaskServiceImpl taskServiceImpl;
+  @MockBean TaskServiceImpl taskServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -39,8 +37,10 @@ class TaskControllerTest extends AbstractTest {
   public void getAllTasksTestWhenTaskExist() throws Exception {
     // Given
     final String uri = "/tasks";
-    final TaskDTO taskDTO = new  TaskDTO("task","description", Priority.HIGH, TaskStatus.IN_PROGRESS);
-    final TaskDTO taskDTO1 = new TaskDTO("task","description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO1 =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
     final List<TaskDTO> listOfTasks = List.of(taskDTO, taskDTO1);
 
     // When
@@ -73,7 +73,7 @@ class TaskControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    TaskResponse tasks= super.mapFromJson(content, TaskResponse.class);
+    TaskResponse tasks = super.mapFromJson(content, TaskResponse.class);
     assertEquals(0, tasks.getResult().size());
   }
 
@@ -84,8 +84,8 @@ class TaskControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -111,6 +111,7 @@ class TaskControllerTest extends AbstractTest {
     TaskDTO[] tasks = super.mapFromJson(content, TaskDTO[].class);
     assertEquals(0, tasks.length);
   }
+
   @Test
   public void fetchTasks_WithNullKeyword_ReturnsEmptyList() throws Exception {
     // Given
@@ -146,16 +147,17 @@ class TaskControllerTest extends AbstractTest {
     Task task = new Task();
     task.setName("task");
     String inputJson = new ObjectMapper().writeValueAsString(task);
-    final TaskDTO taskDTO = new  TaskDTO("task","description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
     // When
     when(taskServiceImpl.addTask(any(Task.class))).thenReturn(taskDTO);
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -173,7 +175,8 @@ class TaskControllerTest extends AbstractTest {
     Task task = new Task();
     task.setName("task");
     String inputJson = new ObjectMapper().writeValueAsString(task);
-    final TaskDTO taskDTO = new  TaskDTO("task","description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
     // When
     when(taskServiceImpl.updateTask(any(Task.class))).thenReturn(taskDTO);
@@ -191,5 +194,4 @@ class TaskControllerTest extends AbstractTest {
     TaskDTO result = objectMapper.readValue(content, TaskDTO.class);
     assertEquals(taskDTO.getName(), result.getName());
   }
-
 }

@@ -4,7 +4,6 @@ import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
 import java.util.Date;
 import javax.persistence.*;
-
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

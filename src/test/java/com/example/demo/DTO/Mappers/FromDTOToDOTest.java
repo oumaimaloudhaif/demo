@@ -20,8 +20,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     webEnvironment = SpringBootTest.WebEnvironment.MOCK,
     classes = DemoApplication.class)
 class FromDTOToDOTest {
-  @Autowired
-  FromDTOToDO mapper;
+  @Autowired FromDTOToDO mapper;
 
   @BeforeEach
   public void setUp() {}
@@ -60,7 +59,8 @@ class FromDTOToDOTest {
 
   @Test
   void mapEmployeeDTO() {
-    final EmployeeDTO employeeDTO = new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employeeDTO =
+        new EmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
 
     final Employee result = mapper.MapEmployeeDTO(employeeDTO);
 
@@ -99,7 +99,8 @@ class FromDTOToDOTest {
 
   @Test
   void mapTask() {
-    final TaskDTO taskDTO = new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
 
     final Task result = mapper.MapTask(taskDTO);
 
