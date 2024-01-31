@@ -17,26 +17,18 @@ public class AddressController {
   @Autowired private AddressServiceImpl addressServiceImpl;
   @Autowired private AddressMapper addressMapper;
 
-  /** @return addresses */
-  /*  @GetMapping("/alladdresses")
-  public AddressResponse getAllAddresses() {
-
-      return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
-  }*/
   @PostMapping("/addresses")
   public AddressDTO addAddress(@RequestBody @Valid Address address) {
     return addressServiceImpl.addAddress(address);
   }
+
   /** @return Address */
   @PutMapping("/addresses")
   public AddressDTO updateAddress(@RequestBody @Valid Address address) {
     return addressServiceImpl.updateAddress(address);
   }
+
   /** @return AddressResponse */
-  /*  @GetMapping("/addresses")
-  public AddressResponse searchAddress(@RequestParam(required =false) @Valid AddressRequest addressRequest) {
-      return addressMapper.toAddressResponse(addressServiceImpl.searchAddress(addressRequest.getKeyword()));
-  }*/
   @GetMapping("/addresses")
   public AddressResponse getAddresses(
       @RequestParam(required = false) @Valid AddressRequest addressRequest) {

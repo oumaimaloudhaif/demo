@@ -17,25 +17,18 @@ public class DepartmentController {
   @Autowired private DepartmentServiceImpl departmentServiceImpl;
   @Autowired private DepartmentMapper departmentMapper;
 
-  /* @GetMapping("/departments")
-  public DepartmentResponse getAllDepartments() {
-
-      return departmentMapper.toDepartmentResponse(departmentServiceImpl.getAllDepartments());
-  }*/
   @PostMapping("/departments")
   public DepartmentDTO addDepartment(@RequestBody @Valid Department department) {
     return departmentServiceImpl.addDepartment(department);
   }
+
   /** @return Department */
   @PutMapping("/departments")
   public DepartmentDTO updateDepartment(@RequestBody @Valid Department department) {
     return departmentServiceImpl.updateDepartment(department);
   }
+
   /** @return DepartmentResponse */
-  /*@GetMapping("/departments")
-  public DepartmentResponse searchDepartment(@RequestParam(required = false) @Valid DepartmentRequest departmentRequest) {
-      return departmentMapper.toDepartmentResponse(departmentServiceImpl.searchDepartment(departmentRequest.getKeyword()));
-  }*/
   @GetMapping("/departments")
   public DepartmentResponse getDepartments(
       @RequestParam(required = false) @Valid DepartmentRequest departmentRequest) {

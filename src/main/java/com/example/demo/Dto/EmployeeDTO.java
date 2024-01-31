@@ -4,7 +4,6 @@ import com.example.demo.Entities.Address;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import java.time.LocalDate;
-
 import lombok.*;
 
 @Setter

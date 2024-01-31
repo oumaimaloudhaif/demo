@@ -12,7 +12,34 @@ It's a Restful service API backend developed with [springBoot](https://spring.io
 - The following project using the following java version ([Java 17](ww.oracle.com/java/technologies/javase/jdk17-archive-downloads.html))
 - To lean more about maven you can visit the following link [maven](https://maven.apache.org/)
 
+## Docker
+This Project is dockerized using [docker](https://www.docker.com/).
+- To dockerise this project you must flow this two steps:
+  - build the docker image using : ```` mvn clean install ````
+  - Run the docker container using: ````docker run company_Managment -p 8080:8080 -d image````
+  - Or by running the [docker file](/Users/oumaima/Downloads/demo/Dockerfile)
+
+- To learn more about docker file you can visit the following link [docker file](https://spring.io/guides/topicals/spring-boot-docker/)
+
+
+## Types
+
+You can format the project using the plugin : 
+```` 
+<plugin>
+      <groupId>com.coveo</groupId>
+      <artifactId>fmt-maven-plugin</artifactId>
+      <version>2.5.0</version>
+      <executions>
+          <execution>
+                <goals>
+                        <goal>format</goal>
+                </goals>
+          </execution>
+      </executions>
+</plugin>   
+````
 
 ## Swagger
 
-This project is documented using [Swagger](https://swagger.io/). You can explore the API documentation by following these [url](https://company-management-ao9h.onrender.com/swagger-ui/index.html)
+The API is documented using [Swagger](https://swagger.io/). You can explore the API documentation by following these [url](https://company-management-ao9h.onrender.com/swagger-ui/index.html)

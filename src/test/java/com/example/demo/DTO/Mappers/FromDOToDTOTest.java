@@ -22,8 +22,7 @@ import org.springframework.boot.test.context.SpringBootTest;
     classes = DemoApplication.class)
 public class FromDOToDTOTest {
 
-  @Autowired
-  FromDOToDTO mapper;
+  @Autowired FromDOToDTO mapper;
 
   @BeforeEach
   public void setUp() {}

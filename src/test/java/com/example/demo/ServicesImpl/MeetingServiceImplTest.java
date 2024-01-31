@@ -8,12 +8,10 @@ import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Dto.MeetingDTO;
 import com.example.demo.Entities.Meeting;
 import com.example.demo.Repository.MeetingRepository;
-import java.util.Arrays;
-
-import java.util.List;
-
 import com.example.demo.tools.MeetingDTOTools;
 import com.example.demo.tools.MeetingTools;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -30,10 +28,8 @@ import org.springframework.test.context.junit4.SpringRunner;
     classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class MeetingServiceImplTest {
-  @MockBean
-  private MeetingRepository meetingRepository;
-  @Autowired
-  private MeetingServiceImpl meetingService;
+  @MockBean private MeetingRepository meetingRepository;
+  @Autowired private MeetingServiceImpl meetingService;
   @MockBean private FromDOToDTO fromDOToDTO;
 
   @BeforeEach
@@ -44,11 +40,11 @@ public class MeetingServiceImplTest {
   @Test
   public void testGetAllMeetings() {
     // Given
-    final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
-    final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
-    final MeetingDTO meetingDTO= MeetingDTOTools.createMeeting( "Meeting");
-    final MeetingDTO meeting1DTO= MeetingDTOTools.createMeeting("Meeting1");
-    final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
+    final Meeting meeting = MeetingTools.createMeeting(1L, "Meeting");
+    final Meeting meeting1 = MeetingTools.createMeeting(2L, "Meeting1");
+    final MeetingDTO meetingDTO = MeetingDTOTools.createMeeting("Meeting");
+    final MeetingDTO meeting1DTO = MeetingDTOTools.createMeeting("Meeting1");
+    final List<Meeting> mockedMeetings = Arrays.asList(meeting, meeting1);
 
     // When
     when(meetingRepository.findAll()).thenReturn(mockedMeetings);
@@ -63,12 +59,12 @@ public class MeetingServiceImplTest {
   @Test
   public void testSearchMeetings() {
     // Given
-    final  String keyword = "Oumaima";
-    final Meeting meeting= MeetingTools.createMeeting(1L, "Meeting");
-    final Meeting meeting1= MeetingTools.createMeeting(2L, "Meeting1");
-    final MeetingDTO meetingDTO= MeetingDTOTools.createMeeting( "Meeting");
-    final MeetingDTO meeting1DTO= MeetingDTOTools.createMeeting("Meeting1");
-    final List<Meeting> mockedMeetings = Arrays.asList(meeting,meeting1);
+    final String keyword = "Oumaima";
+    final Meeting meeting = MeetingTools.createMeeting(1L, "Meeting");
+    final Meeting meeting1 = MeetingTools.createMeeting(2L, "Meeting1");
+    final MeetingDTO meetingDTO = MeetingDTOTools.createMeeting("Meeting");
+    final MeetingDTO meeting1DTO = MeetingDTOTools.createMeeting("Meeting1");
+    final List<Meeting> mockedMeetings = Arrays.asList(meeting, meeting1);
 
     // When
     when(meetingRepository.findByTitle(keyword)).thenReturn(mockedMeetings);
@@ -83,8 +79,8 @@ public class MeetingServiceImplTest {
   @Test
   public void testAddMeeting() {
     // Given
-    final Meeting inputMeeting= MeetingTools.createMeeting(1L, "Meeting");
-    final  MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
+    final Meeting inputMeeting = MeetingTools.createMeeting(1L, "Meeting");
+    final MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
 
     // When
     when(meetingRepository.save(inputMeeting)).thenReturn(inputMeeting);
@@ -98,7 +94,7 @@ public class MeetingServiceImplTest {
   @Test
   public void testUpdateMeeting() {
     // Given
-    final Meeting updatedMeeting= MeetingTools.createMeeting(1L, "Meeting");
+    final Meeting updatedMeeting = MeetingTools.createMeeting(1L, "Meeting");
     final MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
 
     // When

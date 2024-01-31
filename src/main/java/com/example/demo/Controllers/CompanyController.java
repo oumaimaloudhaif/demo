@@ -17,26 +17,17 @@ public class CompanyController {
   @Autowired private CompanyServiceImpl CompanyServiceImpl;
   @Autowired private CompanyMapper companyMapper;
 
-  /** @return */
-  /* @GetMapping("/companies")
-  public  CompanyResponse getAllCompanies() {
-
-      return  companyMapper.toCompanyResponse( CompanyServiceImpl.getAllCompanies());
-  }*/
   @PostMapping("/companies")
   public CompanyDTO addCompany(@RequestBody @Valid Company Company) {
     return CompanyServiceImpl.addCompany(Company);
   }
+
   /** @return Companies */
   @PutMapping("/companies")
   public CompanyDTO updateCompany(@RequestBody @Valid Company Company) {
     return CompanyServiceImpl.updateCompany(Company);
   }
-  /** @return CompanyResponse */
-  /* @GetMapping("/companies")
-  public  CompanyResponse searchDepartment(@RequestParam(required = false) @Valid CompanyRequest companyRequest) {
-      return  companyMapper.toCompanyResponse( CompanyServiceImpl.searchCompany(companyRequest.getKeyword()));
-  }*/
+
   @GetMapping("/companies")
   public CompanyResponse getCompanies(
       @RequestParam(required = false) @Valid CompanyRequest companyRequest) {

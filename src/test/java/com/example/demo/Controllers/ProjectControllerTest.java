@@ -1,11 +1,17 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.ProjectRequest;
 import com.example.demo.Controllers.Response.ProjectResponse;
 import com.example.demo.Dto.ProjectDTO;
 import com.example.demo.Entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +19,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 class ProjectControllerTest extends AbstractTest {
 
@@ -81,8 +80,8 @@ class ProjectControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -149,8 +148,7 @@ class ProjectControllerTest extends AbstractTest {
     final ProjectDTO projectDTO = new ProjectDTO("project");
 
     // When
-    when(projectServiceImpl.addProject(any(Project.class)))
-        .thenReturn(projectDTO);
+    when(projectServiceImpl.addProject(any(Project.class))).thenReturn(projectDTO);
     MvcResult mvcResult =
         mvc.perform(
                 MockMvcRequestBuilders.post(uri)
@@ -177,8 +175,7 @@ class ProjectControllerTest extends AbstractTest {
     final ProjectDTO projectDTO = new ProjectDTO("project");
 
     // When
-    when(projectServiceImpl.updateProject(any(Project.class)))
-        .thenReturn(projectDTO);
+    when(projectServiceImpl.updateProject(any(Project.class))).thenReturn(projectDTO);
     MvcResult mvcResult =
         mvc.perform(
                 MockMvcRequestBuilders.put(uri)
@@ -193,5 +190,4 @@ class ProjectControllerTest extends AbstractTest {
     ProjectDTO result = objectMapper.readValue(content, ProjectDTO.class);
     assertEquals(projectDTO.getName(), result.getName());
   }
-
 }

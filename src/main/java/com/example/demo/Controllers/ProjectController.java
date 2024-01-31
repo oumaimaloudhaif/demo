@@ -16,27 +16,18 @@ import org.springframework.web.bind.annotation.*;
 public class ProjectController {
   @Autowired private ProjectServiceImpl projectServiceImpl;
   @Autowired private ProjectMapper projectMapper;
-
-  /** @return */
-  /* @GetMapping("/projects")
-  public ProjectResponse getAllProjects() {
-      return projectMapper.toProjectResponse(projectServiceImpl.getAllProjects());
-  }*/
   /** @return Project */
   @PostMapping("/projects")
   public ProjectDTO addProject(@RequestBody @Valid Project project) {
     return projectServiceImpl.addProject(project);
   }
+
   /** @return Project */
   @PutMapping("/projects")
   public ProjectDTO updateProject(@RequestBody @Valid Project project) {
     return projectServiceImpl.updateProject(project);
   }
-  /** @return ProjectResponse */
-  /* @GetMapping("/projects")
-  public ProjectResponse searchProject(@RequestParam(required = false) @Valid ProjectRequest projectRequest) {
-      return projectMapper.toProjectResponse(projectServiceImpl.searchProject(projectRequest.getKeyword()));
-  }*/
+
   @GetMapping("/projects")
   public ProjectResponse getMeetings(
       @RequestParam(required = false) @Valid ProjectRequest projectRequest) {

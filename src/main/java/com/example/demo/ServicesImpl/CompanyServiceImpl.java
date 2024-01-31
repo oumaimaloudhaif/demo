@@ -2,7 +2,6 @@ package com.example.demo.ServicesImpl;
 
 import com.example.demo.Dto.CompanyDTO;
 import com.example.demo.Dto.DepartmentDTO;
-import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Dto.Mappers.FromDOToDTO;
 import com.example.demo.Entities.Company;
 import com.example.demo.Repository.CompanyRepository;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 /** Company Service Implementation */
 @Service
 public class CompanyServiceImpl implements CompanyService {
-  @Autowired private EmployeeServiceImpl employeeServiceImpl;
   @Autowired private DepartmentServiceImpl departmentServiceImpl;
   @Autowired private CompanyRepository companyRepository;
   @Autowired private FromDOToDTO fromDOToDTO;

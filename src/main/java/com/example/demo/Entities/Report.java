@@ -2,7 +2,6 @@ package com.example.demo.Entities;
 
 import java.util.Date;
 import javax.persistence.*;
-
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;

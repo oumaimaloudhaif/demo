@@ -1,11 +1,17 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.DepartmentRequest;
 import com.example.demo.Controllers.Response.DepartmentResponse;
 import com.example.demo.Dto.DepartmentDTO;
 import com.example.demo.Entities.Department;
 import com.example.demo.ServicesImpl.DepartmentServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class DepartmentControllerTest extends AbstractTest {
 
-  @MockBean
-  DepartmentServiceImpl departmentServiceImpl;
+  @MockBean DepartmentServiceImpl departmentServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -37,7 +35,7 @@ class DepartmentControllerTest extends AbstractTest {
   public void getAllDepartmentsTestWhenDepartmentExist() throws Exception {
     // Given
     final String uri = "/departments";
-    final DepartmentDTO departmentDTO = new  DepartmentDTO("department");
+    final DepartmentDTO departmentDTO = new DepartmentDTO("department");
     final DepartmentDTO departmentDTO1 = new DepartmentDTO("department");
     final List<DepartmentDTO> listOfDepartments = List.of(departmentDTO, departmentDTO1);
 
@@ -71,7 +69,7 @@ class DepartmentControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    DepartmentResponse departments= super.mapFromJson(content, DepartmentResponse.class);
+    DepartmentResponse departments = super.mapFromJson(content, DepartmentResponse.class);
     assertEquals(0, departments.getResult().size());
   }
 
@@ -82,8 +80,8 @@ class DepartmentControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -109,6 +107,7 @@ class DepartmentControllerTest extends AbstractTest {
     DepartmentDTO[] departments = super.mapFromJson(content, DepartmentDTO[].class);
     assertEquals(0, departments.length);
   }
+
   @Test
   public void fetchDepartments_WithNullKeyword_ReturnsEmptyList() throws Exception {
     // Given
@@ -189,5 +188,4 @@ class DepartmentControllerTest extends AbstractTest {
     DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
     assertEquals(departmentDTO.getName(), result.getName());
   }
-
 }

@@ -10,11 +10,10 @@ import com.example.demo.Entities.Task;
 import com.example.demo.Enums.Priority;
 import com.example.demo.Enums.TaskStatus;
 import com.example.demo.Repository.TaskRepository;
-import java.util.Arrays;
-import java.util.List;
-
 import com.example.demo.tools.TaskDTOTools;
 import com.example.demo.tools.TaskTools;
+import java.util.Arrays;
+import java.util.List;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
@@ -31,10 +30,8 @@ import org.springframework.test.context.junit4.SpringRunner;
     classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class TaskServiceImplTest {
-  @MockBean
-  private TaskRepository taskRepository;
-  @Autowired
-  private TaskServiceImpl taskService;
+  @MockBean private TaskRepository taskRepository;
+  @Autowired private TaskServiceImpl taskService;
   @MockBean private FromDOToDTO fromDOToDTO;
 
   @BeforeEach
@@ -45,11 +42,15 @@ public class TaskServiceImplTest {
   @Test
   public void testGetAllTasks() {
     // Given
-    final Task task= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final Task task1= TaskTools.createTask(2L,"Task1","description",  TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO taskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
-    final TaskDTO task1DTO= TaskDTOTools.createTaskDTO("Task1","description", TaskStatus.IN_PROGRESS, Priority.HIGH );
-    final List<Task> mockedTasks = Arrays.asList(task,task1);
+    final Task task =
+        TaskTools.createTask(1L, "Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final Task task1 =
+        TaskTools.createTask(2L, "Task1", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO taskDTO =
+        TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO task1DTO =
+        TaskDTOTools.createTaskDTO("Task1", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final List<Task> mockedTasks = Arrays.asList(task, task1);
 
     // When
     when(taskRepository.findAll()).thenReturn(mockedTasks);
@@ -65,11 +66,15 @@ public class TaskServiceImplTest {
   public void testSearchTasks() {
     // Given
     final String keyword = "Oumaima";
-    final Task task= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final Task task1= TaskTools.createTask(2L,"Task1","description",  TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO taskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
-    final TaskDTO task1DTO= TaskDTOTools.createTaskDTO("Task1","description", TaskStatus.IN_PROGRESS, Priority.HIGH );
-    final List<Task> mockedTasks = Arrays.asList(task,task1);
+    final Task task =
+        TaskTools.createTask(1L, "Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final Task task1 =
+        TaskTools.createTask(2L, "Task1", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO taskDTO =
+        TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO task1DTO =
+        TaskDTOTools.createTaskDTO("Task1", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final List<Task> mockedTasks = Arrays.asList(task, task1);
 
     // When
     when(taskRepository.findByName(keyword)).thenReturn(mockedTasks);
@@ -84,8 +89,10 @@ public class TaskServiceImplTest {
   @Test
   public void testAddTask() {
     // Given
-    final Task inputTask= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO expectedTaskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
+    final Task inputTask =
+        TaskTools.createTask(1L, "Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO expectedTaskDTO =
+        TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);
     when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
@@ -98,8 +105,10 @@ public class TaskServiceImplTest {
   @Test
   public void testUpdateTask() {
     // Given
-    final Task inputTask= TaskTools.createTask(1L,"Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
-    final TaskDTO expectedTaskDTO= TaskDTOTools.createTaskDTO("Task","description",TaskStatus.IN_PROGRESS, Priority.HIGH );
+    final Task inputTask =
+        TaskTools.createTask(1L, "Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
+    final TaskDTO expectedTaskDTO =
+        TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
 
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);

@@ -16,12 +16,6 @@ public class EmployeeController {
   @Autowired private EmployeeServiceImpl employeeServiceImpl;
   @Autowired private EmployeeMapper employeeMapper;
 
-  /*   @GetMapping("/employees")
-     public List<EmployeeDTO> getAllEmployees() {
-         return employeeServiceImpl.getAllEmployees();
-     }
-
-  */
   @PostMapping("/employees")
   public String addEmployee(@RequestBody Employee employee) {
     return employeeServiceImpl.addEmployee(employee);
@@ -41,30 +35,6 @@ public class EmployeeController {
    * @param keyword
    * @return
    */
-  /*    @GetMapping("/employees")
-  public FetchEmployeeResponse searchEmployees(@RequestParam(required = false) @Valid @NotEmpty @NotNull String keyword) {
-      if (keyword == null) {
-          return employeeMapper.toFetchEmployeeResponse(List.of());
-      }
-      return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.searchEmployees(keyword));
-  }
-
-  */
-  /*
-   * @param keyword
-   * @return
-   */
-  /*
-  @GetMapping(value = "/employees", consumes = MediaType.APPLICATION_JSON_VALUE,
-          produces = MediaType.APPLICATION_JSON_VALUE)
-  public FetchEmployeeResponse fetchEmployees(@RequestBody @Valid EmployeeRequest employeeRequest) {
-      final String keyword = employeeRequest.getKeyword();
-      if (keyword == null) {
-          return employeeMapper.toFetchEmployeeResponse(List.of());
-      }
-      final List<Employee> result = employeeServiceImpl.searchEmployees(keyword);
-      return employeeMapper.toFetchEmployeeResponse(result);
-  }*/
   @GetMapping("/employees")
   public FetchEmployeeResponse getEmployees(
       @RequestParam(required = false) @Valid String keyword,

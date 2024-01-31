@@ -1,11 +1,17 @@
 package com.example.demo.Controllers;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.Controllers.Request.ReportRequest;
 import com.example.demo.Controllers.Response.ReportResponse;
 import com.example.demo.Dto.ReportDTO;
 import com.example.demo.Entities.Report;
 import com.example.demo.ServicesImpl.ReportServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,17 +20,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class ReportControllerTest extends AbstractTest {
 
-  @MockBean
-  ReportServiceImpl reportServiceImpl;
+  @MockBean ReportServiceImpl reportServiceImpl;
   @Autowired private ObjectMapper objectMapper;
 
   @Override
@@ -37,7 +35,7 @@ class ReportControllerTest extends AbstractTest {
   public void getAllReportsTestWhenReportExist() throws Exception {
     // Given
     final String uri = "/reports";
-    final ReportDTO reportDTO = new  ReportDTO("report");
+    final ReportDTO reportDTO = new ReportDTO("report");
     final ReportDTO reportDTO1 = new ReportDTO("report");
     final List<ReportDTO> listOfReports = List.of(reportDTO, reportDTO1);
 
@@ -71,7 +69,7 @@ class ReportControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    ReportResponse reports= super.mapFromJson(content, ReportResponse.class);
+    ReportResponse reports = super.mapFromJson(content, ReportResponse.class);
     assertEquals(0, reports.getResult().size());
   }
 
@@ -82,8 +80,8 @@ class ReportControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -109,6 +107,7 @@ class ReportControllerTest extends AbstractTest {
     ReportDTO[] reports = super.mapFromJson(content, ReportDTO[].class);
     assertEquals(0, reports.length);
   }
+
   @Test
   public void fetchReports_WithNullKeyword_ReturnsEmptyList() throws Exception {
     // Given
@@ -189,5 +188,4 @@ class ReportControllerTest extends AbstractTest {
     ReportDTO result = objectMapper.readValue(content, ReportDTO.class);
     assertEquals(reportDTO.getTitle(), result.getTitle());
   }
-
 }

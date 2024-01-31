@@ -39,8 +39,8 @@ class EmployeeControllerTest extends AbstractTest {
   public void getAllEmployeesTestWhenEmployeeExist() throws Exception {
     // Given
     final String uri = "/employees";
-    final EmployeeDTO employee = new EmployeeDTO("oma",5000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee2 = new EmployeeDTO("oma1",2000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee = new EmployeeDTO("oma", 5000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2 = new EmployeeDTO("oma1", 2000, Gender.FEMALE, ContractType.CDI);
     final List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
 
     // When
@@ -84,8 +84,8 @@ class EmployeeControllerTest extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -104,7 +104,7 @@ class EmployeeControllerTest extends AbstractTest {
             .andReturn();
     MockHttpServletResponse response = mvcResult.getResponse();
 
-    //Then
+    // Then
     assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
   }
 
@@ -113,8 +113,8 @@ class EmployeeControllerTest extends AbstractTest {
     // given
     final String uri = "/employees";
     final String keyword = "o";
-    final EmployeeDTO employee = new EmployeeDTO("oma",5000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee2 = new EmployeeDTO("oma1",2000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee = new EmployeeDTO("oma", 5000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2 = new EmployeeDTO("oma1", 2000, Gender.FEMALE, ContractType.CDI);
     final List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
 
     // when
@@ -162,8 +162,8 @@ class EmployeeControllerTest extends AbstractTest {
     final String uri = "/employees";
     EmployeeRequest employeeRequest = new EmployeeRequest();
     employeeRequest.setKeyword("test");
-    final EmployeeDTO employee = new EmployeeDTO("oma",5000, Gender.FEMALE, ContractType.CDI);
-    final EmployeeDTO employee2 = new EmployeeDTO("oma1",2000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee = new EmployeeDTO("oma", 5000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employee2 = new EmployeeDTO("oma1", 2000, Gender.FEMALE, ContractType.CDI);
     final List<EmployeeDTO> listOfEmployees = List.of(employee, employee2);
     FetchEmployeeResponse fetchEmployeeResponse = new FetchEmployeeResponse();
     fetchEmployeeResponse.setResult(listOfEmployees);
