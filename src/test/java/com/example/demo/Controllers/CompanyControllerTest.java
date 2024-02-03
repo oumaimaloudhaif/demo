@@ -1,6 +1,7 @@
 package com.example.demo.Controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -19,6 +20,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 class CompanyControllerTest extends AbstractTest {
 
@@ -88,24 +90,23 @@ class CompanyControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchCompanyTestWhenKeywordIsNull() throws Exception {
     // Given
     final String uri = "/companies";
     // When
-    when(companyServiceImpl.searchCompany(null)).thenReturn(List.of());
+    final List<CompanyDTO> listOfCompanies = List.of();
+    when(companyServiceImpl.getAllCompanies()).thenReturn(listOfCompanies);
     MvcResult mvcResult =
-        mvc.perform(
-                MockMvcRequestBuilders.get(uri)
-                    .param("keyword", (String) null)
-                    .accept(MediaType.APPLICATION_JSON_VALUE))
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
             .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    CompanyDTO[] companies = super.mapFromJson(content, CompanyDTO[].class);
-    assertEquals(0, companies.length);
+    CompanyResponse companies = super.mapFromJson(content, CompanyResponse.class);
+    assertEquals(0, companies.getResult().size());
   }
 
   @Test
@@ -123,7 +124,6 @@ class CompanyControllerTest extends AbstractTest {
     // When
     when(companyServiceImpl.searchCompany(companyRequest.getKeyword()))
         .thenReturn(companyResponse.getResult());
-
     MvcResult mvcResult =
         mvc.perform(
                 MockMvcRequestBuilders.get(uri)
@@ -146,7 +146,7 @@ class CompanyControllerTest extends AbstractTest {
     // Given
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
-    companyRequest.setKeyword("");
+    companyRequest.setKeyword("t");
     final List<CompanyDTO> listOfCompanies = List.of();
 
     // When
@@ -156,7 +156,6 @@ class CompanyControllerTest extends AbstractTest {
                 MockMvcRequestBuilders.get(uri)
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
-            .andExpect(status().isOk())
             .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
@@ -166,6 +165,24 @@ class CompanyControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     CompanyResponse result = objectMapper.readValue(content, CompanyResponse.class);
     assertEquals(0, result.getResult().size());
+  }
+
+  @Test
+  public void fetchCompanies_WithNullKeyword_ThrowException() throws Exception {
+    // Given
+    final String uri = "/companies";
+    CompanyRequest companyRequest = new CompanyRequest();
+    companyRequest.setKeyword("");
+    mvc.perform(
+            MockMvcRequestBuilders.get(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
+        .andExpect(
+            result -> {
+              assertInstanceOf(
+                  MethodArgumentNotValidException.class, result.getResolvedException());
+            })
+        .andExpect(status().isBadRequest());
   }
 
   @Test

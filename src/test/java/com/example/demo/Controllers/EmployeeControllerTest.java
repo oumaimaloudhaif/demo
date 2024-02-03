@@ -12,15 +12,15 @@ import com.example.demo.Entities.Employee;
 import com.example.demo.Enums.ContractType;
 import com.example.demo.Enums.Gender;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
+import com.example.demo.exceptions.InternalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
+import java.util.Objects;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
@@ -98,14 +98,23 @@ class EmployeeControllerTest extends AbstractTest {
     final String uri = "/employees";
 
     // When
-    when(employeeServiceImpl.getAllEmployees()).thenThrow(new RuntimeException());
-    MvcResult mvcResult =
-        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-            .andReturn();
-    MockHttpServletResponse response = mvcResult.getResponse();
+    when(employeeServiceImpl.getAllEmployees())
+        .thenThrow(new InternalException("Internal exception"));
+    mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+        .andExpect(status().isInternalServerError())
+        .andExpect(
+            result -> {
+              assertInstanceOf(InternalException.class, result.getResolvedException());
+            })
+        .andExpect(
+            result -> {
+              assertEquals(
+                  "Internal exception",
+                  Objects.requireNonNull(result.getResolvedException()).getMessage());
+            });
+    // Then*/
 
-    // Then
-    assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
+    // assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
   }
 
   @Test
