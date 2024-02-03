@@ -14,28 +14,28 @@ import org.springframework.web.bind.annotation.*;
 @Validated
 @RestController
 public class CompanyController {
-  @Autowired private CompanyServiceImpl CompanyServiceImpl;
+  @Autowired private CompanyServiceImpl companyServiceImpl;
   @Autowired private CompanyMapper companyMapper;
 
   @PostMapping("/companies")
   public CompanyDTO addCompany(@RequestBody @Valid Company Company) {
-    return CompanyServiceImpl.addCompany(Company);
+    return companyServiceImpl.addCompany(Company);
   }
 
   /** @return Companies */
   @PutMapping("/companies")
   public CompanyDTO updateCompany(@RequestBody @Valid Company Company) {
-    return CompanyServiceImpl.updateCompany(Company);
+    return companyServiceImpl.updateCompany(Company);
   }
 
   @GetMapping("/companies")
   public CompanyResponse getCompanies(
-      @RequestParam(required = false) @Valid CompanyRequest companyRequest) {
-    if (companyRequest != null && companyRequest.getKeyword() != null) {
+      @RequestBody(required = false) @Valid CompanyRequest companyRequest) {
+    if (companyRequest != null && !companyRequest.getKeyword().isBlank()) {
       return companyMapper.toCompanyResponse(
-          CompanyServiceImpl.searchCompany(companyRequest.getKeyword()));
+          companyServiceImpl.searchCompany(companyRequest.getKeyword()));
     } else {
-      return companyMapper.toCompanyResponse(CompanyServiceImpl.getAllCompanies());
+      return companyMapper.toCompanyResponse(companyServiceImpl.getAllCompanies());
     }
   }
 }

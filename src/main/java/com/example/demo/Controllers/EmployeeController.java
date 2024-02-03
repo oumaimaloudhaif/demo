@@ -3,8 +3,10 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.EmployeeMapper;
 import com.example.demo.Controllers.Request.EmployeeRequest;
 import com.example.demo.Controllers.Response.FetchEmployeeResponse;
+import com.example.demo.Dto.EmployeeDTO;
 import com.example.demo.Entities.Employee;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
+import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -39,14 +41,15 @@ public class EmployeeController {
   public FetchEmployeeResponse getEmployees(
       @RequestParam(required = false) @Valid String keyword,
       @RequestBody(required = false) @Valid EmployeeRequest employeeRequest) {
-
     if (keyword != null) {
       return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.searchEmployees(keyword));
     } else if (employeeRequest != null && employeeRequest.getKeyword() != null) {
       return employeeMapper.toFetchEmployeeResponse(
           employeeServiceImpl.searchEmployees(employeeRequest.getKeyword()));
     } else {
-      return employeeMapper.toFetchEmployeeResponse(employeeServiceImpl.getAllEmployees());
+      List<EmployeeDTO> employees;
+      employees = employeeServiceImpl.getAllEmployees();
+      return employeeMapper.toFetchEmployeeResponse(employees);
     }
   }
 }
