@@ -1,6 +1,10 @@
 package com.example.demo.Controllers.Request;
 
-import lombok.*;
+import lombok.Setter;
+import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.Data;
 
 @Setter
 @Getter

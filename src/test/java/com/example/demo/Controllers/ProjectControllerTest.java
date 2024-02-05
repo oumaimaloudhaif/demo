@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.demo.Controllers.Request.ProjectRequest;
 import com.example.demo.Controllers.Response.ProjectResponse;
-import com.example.demo.Dto.ProjectDTO;
-import com.example.demo.Entities.Project;
+import com.example.demo.dto.ProjectDTO;
+import com.example.demo.entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;

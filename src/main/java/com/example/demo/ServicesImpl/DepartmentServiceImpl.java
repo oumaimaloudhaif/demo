@@ -1,145 +1,71 @@
 package com.example.demo.ServicesImpl;
 
-import com.example.demo.Dto.DepartmentDTO;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Entities.Department;
-import com.example.demo.Entities.Employee;
-import com.example.demo.Repository.DepartmentRepository;
-import com.example.demo.Services.DepartmentService;
-import java.util.*;
-import java.util.stream.Collectors;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import com.example.demo.dto.DepartmentDTO;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.entities.Department;
+import com.example.demo.repository.DepartmentRepository;
+import com.example.demo.services.DepartmentService;
+
+import java.util.List;
+import java.util.ArrayList;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/** Department Service Implementation */
+/**
+ * Department Service Implementation
+ */
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
-  @Autowired private DepartmentRepository departmentRepository;
-  @Autowired private FromDOToDTO fromDOToDTO;
-  private static final Log LOG = LogFactory.getLog(DepartmentServiceImpl.class);
-  private static final String DEPARTMENT_NULL = "Department cannot be null";
+    @Autowired
+    private DepartmentRepository departmentRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
 
-  /** @return */
-  public List<DepartmentDTO> getAllDepartments() {
-    final List<Department> departments = departmentRepository.findAll();
-    List<DepartmentDTO> departmentDTOS = new ArrayList<>();
-    departments.forEach(
-        department -> {
-          DepartmentDTO departmentDTO = fromDOToDTO.MapDepartment(department);
-          departmentDTOS.add(departmentDTO);
-        });
-    return departmentDTOS;
-  }
-
-  /** @return */
-  public Map<Department, Long> getEmployeeCountPerDepartment() {
-    final List<Department> departments = departmentRepository.findAll();
-    Map<Department, Long> employeeCountMap = new HashMap<>();
-    for (Department department : departments) {
-      long employeeCount = department.getEmployees().size();
-      employeeCountMap.put(department, employeeCount);
-    }
-    return employeeCountMap;
-  }
-
-  /**
-   * @param departmentId
-   * @return
-   */
-  public Set<String> mergeSkillsInDepartment(Long departmentId) {
-    final Department department = departmentRepository.findById(departmentId).orElse(null);
-    if (department != null) {
-      return department
-          .getEmployees()
-          .stream()
-          .flatMap(e -> e.getSkills().stream())
-          .collect(Collectors.toSet());
-    }
-    return Collections.emptySet();
-  }
-
-  /** @return */
-  public Map<Department, Optional<Employee>> getHighestPaidEmployeesInEachDepartment() {
-    final List<Department> departments = departmentRepository.findAll();
-    return departments
-        .stream()
-        .collect(
-            Collectors.toMap(
-                department -> department,
-                department ->
-                    department
-                        .getEmployees()
-                        .stream()
-                        .max(Comparator.comparing(Employee::getSalary))));
-  }
-
-  /**
-   * @param departmentId
-   * @return
-   */
-  public double calculateAverageSalaryInDepartment(Long departmentId) {
-    final Department department = departmentRepository.findById(departmentId).orElse(null);
-    if (department != null) {
-      return department
-          .getEmployees()
-          .stream()
-          .mapToDouble(Employee::getSalary)
-          .average()
-          .orElse(0.0);
-    } else {
-      LOG.error(DEPARTMENT_NULL);
-    }
-    return 0.0;
-  }
-
-  /** @return */
-  public Map<Department, Employee> getYoungestEmployeesInEachDepartment() {
-    final List<Department> departments = departmentRepository.findAll();
-    Map<Department, Employee> youngestEmployees = new HashMap<>();
-    for (Department department : departments) {
-      Optional<Employee> youngestEmployee =
-          department.getEmployees().stream().min(Comparator.comparing(Employee::getDateOfBirth));
-
-      youngestEmployee.ifPresent(employee -> youngestEmployees.put(department, employee));
+    /**
+     * @return List<DepartmentDTO>
+     */
+    public List<DepartmentDTO> getAllDepartments() {
+        final List<Department> departments = departmentRepository.findAll();
+        List<DepartmentDTO> departmentDTOS = new ArrayList<>();
+        departments.forEach(
+                department -> {
+                    DepartmentDTO departmentDTO = fromDOToDTO.MapDepartment(department);
+                    departmentDTOS.add(departmentDTO);
+                });
+        return departmentDTOS;
     }
 
-    return youngestEmployees;
-  }
+    /**
+     * @return List<DepartmentDTO>
+     */
 
-  /**
-   * @param departmentId
-   * @return
-   */
-  public Map<Float, List<Employee>> groupEmployeesBySalaryInDepartment(Long departmentId) {
-    final Department department = departmentRepository.findById(departmentId).orElse(null);
-    if (department != null) {
-      return department.getEmployees().stream().collect(Collectors.groupingBy(Employee::getSalary));
-    } else {
-      LOG.error(DEPARTMENT_NULL);
+    public List<DepartmentDTO> searchDepartment(String keyword) {
+        final List<Department> departments = departmentRepository.findByName(keyword);
+        List<DepartmentDTO> departmentDTOS = new ArrayList<>();
+        departments.forEach(
+                department -> {
+                    DepartmentDTO departmentDTO = fromDOToDTO.MapDepartment(department);
+                    departmentDTOS.add(departmentDTO);
+                });
+        return departmentDTOS;
     }
-    return Collections.emptyMap();
-  }
 
-  public List<DepartmentDTO> searchDepartment(String keyword) {
-    final List<Department> departments = departmentRepository.findByName(keyword);
-    List<DepartmentDTO> departmentDTOS = new ArrayList<>();
-    departments.forEach(
-        department -> {
-          DepartmentDTO departmentDTO = fromDOToDTO.MapDepartment(department);
-          departmentDTOS.add(departmentDTO);
-        });
-    return departmentDTOS;
-  }
+    /**
+     * @param department
+     * @return DepartmentDTO
+     */
+    public DepartmentDTO addDepartment(Department department) {
+        final Department savedDepartment = departmentRepository.save(department);
+        return fromDOToDTO.MapDepartment(savedDepartment);
+    }
 
-  public DepartmentDTO addDepartment(Department department) {
-    final Department savedDepartment = departmentRepository.save(department);
-    return fromDOToDTO.MapDepartment(savedDepartment);
-  }
-
-  public DepartmentDTO updateDepartment(Department department) {
-    final Department updatedDepartment = departmentRepository.save(department);
-    return fromDOToDTO.MapDepartment(updatedDepartment);
-  }
+    /**
+     * @param department
+     * @return DepartmentDTO
+     */
+    public DepartmentDTO updateDepartment(Department department) {
+        final Department updatedDepartment = departmentRepository.save(department);
+        return fromDOToDTO.MapDepartment(updatedDepartment);
+    }
 }

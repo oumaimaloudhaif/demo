@@ -1,6 +1,6 @@
 package com.example.demo.Controllers.Response;
 
-import com.example.demo.Dto.MeetingDTO;
+import com.example.demo.dto.MeetingDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

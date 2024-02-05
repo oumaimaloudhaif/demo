@@ -4,12 +4,12 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.Dto.EmployeeDTO;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Entities.Employee;
-import com.example.demo.Enums.ContractType;
-import com.example.demo.Enums.Gender;
-import com.example.demo.Repository.EmployeeRepository;
+import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.entities.Employee;
+import com.example.demo.enums.ContractType;
+import com.example.demo.enums.Gender;
+import com.example.demo.repository.EmployeeRepository;
 import com.example.demo.tools.EmployeeDTOTools;
 import com.example.demo.tools.EmployeeTools;
 import java.time.LocalDate;
@@ -47,11 +47,11 @@ public class EmployeeServiceImplTest {
     final Employee employee1 =
         EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final Employee employee2 =
-        EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+        EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDD);
     final EmployeeDTO employee1DTO =
         EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
     final EmployeeDTO employee2DTO =
-        EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+        EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDD);
     final List<Employee> mockedEmployees = Arrays.asList(employee1, employee2);
 
     // When

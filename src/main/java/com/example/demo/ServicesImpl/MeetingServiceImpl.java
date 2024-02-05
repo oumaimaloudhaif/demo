@@ -1,51 +1,75 @@
 package com.example.demo.ServicesImpl;
 
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Dto.MeetingDTO;
-import com.example.demo.Entities.Meeting;
-import com.example.demo.Repository.MeetingRepository;
-import com.example.demo.Services.MeetingService;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.dto.MeetingDTO;
+import com.example.demo.entities.Meeting;
+import com.example.demo.repository.MeetingRepository;
+import com.example.demo.services.MeetingService;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/** Meeting Service Implementation */
+/**
+ * MeetingServiceImpl
+ */
 @Service
 public class MeetingServiceImpl implements MeetingService {
-  @Autowired private MeetingRepository meetingRepository;
-  @Autowired private FromDOToDTO fromDOToDTO;
+    @Autowired
+    private MeetingRepository meetingRepository;
+    @Autowired
+    private FromDOToDTO fromDOToDTO;
 
-  /** @return */
-  public List<MeetingDTO> getAllMeetings() {
-    final List<Meeting> meetings = meetingRepository.findAll();
-    List<MeetingDTO> meetingDTOS = new ArrayList<>();
-    meetings.forEach(
-        meeting -> {
-          MeetingDTO meetingDTO = fromDOToDTO.MapMeeting(meeting);
-          meetingDTOS.add(meetingDTO);
-        });
-    return meetingDTOS;
-  }
+    /**
+     * @return List<MeetingDTO>
+     */
+    public List<MeetingDTO> getAllMeetings() {
+        final List<Meeting> meetings = meetingRepository.findAll();
+        List<MeetingDTO> meetingDTOS = new ArrayList<>();
+        meetings.forEach(
+                meeting -> {
+                    MeetingDTO meetingDTO = fromDOToDTO.MapMeeting(meeting);
+                    meetingDTOS.add(meetingDTO);
+                });
 
-  public List<MeetingDTO> searchMeeting(String keyword) {
-    final List<Meeting> meetings = meetingRepository.findByTitle(keyword);
-    List<MeetingDTO> meetingDTOS = new ArrayList<>();
-    meetings.forEach(
-        meeting -> {
-          MeetingDTO meetingDTO = fromDOToDTO.MapMeeting(meeting);
-          meetingDTOS.add(meetingDTO);
-        });
-    return meetingDTOS;
-  }
+        return meetingDTOS;
+    }
 
-  public MeetingDTO addMeeting(Meeting meeting) {
-    final Meeting savedMeeting = meetingRepository.save(meeting);
-    return fromDOToDTO.MapMeeting(savedMeeting);
-  }
+    /**
+     * @param keyword
+     * @return List<MeetingDTO>
+     */
+    public List<MeetingDTO> searchMeeting(String keyword) {
+        final List<Meeting> meetings = meetingRepository.findByTitle(keyword);
+        List<MeetingDTO> meetingDTOS = new ArrayList<>();
+        meetings.forEach(
+                meeting -> {
+                    MeetingDTO meetingDTO = fromDOToDTO.MapMeeting(meeting);
+                    meetingDTOS.add(meetingDTO);
+                });
 
-  public MeetingDTO updateMeeting(Meeting meeting) {
-    final Meeting updatedMeeting = meetingRepository.save(meeting);
-    return fromDOToDTO.MapMeeting(updatedMeeting);
-  }
+        return meetingDTOS;
+    }
+
+    /**
+     * @param meeting
+     * @return MeetingDTO
+     */
+    public MeetingDTO addMeeting(Meeting meeting) {
+        final Meeting savedMeeting = meetingRepository.save(meeting);
+
+        return fromDOToDTO.MapMeeting(savedMeeting);
+    }
+
+    /**
+     * @param meeting
+     * @return MeetingDTO
+     */
+    public MeetingDTO updateMeeting(Meeting meeting) {
+        final Meeting updatedMeeting = meetingRepository.save(meeting);
+
+        return fromDOToDTO.MapMeeting(updatedMeeting);
+    }
 }

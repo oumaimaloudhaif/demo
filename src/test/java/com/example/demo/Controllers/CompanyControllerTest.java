@@ -8,8 +8,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.demo.Controllers.Request.CompanyRequest;
 import com.example.demo.Controllers.Response.CompanyResponse;
-import com.example.demo.Dto.CompanyDTO;
-import com.example.demo.Entities.Company;
+import com.example.demo.dto.CompanyDTO;
+import com.example.demo.entities.Company;
 import com.example.demo.ServicesImpl.CompanyServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
@@ -23,10 +23,8 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 class CompanyControllerTest extends AbstractTest {
-
   @MockBean CompanyServiceImpl companyServiceImpl;
   @Autowired private ObjectMapper objectMapper;
-
   @Override
   @BeforeEach
   public void setUp() {

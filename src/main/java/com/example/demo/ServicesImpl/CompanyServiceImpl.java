@@ -1,13 +1,11 @@
 package com.example.demo.ServicesImpl;
 
-import com.example.demo.Dto.CompanyDTO;
-import com.example.demo.Dto.DepartmentDTO;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Entities.Company;
-import com.example.demo.Repository.CompanyRepository;
-import com.example.demo.Services.CompanyService;
+import com.example.demo.dto.CompanyDTO;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.entities.Company;
+import com.example.demo.repository.CompanyRepository;
+import com.example.demo.services.CompanyService;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,18 +13,14 @@ import org.springframework.stereotype.Service;
 /** Company Service Implementation */
 @Service
 public class CompanyServiceImpl implements CompanyService {
-  @Autowired private DepartmentServiceImpl departmentServiceImpl;
   @Autowired private CompanyRepository companyRepository;
   @Autowired private FromDOToDTO fromDOToDTO;
 
-  public DepartmentDTO getMostOccupiedDepartment() {
-    List<DepartmentDTO> departments = departmentServiceImpl.getAllDepartments();
-    return departments
-        .stream()
-        .max(Comparator.comparingInt(departmentDTO -> departmentDTO.getEmployees().size()))
-        .orElse(null);
-  }
-
+  /**
+   *
+   * @param keyword
+   * @return List<CompanyDTO>
+   */
   @Override
   public List<CompanyDTO> searchCompany(String keyword) {
     List<Company> companies = companyRepository.findByName(keyword);
@@ -36,21 +30,38 @@ public class CompanyServiceImpl implements CompanyService {
           CompanyDTO companyDTO = fromDOToDTO.MapCompany(company);
           companyDTOS.add(companyDTO);
         });
+
     return companyDTOS;
   }
 
+  /**
+   *
+   * @param company
+   * @return CompanyDTO
+   */
   @Override
   public CompanyDTO addCompany(Company company) {
     Company savedCompany = companyRepository.save(company);
+
     return fromDOToDTO.MapCompany(savedCompany);
   }
 
+  /**
+   *
+   * @param company
+   * @return CompanyDTO
+   */
   @Override
   public CompanyDTO updateCompany(Company company) {
     Company updatedAddress = companyRepository.save(company);
+
     return fromDOToDTO.MapCompany(updatedAddress);
   }
 
+  /**
+   *
+   * @return List<CompanyDTO>
+   */
   @Override
   public List<CompanyDTO> getAllCompanies() {
     List<Company> companies = companyRepository.findAll();
@@ -60,6 +71,7 @@ public class CompanyServiceImpl implements CompanyService {
           CompanyDTO companyDTO = fromDOToDTO.MapCompany(company);
           companyDTOS.add(companyDTO);
         });
+
     return companyDTOS;
   }
 }

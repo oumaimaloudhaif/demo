@@ -1,15 +1,13 @@
 package com.example.demo.tools;
 
-import com.example.demo.Dto.DepartmentDTO;
+import com.example.demo.dto.DepartmentDTO;
 import org.springframework.stereotype.Component;
 
 @Component
 public class DepartmentDTOTools {
   public static DepartmentDTO createDepartmentDTO(String name) {
-    return new DepartmentDTO().withName(name);
-  }
 
-  public static DepartmentDTO createDepartmentDTO() {
-    return new DepartmentDTO().withName("Department");
+
+    return new DepartmentDTO().withName(name);
   }
 }

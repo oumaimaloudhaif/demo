@@ -7,8 +7,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.demo.Controllers.Request.AddressRequest;
 import com.example.demo.Controllers.Response.AddressResponse;
-import com.example.demo.Dto.AddressDTO;
-import com.example.demo.Entities.Address;
+import com.example.demo.dto.AddressDTO;
+import com.example.demo.entities.Address;
 import com.example.demo.ServicesImpl.AddressServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;

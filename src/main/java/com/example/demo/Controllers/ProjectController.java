@@ -3,31 +3,50 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.ProjectMapper;
 import com.example.demo.Controllers.Request.ProjectRequest;
 import com.example.demo.Controllers.Response.ProjectResponse;
-import com.example.demo.Dto.ProjectDTO;
-import com.example.demo.Entities.Project;
+import com.example.demo.dto.ProjectDTO;
+import com.example.demo.entities.Project;
 import com.example.demo.ServicesImpl.ProjectServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Validated
 @RestController
 public class ProjectController {
   @Autowired private ProjectServiceImpl projectServiceImpl;
   @Autowired private ProjectMapper projectMapper;
-  /** @return Project */
+
+  /**
+   *
+   * @param project
+   * @return ProjectDTO
+   */
   @PostMapping("/projects")
   public ProjectDTO addProject(@RequestBody @Valid Project project) {
     return projectServiceImpl.addProject(project);
   }
 
-  /** @return Project */
+  /**
+   *
+   * @param project
+   * @return ProjectDTO
+   */
   @PutMapping("/projects")
   public ProjectDTO updateProject(@RequestBody @Valid Project project) {
     return projectServiceImpl.updateProject(project);
   }
 
+  /**
+   *
+   * @param projectRequest
+   * @return ProjectResponse
+   */
   @GetMapping("/projects")
   public ProjectResponse getMeetings(
       @RequestParam(required = false) @Valid ProjectRequest projectRequest) {

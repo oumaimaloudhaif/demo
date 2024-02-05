@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Dto.MeetingDTO;
-import com.example.demo.Entities.Meeting;
-import com.example.demo.Repository.MeetingRepository;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.dto.MeetingDTO;
+import com.example.demo.entities.Meeting;
+import com.example.demo.repository.MeetingRepository;
 import com.example.demo.tools.MeetingDTOTools;
 import com.example.demo.tools.MeetingTools;
 import java.util.Arrays;

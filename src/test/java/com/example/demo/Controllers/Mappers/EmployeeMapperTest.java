@@ -1,9 +1,9 @@
 package com.example.demo.Controllers.Mappers;
 
 import com.example.demo.Controllers.Response.FetchEmployeeResponse;
-import com.example.demo.Dto.EmployeeDTO;
-import com.example.demo.Enums.ContractType;
-import com.example.demo.Enums.Gender;
+import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.enums.ContractType;
+import com.example.demo.enums.Gender;
 import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,17 +16,11 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class EmployeeMapperTest {
   @Autowired private EmployeeMapper employeeMapper;
-
-  /*  @BeforeEach
-  void setUp() {
-     employeeMapper=new EmployeeMapper();
-  }*/
-
   @Test
   public void toFetchEmployeeResponseTest() {
     // Given
-    EmployeeDTO employee1 = new EmployeeDTO("oumaima", 1200, Gender.FEMALE, ContractType.CDI);
-    EmployeeDTO employee2 = new EmployeeDTO("Basssem", 5200, Gender.MALE, ContractType.CDI);
+    EmployeeDTO employee1 = new EmployeeDTO("Oumaima", 1200, Gender.FEMALE, ContractType.CDI);
+    EmployeeDTO employee2 = new EmployeeDTO("Leila", 5200, Gender.MALE, ContractType.CDI);
     List<EmployeeDTO> employees = List.of(employee1, employee2);
 
     // When

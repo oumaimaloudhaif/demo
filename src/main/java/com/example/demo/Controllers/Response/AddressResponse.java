@@ -1,6 +1,6 @@
 package com.example.demo.Controllers.Response;
 
-import com.example.demo.Dto.AddressDTO;
+import com.example.demo.dto.AddressDTO;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

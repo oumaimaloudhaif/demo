@@ -4,10 +4,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.Dto.AddressDTO;
-import com.example.demo.Dto.Mappers.FromDOToDTO;
-import com.example.demo.Entities.Address;
-import com.example.demo.Repository.AddressRepository;
+import com.example.demo.dto.AddressDTO;
+import com.example.demo.dto.Mappers.FromDOToDTO;
+import com.example.demo.entities.Address;
+import com.example.demo.repository.AddressRepository;
 import com.example.demo.tools.AddressDTOTools;
 import com.example.demo.tools.AddressTools;
 import java.util.Arrays;
@@ -50,8 +50,8 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.findAll()).thenReturn(mockedAddress);
-    when(fromDOToDTO.MapAdress(address1)).thenReturn(address1DTO);
-    when(fromDOToDTO.MapAdress(address1)).thenReturn(address2DTO);
+    when(fromDOToDTO.MapAddress(address1)).thenReturn(address1DTO);
+    when(fromDOToDTO.MapAddress(address1)).thenReturn(address2DTO);
     final List<AddressDTO> address = addressService.getAllAddresses();
 
     // Then
@@ -71,8 +71,8 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.findByCity(keyword)).thenReturn(mockedAddress);
-    when(fromDOToDTO.MapAdress(address1)).thenReturn(address1DTO);
-    when(fromDOToDTO.MapAdress(address1)).thenReturn(address2DTO);
+    when(fromDOToDTO.MapAddress(address1)).thenReturn(address1DTO);
+    when(fromDOToDTO.MapAddress(address1)).thenReturn(address2DTO);
     final List<AddressDTO> address = addressService.searchAddress(keyword);
 
     // Then
@@ -88,7 +88,7 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
-    when(fromDOToDTO.MapAdress(inputAddress)).thenReturn(expectedAddressDTO);
+    when(fromDOToDTO.MapAddress(inputAddress)).thenReturn(expectedAddressDTO);
     final AddressDTO resultAddressDTO = addressService.addAddress(inputAddress);
 
     // Then
@@ -106,7 +106,7 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
-    when(fromDOToDTO.MapAdress(inputAddress)).thenReturn(expectedAddressDTO);
+    when(fromDOToDTO.MapAddress(inputAddress)).thenReturn(expectedAddressDTO);
     final AddressDTO resultAddressDTO = addressService.addAddress(inputAddress);
 
     // Then

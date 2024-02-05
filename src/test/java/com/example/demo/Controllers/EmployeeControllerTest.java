@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.demo.Controllers.Request.EmployeeRequest;
 import com.example.demo.Controllers.Response.FetchEmployeeResponse;
-import com.example.demo.Dto.EmployeeDTO;
-import com.example.demo.Entities.Employee;
-import com.example.demo.Enums.ContractType;
-import com.example.demo.Enums.Gender;
+import com.example.demo.dto.EmployeeDTO;
+import com.example.demo.entities.Employee;
+import com.example.demo.enums.ContractType;
+import com.example.demo.enums.Gender;
 import com.example.demo.ServicesImpl.EmployeeServiceImpl;
 import com.example.demo.exceptions.InternalException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -267,6 +267,7 @@ class EmployeeControllerTest extends AbstractTest {
     when(employeeServiceImpl.updateEmployee(any(Employee.class)))
         .thenReturn("Employee is updated successfully");
     MvcResult mvcResult =
+
         mvc.perform(
                 MockMvcRequestBuilders.put(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

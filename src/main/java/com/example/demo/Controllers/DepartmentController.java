@@ -3,8 +3,8 @@ package com.example.demo.Controllers;
 import com.example.demo.Controllers.Mappers.DepartmentMapper;
 import com.example.demo.Controllers.Request.DepartmentRequest;
 import com.example.demo.Controllers.Response.DepartmentResponse;
-import com.example.demo.Dto.DepartmentDTO;
-import com.example.demo.Entities.Department;
+import com.example.demo.dto.DepartmentDTO;
+import com.example.demo.entities.Department;
 import com.example.demo.ServicesImpl.DepartmentServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,18 +17,31 @@ public class DepartmentController {
   @Autowired private DepartmentServiceImpl departmentServiceImpl;
   @Autowired private DepartmentMapper departmentMapper;
 
+  /**
+   *
+   * @param department
+   * @return DepartmentDTO
+   */
   @PostMapping("/departments")
   public DepartmentDTO addDepartment(@RequestBody @Valid Department department) {
     return departmentServiceImpl.addDepartment(department);
   }
 
-  /** @return Department */
+  /**
+   *
+   * @param department
+   * @return DepartmentDTO
+   */
   @PutMapping("/departments")
   public DepartmentDTO updateDepartment(@RequestBody @Valid Department department) {
     return departmentServiceImpl.updateDepartment(department);
   }
 
-  /** @return DepartmentResponse */
+  /**
+   *
+   * @param departmentRequest
+   * @return DepartmentResponse
+   */
   @GetMapping("/departments")
   public DepartmentResponse getDepartments(
       @RequestParam(required = false) @Valid DepartmentRequest departmentRequest) {

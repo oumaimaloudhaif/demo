@@ -7,10 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.example.demo.Controllers.Request.TaskRequest;
 import com.example.demo.Controllers.Response.TaskResponse;
-import com.example.demo.Dto.TaskDTO;
-import com.example.demo.Entities.Task;
-import com.example.demo.Enums.Priority;
-import com.example.demo.Enums.TaskStatus;
+import com.example.demo.dto.TaskDTO;
+import com.example.demo.entities.Task;
+import com.example.demo.enums.Priority;
+import com.example.demo.enums.TaskStatus;
 import com.example.demo.ServicesImpl.TaskServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
