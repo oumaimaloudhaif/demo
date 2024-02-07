@@ -5,7 +5,7 @@ import com.example.demo.dto.DepartmentDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Department Mapper ***/
+/** Department Mapper */
 @Component
 public class DepartmentMapper {
   public DepartmentResponse toDepartmentResponse(List<DepartmentDTO> departments) {

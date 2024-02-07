@@ -5,7 +5,7 @@ import com.example.demo.dto.CompanyDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Company Mapper ***/
+/** Company Mapper */
 @Component
 public class CompanyMapper {
   public CompanyResponse toCompanyResponse(List<CompanyDTO> companies) {

@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Fetch Employee Response */
 @Setter
 @Getter
 @AllArgsConstructor

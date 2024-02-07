@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Project DTO */
 @Setter
 @Getter
 @NoArgsConstructor

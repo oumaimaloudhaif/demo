@@ -17,8 +17,7 @@ public class CompanyServiceImpl implements CompanyService {
   @Autowired private FromDOToDTO fromDOToDTO;
 
   /**
-   *
-   * @param keyword
+   * @param keyword a keyword (company name) to search for companies
    * @return List<CompanyDTO>
    */
   @Override
@@ -35,8 +34,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   /**
-   *
-   * @param company
+   * @param company the company object to be added
    * @return CompanyDTO
    */
   @Override
@@ -47,8 +45,7 @@ public class CompanyServiceImpl implements CompanyService {
   }
 
   /**
-   *
-   * @param company
+   * @param company the company object to be updated
    * @return CompanyDTO
    */
   @Override
@@ -58,10 +55,7 @@ public class CompanyServiceImpl implements CompanyService {
     return fromDOToDTO.MapCompany(updatedAddress);
   }
 
-  /**
-   *
-   * @return List<CompanyDTO>
-   */
+  /** @return List<CompanyDTO> */
   @Override
   public List<CompanyDTO> getAllCompanies() {
     List<Company> companies = companyRepository.findAll();

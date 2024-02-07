@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.dto.mappers.FromDOToDTO;
 import com.example.demo.dto.ReportDTO;
+import com.example.demo.dto.mappers.FromDOToDTO;
 import com.example.demo.entities.Report;
 import com.example.demo.repository.ReportRepository;
 import com.example.demo.tools.ReportDTOTools;

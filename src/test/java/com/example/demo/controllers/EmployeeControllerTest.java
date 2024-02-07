@@ -11,8 +11,8 @@ import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Employee;
 import com.example.demo.enums.ContractType;
 import com.example.demo.enums.Gender;
-import com.example.demo.servicesImpl.EmployeeServiceImpl;
 import com.example.demo.exceptions.InternalException;
+import com.example.demo.servicesImpl.EmployeeServiceImpl;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Objects;
@@ -112,9 +112,6 @@ class EmployeeControllerTest extends AbstractTest {
                   "Internal exception",
                   Objects.requireNonNull(result.getResolvedException()).getMessage());
             });
-    // Then*/
-
-    // assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
   }
 
   @Test
@@ -267,7 +264,6 @@ class EmployeeControllerTest extends AbstractTest {
     when(employeeServiceImpl.updateEmployee(any(Employee.class)))
         .thenReturn("Employee is updated successfully");
     MvcResult mvcResult =
-
         mvc.perform(
                 MockMvcRequestBuilders.put(uri)
                     .contentType(MediaType.APPLICATION_JSON_VALUE)

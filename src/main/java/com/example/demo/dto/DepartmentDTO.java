@@ -3,12 +3,13 @@ package com.example.demo.dto;
 import com.example.demo.entities.Employee;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.Setter;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.With;
 
+/** Department DTO */
 @Setter
 @Getter
 @NoArgsConstructor

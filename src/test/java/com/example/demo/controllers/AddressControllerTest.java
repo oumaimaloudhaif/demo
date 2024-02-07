@@ -1,11 +1,13 @@
 package com.example.demo.controllers;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertInstanceOf;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.demo.controllers.request.AddressRequest;
+import com.example.demo.controllers.request.CompanyRequest;
 import com.example.demo.controllers.response.AddressResponse;
 import com.example.demo.dto.AddressDTO;
 import com.example.demo.entities.Address;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 
 class AddressControllerTest extends AbstractTest {
 
@@ -69,8 +72,8 @@ class AddressControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    AddressResponse addresss = super.mapFromJson(content, AddressResponse.class);
-    assertEquals(0, addresss.getResult().size());
+    AddressResponse addresses = super.mapFromJson(content, AddressResponse.class);
+    assertEquals(0, addresses.getResult().size());
   }
 
   @Test
@@ -114,25 +117,19 @@ class AddressControllerTest extends AbstractTest {
     final String uri = "/addresses";
     AddressRequest addressRequest = new AddressRequest();
     addressRequest.setKeyword("");
-    final List<AddressDTO> listOfAddress = List.of();
-
     // When
-    when(addressServiceImpl.getAllAddresses()).thenReturn(listOfAddress);
-    MvcResult mvcResult =
-        mvc.perform(
-                MockMvcRequestBuilders.get(uri)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(addressRequest.getKeyword())))
-            .andExpect(status().isOk())
-            .andReturn();
-
-    int status = mvcResult.getResponse().getStatus();
-
-    // Then
-    assertEquals(200, status);
-    String content = mvcResult.getResponse().getContentAsString();
-    AddressResponse result = objectMapper.readValue(content, AddressResponse.class);
-    assertEquals(0, result.getResult().size());
+    CompanyRequest companyRequest = new CompanyRequest();
+    companyRequest.setKeyword("");
+    mvc.perform(
+            MockMvcRequestBuilders.get(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(addressRequest.getKeyword())))
+        .andExpect(
+            result -> {
+              assertInstanceOf(
+                  MethodArgumentNotValidException.class, result.getResolvedException());
+            })
+        .andExpect(status().isBadRequest());
   }
 
   @Test

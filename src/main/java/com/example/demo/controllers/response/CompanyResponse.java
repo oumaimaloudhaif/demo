@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Company Response */
 @Setter
 @Getter
 @AllArgsConstructor

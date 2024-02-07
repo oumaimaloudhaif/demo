@@ -9,13 +9,14 @@ import com.example.demo.servicesImpl.MeetingServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/** Meeting Controller */
 @Validated
 @RestController
 public class MeetingController {
@@ -23,8 +24,9 @@ public class MeetingController {
   @Autowired private MeetingMapper meetingMapper;
 
   /**
+   * Adds a new meeting
    *
-   * @param meeting
+   * @param meeting the meeting object to be added
    * @return MeetingDTO
    */
   @PostMapping("/meetings")
@@ -33,8 +35,9 @@ public class MeetingController {
   }
 
   /**
+   * Updates an existing meeting
    *
-   * @param meeting
+   * @param meeting the meeting object to be updated
    * @return MeetingDTO
    */
   @PutMapping("/meetings")
@@ -43,11 +46,9 @@ public class MeetingController {
   }
 
   /**
-   *
-   * @param meetingRequest
+   * @param meetingRequest the request object containing the keyword related to the meeting
    * @return MeetingResponse
    */
-
   @GetMapping("/meetings")
   public MeetingResponse getMeetings(
       @RequestParam(required = false) @Valid MeetingRequest meetingRequest) {

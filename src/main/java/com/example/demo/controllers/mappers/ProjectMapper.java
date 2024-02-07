@@ -5,7 +5,7 @@ import com.example.demo.dto.ProjectDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Project Mapper ***/
+/** Project Mapper */
 @Component
 public class ProjectMapper {
   public ProjectResponse toProjectResponse(List<ProjectDTO> projects) {

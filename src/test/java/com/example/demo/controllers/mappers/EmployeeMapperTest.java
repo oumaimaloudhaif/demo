@@ -16,6 +16,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class EmployeeMapperTest {
   @Autowired private EmployeeMapper employeeMapper;
+
   @Test
   public void toFetchEmployeeResponseTest() {
     // Given

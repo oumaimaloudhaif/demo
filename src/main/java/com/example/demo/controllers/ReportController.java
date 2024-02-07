@@ -9,13 +9,14 @@ import com.example.demo.servicesImpl.ReportServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/** Report Controller */
 @Validated
 @RestController
 public class ReportController {
@@ -23,19 +24,20 @@ public class ReportController {
   @Autowired private ReportMapper reportMapper;
 
   /**
+   * Adds a new report
    *
-   * @param report
+   * @param report the report object to be added
    * @return ReportDTO
    */
-
   @PostMapping("/reports")
   public ReportDTO addReport(@RequestBody @Valid Report report) {
     return reportServiceImpl.addReport(report);
   }
 
   /**
+   * Updates an existing report
    *
-   * @param report
+   * @param report the report object to be updated
    * @return ReportDTO
    */
   @PutMapping("/reports")
@@ -44,8 +46,7 @@ public class ReportController {
   }
 
   /**
-   *
-   * @param reportRequest
+   * @param reportRequest the request object containing the keyword related to the report
    * @return ReportResponse
    */
   @GetMapping("/reports")

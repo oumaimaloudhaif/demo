@@ -10,15 +10,16 @@ import java.util.List;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/** Employee Controller */
 @Validated
 @RestController
 public class EmployeeController {
@@ -26,8 +27,9 @@ public class EmployeeController {
   @Autowired private EmployeeMapper employeeMapper;
 
   /**
+   * Adds a new employee
    *
-   * @param employee
+   * @param employee the employee object to be added
    * @return String
    */
   @PostMapping("/employees")
@@ -36,8 +38,9 @@ public class EmployeeController {
   }
 
   /**
+   * Updates an existing employee
    *
-   * @param employee
+   * @param employee the employee object to be updated
    * @return String
    */
   @PutMapping("/employees")
@@ -46,8 +49,9 @@ public class EmployeeController {
   }
 
   /**
+   * Delete an employee
    *
-   * @param employeeId
+   * @param employeeId the ID of the employee to be deleted
    * @return String
    */
   @DeleteMapping("/employees/{employeeId}")
@@ -56,9 +60,8 @@ public class EmployeeController {
   }
 
   /**
-   *
-   * @param keyword
-   * @param employeeRequest
+   * @param keyword a keyword to search for employees
+   * @param employeeRequest the request object containing the keyword related to the employee
    * @return FetchEmployeeResponse
    */
   @GetMapping("/employees")

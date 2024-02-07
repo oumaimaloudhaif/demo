@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/** Company Controller */
 @Validated
 @RestController
 public class CompanyController {
@@ -18,8 +19,9 @@ public class CompanyController {
   @Autowired private CompanyMapper companyMapper;
 
   /**
+   * Adds a new company
    *
-   * @param company
+   * @param company the company object to be added
    * @return CompanyDTO
    */
   @PostMapping("/companies")
@@ -29,8 +31,9 @@ public class CompanyController {
   }
 
   /**
+   * Updates an existing company
    *
-   * @param company
+   * @param company the company object to be updated
    * @return CompanyDTO
    */
   @PutMapping("/companies")
@@ -39,8 +42,7 @@ public class CompanyController {
   }
 
   /**
-   *
-   * @param companyRequest
+   * @param companyRequest the request object containing the keyword related to the company
    * @return CompanyResponse
    */
   @GetMapping("/companies")

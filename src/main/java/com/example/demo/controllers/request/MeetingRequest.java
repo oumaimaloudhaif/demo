@@ -2,12 +2,13 @@ package com.example.demo.controllers.request;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import lombok.Setter;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+/** Meeting Request */
 @Setter
 @Getter
 @AllArgsConstructor

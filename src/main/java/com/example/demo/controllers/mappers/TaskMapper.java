@@ -5,7 +5,7 @@ import com.example.demo.dto.TaskDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Task Mapper ***/
+/** Task Mapper */
 @Component
 public class TaskMapper {
   public TaskResponse toTasksResponse(List<TaskDTO> tasks) {

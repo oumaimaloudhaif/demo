@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/** Address Controller */
 @Validated
 @RestController
 public class AddressController {
@@ -18,8 +19,9 @@ public class AddressController {
   @Autowired private AddressMapper addressMapper;
 
   /**
+   * Adds a new address
    *
-   * @param address
+   * @param address the address object to be added
    * @return AddressDTO
    */
   @PostMapping("/addresses")
@@ -28,8 +30,9 @@ public class AddressController {
   }
 
   /**
+   * Updates an existing address
    *
-   * @param address
+   * @param address the address object to be updated
    * @return AddressDTO
    */
   @PutMapping("/addresses")
@@ -38,8 +41,7 @@ public class AddressController {
   }
 
   /**
-   *
-   * @param addressRequest
+   * @param addressRequest the request object containing the keyword related to the address
    * @return AddressResponse
    */
   @GetMapping("/addresses")

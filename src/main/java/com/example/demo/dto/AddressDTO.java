@@ -1,11 +1,12 @@
 package com.example.demo.dto;
 
-import lombok.Setter;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.With;
 
+/** Address DTO */
 @Setter
 @Getter
 @NoArgsConstructor

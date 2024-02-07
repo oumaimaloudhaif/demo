@@ -5,7 +5,7 @@ import com.example.demo.dto.ReportDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Report Mapper ***/
+/** Report Mapper */
 @Component
 public class ReportMapper {
   public ReportResponse toReportResponse(List<ReportDTO> reports) {

@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+/** Department Controller */
 @Validated
 @RestController
 public class DepartmentController {
@@ -18,8 +19,9 @@ public class DepartmentController {
   @Autowired private DepartmentMapper departmentMapper;
 
   /**
+   * Adds a new department
    *
-   * @param department
+   * @param department the department object to be added
    * @return DepartmentDTO
    */
   @PostMapping("/departments")
@@ -28,8 +30,9 @@ public class DepartmentController {
   }
 
   /**
+   * Updates an existing department
    *
-   * @param department
+   * @param department the department object to be updated
    * @return DepartmentDTO
    */
   @PutMapping("/departments")
@@ -38,8 +41,7 @@ public class DepartmentController {
   }
 
   /**
-   *
-   * @param departmentRequest
+   * @param departmentRequest the request object containing the keyword related to the department
    * @return DepartmentResponse
    */
   @GetMapping("/departments")

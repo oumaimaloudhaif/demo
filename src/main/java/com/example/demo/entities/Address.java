@@ -2,12 +2,12 @@ package com.example.demo.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.Date;
-import javax.persistence.EntityListeners;
 import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
-import javax.persistence.OneToOne;
 import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

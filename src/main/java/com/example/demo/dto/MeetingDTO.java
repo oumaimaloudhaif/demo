@@ -1,12 +1,13 @@
 package com.example.demo.dto;
 
 import java.time.LocalDateTime;
-import lombok.Setter;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.With;
 
+/** Meeting DTO */
 @Setter
 @Getter
 @NoArgsConstructor

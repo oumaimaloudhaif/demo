@@ -12,10 +12,10 @@ import com.example.demo.entities.Address;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Report;
-import com.example.demo.entities.Task;
 import com.example.demo.entities.Meeting;
 import com.example.demo.entities.Project;
+import com.example.demo.entities.Report;
+import com.example.demo.entities.Task;
 import org.springframework.stereotype.Component;
 
 @Component

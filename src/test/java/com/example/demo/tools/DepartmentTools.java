@@ -3,6 +3,7 @@ package com.example.demo.tools;
 import com.example.demo.entities.Department;
 import org.springframework.stereotype.Component;
 
+/** Department Tools */
 @Component
 public class DepartmentTools {
   public static Department createDepartment(Long id, String name) {

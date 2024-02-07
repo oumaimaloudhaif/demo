@@ -9,13 +9,14 @@ import com.example.demo.servicesImpl.ProjectServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
+/** Project Controller */
 @Validated
 @RestController
 public class ProjectController {
@@ -23,8 +24,9 @@ public class ProjectController {
   @Autowired private ProjectMapper projectMapper;
 
   /**
+   * Adds a new project
    *
-   * @param project
+   * @param project the project object to be added
    * @return ProjectDTO
    */
   @PostMapping("/projects")
@@ -33,8 +35,9 @@ public class ProjectController {
   }
 
   /**
+   * Updates an existing project
    *
-   * @param project
+   * @param project the project object to be updated
    * @return ProjectDTO
    */
   @PutMapping("/projects")
@@ -43,8 +46,7 @@ public class ProjectController {
   }
 
   /**
-   *
-   * @param projectRequest
+   * @param projectRequest the request object containing the keyword related to the project
    * @return ProjectResponse
    */
   @GetMapping("/projects")

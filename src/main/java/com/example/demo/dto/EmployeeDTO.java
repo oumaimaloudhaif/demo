@@ -4,12 +4,13 @@ import com.example.demo.entities.Address;
 import com.example.demo.enums.ContractType;
 import com.example.demo.enums.Gender;
 import java.time.LocalDate;
-import lombok.Setter;
-import lombok.Getter;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.With;
 
+/** Employee DTO */
 @Setter
 @Getter
 @NoArgsConstructor

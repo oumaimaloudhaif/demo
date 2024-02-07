@@ -3,6 +3,7 @@ package com.example.demo.tools;
 import com.example.demo.dto.AddressDTO;
 import org.springframework.stereotype.Component;
 
+/** Address DTO Tools */
 @Component
 public class AddressDTOTools {
   public static AddressDTO createAddressDTO(String street, String city, String codePostal) {

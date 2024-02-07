@@ -5,7 +5,7 @@ import com.example.demo.dto.EmployeeDTO;
 import java.util.List;
 import org.springframework.stereotype.Component;
 
-/*** Employee Mapper ***/
+/** Employee Mapper */
 @Component
 public class EmployeeMapper {
   public FetchEmployeeResponse toFetchEmployeeResponse(List<EmployeeDTO> employees) {

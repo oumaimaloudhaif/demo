@@ -25,6 +25,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 class CompanyControllerTest extends AbstractTest {
   @MockBean CompanyServiceImpl companyServiceImpl;
   @Autowired private ObjectMapper objectMapper;
+
   @Override
   @BeforeEach
   public void setUp() {
@@ -113,8 +114,8 @@ class CompanyControllerTest extends AbstractTest {
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
     companyRequest.setKeyword("test");
-    final CompanyDTO companyDTO = new CompanyDTO("company-Test");
-    final CompanyDTO companyDTO1 = new CompanyDTO("company1-Test");
+    final CompanyDTO companyDTO = new CompanyDTO("company-test");
+    final CompanyDTO companyDTO1 = new CompanyDTO("company1-test");
     final List<CompanyDTO> listOfCompanies = List.of(companyDTO, companyDTO1);
     CompanyResponse companyResponse = new CompanyResponse();
     companyResponse.setResult(listOfCompanies);
@@ -140,7 +141,7 @@ class CompanyControllerTest extends AbstractTest {
   }
 
   @Test
-  public void fetchCompanies_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void fetchCompanies_WithNonNullKeyword_ReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();

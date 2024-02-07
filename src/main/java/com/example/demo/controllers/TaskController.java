@@ -9,12 +9,14 @@ import com.example.demo.servicesImpl.TaskServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
+/** Task Controller */
 @Validated
 @RestController
 public class TaskController {
@@ -22,8 +24,9 @@ public class TaskController {
   @Autowired private TaskMapper tasksMapper;
 
   /**
+   * Adds a new task
    *
-   * @param task
+   * @param task the task object to be added
    * @return TaskDTO
    */
   @PostMapping("/tasks")
@@ -33,8 +36,9 @@ public class TaskController {
   }
 
   /**
+   * Updates an existing task
    *
-   * @param task
+   * @param task the task object to be updated
    * @return TaskDTO
    */
   @PutMapping("/tasks")
@@ -43,8 +47,7 @@ public class TaskController {
   }
 
   /**
-   *
-   * @param taskRequest
+   * @param taskRequest the request object containing the keyword related to the task
    * @return TaskResponse
    */
   @GetMapping("/tasks")

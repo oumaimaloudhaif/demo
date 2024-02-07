@@ -13,12 +13,11 @@ import com.example.demo.entities.Address;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.Department;
 import com.example.demo.entities.Employee;
-import com.example.demo.entities.Report;
-import com.example.demo.entities.Task;
 import com.example.demo.entities.Meeting;
 import com.example.demo.entities.Project;
+import com.example.demo.entities.Report;
+import com.example.demo.entities.Task;
 import com.example.demo.entities.WorkCalendar;
-
 import org.springframework.stereotype.Component;
 
 @Component
@@ -96,10 +95,10 @@ public class FromDOToDTO {
   }
 
   public WorkCalendarDTO MapWorkCalendar(WorkCalendar workCalendar) {
-    WorkCalendarDTO workCalanderDTO = new WorkCalendarDTO();
-    workCalanderDTO.setStartTime(workCalendar.getStartTime());
-    workCalanderDTO.setEndTime(workCalendar.getEndTime());
+    WorkCalendarDTO workCalendarDTO = new WorkCalendarDTO();
+    workCalendarDTO.setStartTime(workCalendar.getStartTime());
+    workCalendarDTO.setEndTime(workCalendar.getEndTime());
 
-    return workCalanderDTO;
+    return workCalendarDTO;
   }
 }

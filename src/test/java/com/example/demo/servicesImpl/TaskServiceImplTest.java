@@ -4,8 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
-import com.example.demo.dto.mappers.FromDOToDTO;
 import com.example.demo.dto.TaskDTO;
+import com.example.demo.dto.mappers.FromDOToDTO;
 import com.example.demo.entities.Task;
 import com.example.demo.enums.Priority;
 import com.example.demo.enums.TaskStatus;

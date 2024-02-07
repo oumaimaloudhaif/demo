@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/** Address Response */
 @Setter
 @Getter
 @AllArgsConstructor
