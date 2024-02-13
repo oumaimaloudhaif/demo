@@ -109,7 +109,7 @@ class CompanyControllerTest extends AbstractTest {
   }
 
   @Test
-  public void getCompanies_WithNonNullKeyword_ReturnsCompanies() throws Exception {
+  public void getCompaniesWithNonNullKeywordReturnsCompanies() throws Exception {
     // Given
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
@@ -141,7 +141,7 @@ class CompanyControllerTest extends AbstractTest {
   }
 
   @Test
-  public void fetchCompanies_WithNonNullKeyword_ReturnsEmptyList() throws Exception {
+  public void fetchCompaniesWithNonNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
@@ -167,7 +167,7 @@ class CompanyControllerTest extends AbstractTest {
   }
 
   @Test
-  public void fetchCompanies_WithNullKeyword_ThrowException() throws Exception {
+  public void fetchCompaniesWithNullKeywordThrowException() throws Exception {
     // Given
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
@@ -177,10 +177,9 @@ class CompanyControllerTest extends AbstractTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
         .andExpect(
-            result -> {
-              assertInstanceOf(
-                  MethodArgumentNotValidException.class, result.getResolvedException());
-            })
+            result ->
+                assertInstanceOf(
+                    MethodArgumentNotValidException.class, result.getResolvedException()))
         .andExpect(status().isBadRequest());
   }
 

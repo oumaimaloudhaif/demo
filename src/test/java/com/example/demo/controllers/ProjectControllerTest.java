@@ -88,6 +88,7 @@ class ProjectControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchProjectTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/projects";
@@ -104,12 +105,12 @@ class ProjectControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    ProjectDTO[] projects = super.mapFromJson(content, ProjectDTO[].class);
-    assertEquals(0, projects.length);
+    ProjectResponse projects = super.mapFromJson(content, ProjectResponse.class);
+    assertEquals(0, projects.getResult().size());
   }
 
   @Test
-  public void getProjects_WithNullKeyword_ReturnsListOfProjects() throws Exception {
+  public void getProjectsWithNullKeywordReturnsListOfProjects() throws Exception {
     // Given
     final String uri = "/projects";
     ProjectRequest projectRequest = new ProjectRequest();

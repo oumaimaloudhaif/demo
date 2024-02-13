@@ -91,6 +91,7 @@ class AddressControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchAddressTestWhenKeywordIsNull() throws Exception {
     // Given
     final String uri = "/addresses";
@@ -107,16 +108,17 @@ class AddressControllerTest extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    AddressDTO[] address = super.mapFromJson(content, AddressDTO[].class);
-    assertEquals(0, address.length);
+    AddressResponse address = super.mapFromJson(content, AddressResponse.class);
+    assertEquals(0, address.getResult().size());
   }
 
   @Test
-  public void getAddress_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void getAddressWithNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/addresses";
     AddressRequest addressRequest = new AddressRequest();
     addressRequest.setKeyword("");
+
     // When
     CompanyRequest companyRequest = new CompanyRequest();
     companyRequest.setKeyword("");
@@ -125,10 +127,9 @@ class AddressControllerTest extends AbstractTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(addressRequest.getKeyword())))
         .andExpect(
-            result -> {
-              assertInstanceOf(
-                  MethodArgumentNotValidException.class, result.getResolvedException());
-            })
+            result ->
+                assertInstanceOf(
+                    MethodArgumentNotValidException.class, result.getResolvedException()))
         .andExpect(status().isBadRequest());
   }
 

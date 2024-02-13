@@ -92,6 +92,7 @@ class TaskControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchTaskTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/tasks";
@@ -108,12 +109,12 @@ class TaskControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    TaskDTO[] tasks = super.mapFromJson(content, TaskDTO[].class);
-    assertEquals(0, tasks.length);
+    TaskResponse tasks = super.mapFromJson(content, TaskResponse.class);
+    assertEquals(0, tasks.getResult().size());
   }
 
   @Test
-  public void fetchTasks_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void fetchTasksWithNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/tasks";
     TaskRequest taskRequest = new TaskRequest();

@@ -30,9 +30,12 @@ public class Meeting {
   private Long id;
 
   private String title;
+
   private LocalDateTime startTime;
+
   // This annotation of Data JPA allows to insert the Date of creation of the data
   @CreatedDate private Date created;
+
   // This annotation of Data JPA allows to insert the last Date of modification of the data
   @LastModifiedDate private Date updated;
 

@@ -88,6 +88,7 @@ class MeetingControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchMeetingTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/meetings";
@@ -105,12 +106,12 @@ class MeetingControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    MeetingDTO[] meetings = super.mapFromJson(content, MeetingDTO[].class);
-    assertEquals(0, meetings.length);
+    MeetingResponse meetings = super.mapFromJson(content, MeetingResponse.class);
+    assertEquals(0, meetings.getResult().size());
   }
 
   @Test
-  public void getMeetings_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void getMeetingsWithNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/meetings";
     MeetingRequest meetingRequest = new MeetingRequest();

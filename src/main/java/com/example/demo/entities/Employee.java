@@ -56,7 +56,7 @@ public class Employee {
 
   @OneToMany(mappedBy = "employee")
   @JsonIgnore
-  private List<WorkCalendar> workWorkCalanders = new ArrayList<>();
+  private List<WorkCalendar> workCalendars = new ArrayList<>();
 
   @Column(name = "date_of_birth")
   private LocalDate dateOfBirth;
@@ -119,8 +119,8 @@ public class Employee {
         + '\''
         + ", salary="
         + salary
-        + ", workWorkCalanders="
-        + workWorkCalanders
+        + ", worCalendars="
+        + workCalendars
         + ", dateOfBirth="
         + dateOfBirth
         + ", department="

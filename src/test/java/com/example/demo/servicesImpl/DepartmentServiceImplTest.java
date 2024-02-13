@@ -7,9 +7,6 @@ import com.example.demo.DemoApplication;
 import com.example.demo.dto.DepartmentDTO;
 import com.example.demo.dto.mappers.FromDOToDTO;
 import com.example.demo.entities.Department;
-import com.example.demo.entities.Employee;
-import com.example.demo.enums.ContractType;
-import com.example.demo.enums.Gender;
 import com.example.demo.repository.DepartmentRepository;
 import com.example.demo.tools.DepartmentDTOTools;
 import com.example.demo.tools.DepartmentTools;
@@ -74,10 +71,6 @@ public class DepartmentServiceImplTest {
   @Test
   public void testAddDepartment() {
     // Given
-    List<Employee> employees =
-        Arrays.asList(
-            new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI),
-            new Employee(2L, "Oumaima", 1200, Gender.FEMALE, ContractType.CDI));
     Department inputDepartment = DepartmentTools.createDepartment(1L, "Department1");
     DepartmentDTO expectedDepartmentDTO = DepartmentDTOTools.createDepartmentDTO("Department1");
 

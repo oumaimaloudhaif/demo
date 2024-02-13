@@ -29,7 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 public class WorkCalendar {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id_WorkCalander;
+  private Long id_WorkCalendar;
 
   @ManyToOne
   @JoinColumn(name = "employee_id")

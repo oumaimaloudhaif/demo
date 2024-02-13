@@ -103,15 +103,12 @@ class EmployeeControllerTest extends AbstractTest {
     mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
         .andExpect(status().isInternalServerError())
         .andExpect(
-            result -> {
-              assertInstanceOf(InternalException.class, result.getResolvedException());
-            })
+            result -> assertInstanceOf(InternalException.class, result.getResolvedException()))
         .andExpect(
-            result -> {
-              assertEquals(
-                  "Internal exception",
-                  Objects.requireNonNull(result.getResolvedException()).getMessage());
-            });
+            result ->
+                assertEquals(
+                    "Internal exception",
+                    Objects.requireNonNull(result.getResolvedException()).getMessage()));
   }
 
   @Test
@@ -142,6 +139,7 @@ class EmployeeControllerTest extends AbstractTest {
     assertEquals("oma1", employees.getResult().get(1).getName());
   }
 
+  @Test
   public void searchEmployeeTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/employees";
@@ -158,12 +156,12 @@ class EmployeeControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    EmployeeDTO[] employees = super.mapFromJson(content, EmployeeDTO[].class);
-    assertEquals(0, employees.length);
+    FetchEmployeeResponse employees = super.mapFromJson(content, FetchEmployeeResponse.class);
+    assertEquals(0, employees.getResult().size());
   }
 
   @Test
-  public void fetchEmployees_WithNonNullKeyword_ReturnsEmployees() throws Exception {
+  public void fetchEmployeesWithNonNullKeywordReturnsEmployees() throws Exception {
     // given
     final String uri = "/employees";
     EmployeeRequest employeeRequest = new EmployeeRequest();
@@ -256,7 +254,7 @@ class EmployeeControllerTest extends AbstractTest {
     String uri = "/employees";
     Employee employee = new Employee();
     employee.setEmployee_id(1L);
-    employee.setName("ouma1");
+    employee.setName("oumaima1");
     employee.setSalary(5000);
     String inputJson = new ObjectMapper().writeValueAsString(employee);
 

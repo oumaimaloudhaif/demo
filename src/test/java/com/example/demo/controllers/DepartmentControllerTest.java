@@ -88,6 +88,7 @@ class DepartmentControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchDepartmentTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/departments";
@@ -104,12 +105,12 @@ class DepartmentControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    DepartmentDTO[] departments = super.mapFromJson(content, DepartmentDTO[].class);
-    assertEquals(0, departments.length);
+    DepartmentResponse departments = super.mapFromJson(content, DepartmentResponse.class);
+    assertEquals(0, departments.getResult().size());
   }
 
   @Test
-  public void fetchDepartments_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void fetchDepartmentsWithNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/departments";
     DepartmentRequest departmentRequest = new DepartmentRequest();

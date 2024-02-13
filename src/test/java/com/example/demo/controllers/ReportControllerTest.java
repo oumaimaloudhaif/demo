@@ -88,6 +88,7 @@ class ReportControllerTest extends AbstractTest {
     assertEquals(404, status);
   }
 
+  @Test
   public void searchReportTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/reports";
@@ -104,12 +105,12 @@ class ReportControllerTest extends AbstractTest {
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    ReportDTO[] reports = super.mapFromJson(content, ReportDTO[].class);
-    assertEquals(0, reports.length);
+    ReportResponse reports = super.mapFromJson(content, ReportResponse.class);
+    assertEquals(0, reports.getResult().size());
   }
 
   @Test
-  public void fetchReports_WithNullKeyword_ReturnsEmptyList() throws Exception {
+  public void fetchReportsWithNullKeywordReturnsEmptyList() throws Exception {
     // Given
     final String uri = "/reports";
     ReportRequest reportRequest = new ReportRequest();
