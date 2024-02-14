@@ -49,3 +49,11 @@ You can format the project using the plugin :
 ## Swagger
 
 The API is documented using [Swagger](https://swagger.io/). You can explore the API documentation by following these [url](https://company-management-ao9h.onrender.com/swagger-ui/index.html)
+
+## Health Check
+
+To check if the service is up, we enable to a GET call to ower service via the health check Controller.
+Please execute the following commande to the check the status of the app ```` curl localhost:8080/healthCheck````
+
+If we receive the msg  ```` companyManagement  ```` then the app is ready to be consulted.
+If no msg is received, then a problem has occured.
