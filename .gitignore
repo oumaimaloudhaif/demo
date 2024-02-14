@@ -39,3 +39,6 @@ mvnw
 
 ### JPA ###
 demo.iml
+
+### environment ###
+.env
