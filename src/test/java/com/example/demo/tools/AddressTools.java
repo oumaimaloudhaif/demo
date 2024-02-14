@@ -1,23 +1,17 @@
 package com.example.demo.tools;
 
-import com.example.demo.Entities.Address;
+import com.example.demo.entities.Address;
 import org.springframework.stereotype.Component;
 
+/** Address Tools */
 @Component
 public class AddressTools {
   public static Address createAddress(Long id, String street, String city, String codePostal) {
+
     return new Address()
         .withAddress_id(id)
         .withStreet(street)
         .withCity(city)
         .withPostalCode(codePostal);
-  }
-
-  public static Address createAddress() {
-    return new Address()
-        .withAddress_id(1L)
-        .withStreet("street")
-        .withCity("city")
-        .withPostalCode("codePostal");
   }
 }
