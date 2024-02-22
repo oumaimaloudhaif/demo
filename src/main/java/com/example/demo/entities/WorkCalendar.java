@@ -35,9 +35,11 @@ public class WorkCalendar {
   @JoinColumn(name = "employee_id")
   private Employee employee;
 
-  LocalDateTime startTime;
+  private LocalDateTime startTime;
 
-  LocalDateTime endTime;
+  private LocalDateTime endTime;
+
+  private String tag;
 
   // This annotation of Data JPA allows to insert the Date of creation of the data
   @CreatedDate private Date created;
