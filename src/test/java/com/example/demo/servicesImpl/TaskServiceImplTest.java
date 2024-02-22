@@ -54,8 +54,8 @@ public class TaskServiceImplTest {
 
     // When
     when(taskRepository.findAll()).thenReturn(mockedTasks);
-    when(fromDOToDTO.MapTask(task)).thenReturn(taskDTO);
-    when(fromDOToDTO.MapTask(task)).thenReturn(task1DTO);
+    when(fromDOToDTO.mapTask(task)).thenReturn(taskDTO);
+    when(fromDOToDTO.mapTask(task)).thenReturn(task1DTO);
     final List<TaskDTO> Tasks = taskService.getAllTasks();
 
     // Then
@@ -78,8 +78,8 @@ public class TaskServiceImplTest {
 
     // When
     when(taskRepository.findByName(keyword)).thenReturn(mockedTasks);
-    when(fromDOToDTO.MapTask(task)).thenReturn(taskDTO);
-    when(fromDOToDTO.MapTask(task)).thenReturn(task1DTO);
+    when(fromDOToDTO.mapTask(task)).thenReturn(taskDTO);
+    when(fromDOToDTO.mapTask(task)).thenReturn(task1DTO);
     final List<TaskDTO> Tasks = taskService.searchTasks(keyword);
 
     // Then
@@ -95,7 +95,7 @@ public class TaskServiceImplTest {
         TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.COMPLETED, Priority.HIGH);
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);
-    when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
+    when(fromDOToDTO.mapTask(inputTask)).thenReturn(expectedTaskDTO);
     final TaskDTO resultTaskDTO = taskService.addTask(inputTask);
 
     // Then
@@ -112,8 +112,8 @@ public class TaskServiceImplTest {
 
     // When
     when(taskRepository.save(inputTask)).thenReturn(inputTask);
-    when(fromDOToDTO.MapTask(inputTask)).thenReturn(expectedTaskDTO);
-    final TaskDTO resultTaskDTO = taskService.addTask(inputTask);
+    when(fromDOToDTO.mapTask(inputTask)).thenReturn(expectedTaskDTO);
+    final TaskDTO resultTaskDTO = taskService.updateTask(inputTask);
 
     // Then
     assertEquals(expectedTaskDTO, resultTaskDTO);

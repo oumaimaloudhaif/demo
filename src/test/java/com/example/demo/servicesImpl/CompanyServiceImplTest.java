@@ -49,8 +49,8 @@ public class CompanyServiceImplTest {
 
     // When
     when(companyRepository.findAll()).thenReturn(mockedCompanies);
-    when(fromDOToDTO.MapCompany(firstCompany)).thenReturn(firstCompanyDto);
-    when(fromDOToDTO.MapCompany(secondCompany)).thenReturn(secondCompanyDto);
+    when(fromDOToDTO.mapCompany(firstCompany)).thenReturn(firstCompanyDto);
+    when(fromDOToDTO.mapCompany(secondCompany)).thenReturn(secondCompanyDto);
 
     final List<CompanyDTO> companies = companyService.getAllCompanies();
     // Then
@@ -67,8 +67,8 @@ public class CompanyServiceImplTest {
     final List<Company> mockedCompanies = Arrays.asList(firstCompany, secondCompany);
     final CompanyDTO firstCompanyDto = CompanyDTOTools.createCompanyDTO("Company1");
     final CompanyDTO secondCompanyDto = CompanyDTOTools.createCompanyDTO("Company2");
-    when(fromDOToDTO.MapCompany(firstCompany)).thenReturn(firstCompanyDto);
-    when(fromDOToDTO.MapCompany(secondCompany)).thenReturn(secondCompanyDto);
+    when(fromDOToDTO.mapCompany(firstCompany)).thenReturn(firstCompanyDto);
+    when(fromDOToDTO.mapCompany(secondCompany)).thenReturn(secondCompanyDto);
 
     // When
     when(companyRepository.findByName(keyword)).thenReturn(mockedCompanies);
@@ -86,7 +86,7 @@ public class CompanyServiceImplTest {
 
     // When
     when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
-    when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
+    when(fromDOToDTO.mapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
 
     final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
 
@@ -102,9 +102,9 @@ public class CompanyServiceImplTest {
 
     // When
     when(companyRepository.save(inputCompany)).thenReturn(inputCompany);
-    when(fromDOToDTO.MapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
+    when(fromDOToDTO.mapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
 
-    final CompanyDTO resultCompanyDTO = companyService.addCompany(inputCompany);
+    final CompanyDTO resultCompanyDTO = companyService.updateCompany(inputCompany);
 
     // Then
     assertEquals(expectedCompanyDTO.getName(), resultCompanyDTO.getName());

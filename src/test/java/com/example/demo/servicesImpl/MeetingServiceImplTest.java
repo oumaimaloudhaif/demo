@@ -48,8 +48,8 @@ public class MeetingServiceImplTest {
 
     // When
     when(meetingRepository.findAll()).thenReturn(mockedMeetings);
-    when(fromDOToDTO.MapMeeting(meeting)).thenReturn(meetingDTO);
-    when(fromDOToDTO.MapMeeting(meeting1)).thenReturn(meeting1DTO);
+    when(fromDOToDTO.mapMeeting(meeting)).thenReturn(meetingDTO);
+    when(fromDOToDTO.mapMeeting(meeting1)).thenReturn(meeting1DTO);
     final List<MeetingDTO> Meetings = meetingService.getAllMeetings();
 
     // Then
@@ -68,8 +68,8 @@ public class MeetingServiceImplTest {
 
     // When
     when(meetingRepository.findByTitle(keyword)).thenReturn(mockedMeetings);
-    when(fromDOToDTO.MapMeeting(meeting)).thenReturn(meetingDTO);
-    when(fromDOToDTO.MapMeeting(meeting1)).thenReturn(meeting1DTO);
+    when(fromDOToDTO.mapMeeting(meeting)).thenReturn(meetingDTO);
+    when(fromDOToDTO.mapMeeting(meeting1)).thenReturn(meeting1DTO);
     final List<MeetingDTO> Meetings = meetingService.searchMeeting(keyword);
 
     // Then
@@ -84,7 +84,7 @@ public class MeetingServiceImplTest {
 
     // When
     when(meetingRepository.save(inputMeeting)).thenReturn(inputMeeting);
-    when(fromDOToDTO.MapMeeting(inputMeeting)).thenReturn(expectedMeetingDTO);
+    when(fromDOToDTO.mapMeeting(inputMeeting)).thenReturn(expectedMeetingDTO);
     final MeetingDTO resultMeetingDTO = meetingService.addMeeting(inputMeeting);
 
     // Then
@@ -99,8 +99,8 @@ public class MeetingServiceImplTest {
 
     // When
     when(meetingRepository.save(updatedMeeting)).thenReturn(updatedMeeting);
-    when(fromDOToDTO.MapMeeting(updatedMeeting)).thenReturn(expectedMeetingDTO);
-    final MeetingDTO resultMeetingDTO = meetingService.addMeeting(updatedMeeting);
+    when(fromDOToDTO.mapMeeting(updatedMeeting)).thenReturn(expectedMeetingDTO);
+    final MeetingDTO resultMeetingDTO = meetingService.updateMeeting(updatedMeeting);
 
     // Then
     assertEquals(expectedMeetingDTO, resultMeetingDTO);

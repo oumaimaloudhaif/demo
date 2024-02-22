@@ -50,8 +50,8 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.findAll()).thenReturn(mockedAddress);
-    when(fromDOToDTO.MapAddress(address1)).thenReturn(address1DTO);
-    when(fromDOToDTO.MapAddress(address1)).thenReturn(address2DTO);
+    when(fromDOToDTO.mapAddress(address1)).thenReturn(address1DTO);
+    when(fromDOToDTO.mapAddress(address1)).thenReturn(address2DTO);
     final List<AddressDTO> address = addressService.getAllAddresses();
 
     // Then
@@ -71,8 +71,8 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.findByCity(keyword)).thenReturn(mockedAddress);
-    when(fromDOToDTO.MapAddress(address1)).thenReturn(address1DTO);
-    when(fromDOToDTO.MapAddress(address1)).thenReturn(address2DTO);
+    when(fromDOToDTO.mapAddress(address1)).thenReturn(address1DTO);
+    when(fromDOToDTO.mapAddress(address1)).thenReturn(address2DTO);
     final List<AddressDTO> address = addressService.searchAddress(keyword);
 
     // Then
@@ -88,7 +88,7 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
-    when(fromDOToDTO.MapAddress(inputAddress)).thenReturn(expectedAddressDTO);
+    when(fromDOToDTO.mapAddress(inputAddress)).thenReturn(expectedAddressDTO);
     final AddressDTO resultAddressDTO = addressService.addAddress(inputAddress);
 
     // Then
@@ -106,8 +106,8 @@ public class AddressServiceImplTest {
 
     // When
     when(addressRepository.save(inputAddress)).thenReturn(inputAddress);
-    when(fromDOToDTO.MapAddress(inputAddress)).thenReturn(expectedAddressDTO);
-    final AddressDTO resultAddressDTO = addressService.addAddress(inputAddress);
+    when(fromDOToDTO.mapAddress(inputAddress)).thenReturn(expectedAddressDTO);
+    final AddressDTO resultAddressDTO = addressService.updateAddress(inputAddress);
 
     // Then
     assertEquals(expectedAddressDTO.getPostalCode(), resultAddressDTO.getPostalCode());

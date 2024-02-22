@@ -46,7 +46,7 @@ public class FromDOToDTOTest {
   public void testMapAddress() {
     final Address address = new Address("Street", "City", "7034");
 
-    final AddressDTO result = mapper.MapAddress(address);
+    final AddressDTO result = mapper.mapAddress(address);
 
     assertEquals("Street", result.getStreet());
     assertEquals("City", result.getCity());
@@ -57,7 +57,7 @@ public class FromDOToDTOTest {
   public void testMapCompany() {
     final Company company = new Company("Company Name");
 
-    final CompanyDTO result = mapper.MapCompany(company);
+    final CompanyDTO result = mapper.mapCompany(company);
 
     assertEquals("Company Name", result.getName());
   }
@@ -68,7 +68,7 @@ public class FromDOToDTOTest {
     final LocalDateTime endTime = LocalDateTime.now().minusHours(8);
     final WorkCalendar workCalendar = new WorkCalendar(startTime, endTime);
 
-    final WorkCalendarDTO result = mapper.MapWorkCalendar(workCalendar);
+    final WorkCalendarDTO result = mapper.mapWorkCalendar(workCalendar);
 
     assertEquals(startTime, result.getStartTime());
     assertEquals(endTime, result.getEndTime());
@@ -80,7 +80,7 @@ public class FromDOToDTOTest {
     final List<Employee> employees = List.of(employee);
     final Department department = new Department("Info", employees);
 
-    final DepartmentDTO result = mapper.MapDepartment(department);
+    final DepartmentDTO result = mapper.mapDepartment(department);
 
     assertEquals("Info", result.getName());
     assertEquals(employees.size(), result.getEmployees().size());
@@ -90,7 +90,7 @@ public class FromDOToDTOTest {
   void mapEmployee() {
     final Employee employee = new Employee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
 
-    final EmployeeDTO result = mapper.MapEmployee(employee);
+    final EmployeeDTO result = mapper.mapEmployee(employee);
 
     assertEquals("Oumaima L", result.getName());
     assertEquals(Gender.FEMALE, result.getGender());
@@ -102,7 +102,7 @@ public class FromDOToDTOTest {
   void mapMeeting() {
     final Meeting meeting = new Meeting("meeting");
 
-    final MeetingDTO result = mapper.MapMeeting(meeting);
+    final MeetingDTO result = mapper.mapMeeting(meeting);
 
     assertEquals("meeting", result.getTitle());
   }
@@ -111,7 +111,7 @@ public class FromDOToDTOTest {
   void mapProject() {
     final Project project = new Project("project");
 
-    final ProjectDTO result = mapper.MapProject(project);
+    final ProjectDTO result = mapper.mapProject(project);
 
     assertEquals("project", result.getName());
   }
@@ -120,7 +120,7 @@ public class FromDOToDTOTest {
   void mapReport() {
     final Report report = new Report("report");
 
-    final ReportDTO result = mapper.MapReport(report);
+    final ReportDTO result = mapper.mapReport(report);
 
     assertEquals("report", result.getTitle());
   }
@@ -129,7 +129,7 @@ public class FromDOToDTOTest {
   void mapTask() {
     final Task task = new Task("task", "description", TaskStatus.IN_PROGRESS, Priority.HIGH);
 
-    final TaskDTO result = mapper.MapTask(task);
+    final TaskDTO result = mapper.mapTask(task);
 
     assertEquals("task", result.getName());
     assertEquals("description", result.getDescription());
