@@ -25,7 +25,7 @@ public class TaskServiceImpl implements TaskService {
     List<TaskDTO> tasksDTo = new ArrayList<>();
     tasks.forEach(
         task -> {
-          TaskDTO taskDTO = fromDOToDTO.MapTask(task);
+          TaskDTO taskDTO = fromDOToDTO.mapTask(task);
           tasksDTo.add(taskDTO);
         });
 
@@ -40,7 +40,7 @@ public class TaskServiceImpl implements TaskService {
   public TaskDTO addTask(Task task) {
     final Task savedTask = taskRepository.save(task);
 
-    return fromDOToDTO.MapTask(savedTask);
+    return fromDOToDTO.mapTask(savedTask);
   }
 
   /**
@@ -51,7 +51,7 @@ public class TaskServiceImpl implements TaskService {
   public TaskDTO updateTask(Task task) {
     final Task updatedTask = taskRepository.save(task);
 
-    return fromDOToDTO.MapTask(updatedTask);
+    return fromDOToDTO.mapTask(updatedTask);
   }
 
   /** @return List<TaskDTO> */
@@ -61,10 +61,47 @@ public class TaskServiceImpl implements TaskService {
     List<TaskDTO> tasksDTo = new ArrayList<>();
     tasks.forEach(
         task -> {
-          TaskDTO taskDTO = fromDOToDTO.MapTask(task);
+          TaskDTO taskDTO = fromDOToDTO.mapTask(task);
           tasksDTo.add(taskDTO);
         });
 
     return tasksDTo;
+  }
+
+  /**
+   * Retrieves a task by its ID.
+   *
+   * @param taskId the ID of the task to retrieve
+   * @return the TaskDTO corresponding to the task, or null if the task does not exist
+   */
+  @Override
+  public TaskDTO getTaskById(Long taskId) {
+    final Task task = taskRepository.findById(taskId).orElse(null);
+    if (task != null) {
+
+      return fromDOToDTO.mapTask(task);
+    } else {
+
+      return null;
+    }
+  }
+
+  /**
+   * Deletes a task by its ID.
+   *
+   * @param taskId the ID of the task to delete
+   * @return true if the task was deleted successfully, false otherwise
+   */
+  @Override
+  public boolean deleteTaskById(Long taskId) {
+    final Task task = taskRepository.findById(taskId).orElse(null);
+    if (task != null) {
+      taskRepository.delete(task);
+
+      return true;
+    } else {
+
+      return false;
+    }
   }
 }

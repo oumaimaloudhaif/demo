@@ -22,7 +22,7 @@ public class ReportServiceImpl implements ReportService {
     List<ReportDTO> reportDTOS = new ArrayList<>();
     reports.forEach(
         report -> {
-          ReportDTO reportDTO = fromDOToDTO.MapReport(report);
+          ReportDTO reportDTO = fromDOToDTO.mapReport(report);
           reportDTOS.add(reportDTO);
         });
 
@@ -38,7 +38,7 @@ public class ReportServiceImpl implements ReportService {
     List<ReportDTO> reportDTOS = new ArrayList<>();
     reports.forEach(
         report -> {
-          ReportDTO reportDTO = fromDOToDTO.MapReport(report);
+          ReportDTO reportDTO = fromDOToDTO.mapReport(report);
           reportDTOS.add(reportDTO);
         });
 
@@ -52,7 +52,7 @@ public class ReportServiceImpl implements ReportService {
   public ReportDTO addReport(Report report) {
     final Report savedReport = reportRepository.save(report);
 
-    return fromDOToDTO.MapReport(savedReport);
+    return fromDOToDTO.mapReport(savedReport);
   }
 
   /**
@@ -62,6 +62,43 @@ public class ReportServiceImpl implements ReportService {
   public ReportDTO updateReport(Report report) {
     final Report updateReport = reportRepository.save(report);
 
-    return fromDOToDTO.MapReport(updateReport);
+    return fromDOToDTO.mapReport(updateReport);
+  }
+
+  /**
+   * Retrieves a report by its ID.
+   *
+   * @param projectId the ID of the project to retrieve
+   * @return the ReportDTO corresponding to the report, or null if the report does not exist
+   */
+  @Override
+  public ReportDTO getReportById(Long projectId) {
+    final Report report = reportRepository.findById(projectId).orElse(null);
+    if (report != null) {
+
+      return fromDOToDTO.mapReport(report);
+    } else {
+
+      return null;
+    }
+  }
+
+  /**
+   * Deletes a report by its ID.
+   *
+   * @param reportId the ID of the report to delete
+   * @return true if the report was deleted successfully, false otherwise
+   */
+  @Override
+  public boolean deleteReportById(Long reportId) {
+    final Report report = reportRepository.findById(reportId).orElse(null);
+    if (report != null) {
+      reportRepository.delete(report);
+
+      return true;
+    } else {
+
+      return false;
+    }
   }
 }

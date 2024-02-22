@@ -13,4 +13,8 @@ public interface MeetingService {
   MeetingDTO addMeeting(Meeting meeting);
 
   MeetingDTO updateMeeting(Meeting meeting);
+
+  MeetingDTO getMeetingById(Long projectId);
+
+  boolean deleteMeetingById(Long meetingId);
 }

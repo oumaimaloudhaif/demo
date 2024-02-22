@@ -26,7 +26,7 @@ public class CompanyServiceImpl implements CompanyService {
     List<CompanyDTO> companyDTOS = new ArrayList<>();
     companies.forEach(
         company -> {
-          CompanyDTO companyDTO = fromDOToDTO.MapCompany(company);
+          CompanyDTO companyDTO = fromDOToDTO.mapCompany(company);
           companyDTOS.add(companyDTO);
         });
 
@@ -41,7 +41,7 @@ public class CompanyServiceImpl implements CompanyService {
   public CompanyDTO addCompany(Company company) {
     Company savedCompany = companyRepository.save(company);
 
-    return fromDOToDTO.MapCompany(savedCompany);
+    return fromDOToDTO.mapCompany(savedCompany);
   }
 
   /**
@@ -52,7 +52,7 @@ public class CompanyServiceImpl implements CompanyService {
   public CompanyDTO updateCompany(Company company) {
     Company updatedAddress = companyRepository.save(company);
 
-    return fromDOToDTO.MapCompany(updatedAddress);
+    return fromDOToDTO.mapCompany(updatedAddress);
   }
 
   /** @return List<CompanyDTO> */
@@ -62,10 +62,43 @@ public class CompanyServiceImpl implements CompanyService {
     List<CompanyDTO> companyDTOS = new ArrayList<>();
     companies.forEach(
         company -> {
-          CompanyDTO companyDTO = fromDOToDTO.MapCompany(company);
+          CompanyDTO companyDTO = fromDOToDTO.mapCompany(company);
           companyDTOS.add(companyDTO);
         });
 
     return companyDTOS;
+  }
+
+  /**
+   * Retrieves a company by its ID.
+   *
+   * @param companyId the ID of the company to retrieve
+   * @return the CompanyDTO corresponding to the company, or null if the company does not exist
+   */
+  @Override
+  public CompanyDTO getCompanyById(Long companyId) {
+    final Company company = companyRepository.findById(companyId).orElse(null);
+    if (company != null) {
+      return fromDOToDTO.mapCompany(company);
+    } else {
+      return null;
+    }
+  }
+
+  /**
+   * Deletes a company by its ID.
+   *
+   * @param companyId the ID of the company to delete
+   * @return true if the company was deleted successfully, false otherwise
+   */
+  @Override
+  public boolean deleteCompanyById(Long companyId) {
+    final Company company = companyRepository.findById(companyId).orElse(null);
+    if (company != null) {
+      companyRepository.delete(company);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

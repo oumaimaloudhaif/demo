@@ -14,4 +14,8 @@ public interface CompanyService {
   CompanyDTO updateCompany(Company company);
 
   List<CompanyDTO> getAllCompanies();
+
+  CompanyDTO getCompanyById(Long companyId);
+
+  boolean deleteCompanyById(Long companyId);
 }
