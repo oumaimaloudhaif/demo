@@ -23,7 +23,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class FromDOToDTO {
 
-  public AddressDTO MapAddress(Address address) {
+  public AddressDTO mapAddress(Address address) {
     AddressDTO addressDTO = new AddressDTO();
     addressDTO.setStreet(address.getStreet());
     addressDTO.setCity(address.getCity());
@@ -32,14 +32,14 @@ public class FromDOToDTO {
     return addressDTO;
   }
 
-  public CompanyDTO MapCompany(Company company) {
+  public CompanyDTO mapCompany(Company company) {
     CompanyDTO companyDTO = new CompanyDTO();
     companyDTO.setName(company.getName());
 
     return companyDTO;
   }
 
-  public DepartmentDTO MapDepartment(Department department) {
+  public DepartmentDTO mapDepartment(Department department) {
     DepartmentDTO departmentDTO = new DepartmentDTO();
     departmentDTO.setName(department.getName());
     departmentDTO.setEmployees(department.getEmployees());
@@ -47,7 +47,7 @@ public class FromDOToDTO {
     return departmentDTO;
   }
 
-  public EmployeeDTO MapEmployee(Employee employee) {
+  public EmployeeDTO mapEmployee(Employee employee) {
     EmployeeDTO employeeDTO = new EmployeeDTO();
     employeeDTO.setGender(employee.getGender());
     employeeDTO.setAddress(employee.getAddress());
@@ -60,7 +60,7 @@ public class FromDOToDTO {
     return employeeDTO;
   }
 
-  public MeetingDTO MapMeeting(Meeting meeting) {
+  public MeetingDTO mapMeeting(Meeting meeting) {
     MeetingDTO meetingDTO = new MeetingDTO();
     meetingDTO.setTitle(meeting.getTitle());
     meetingDTO.setStartTime(meeting.getStartTime());
@@ -68,7 +68,7 @@ public class FromDOToDTO {
     return meetingDTO;
   }
 
-  public ProjectDTO MapProject(Project project) {
+  public ProjectDTO mapProject(Project project) {
     ProjectDTO projectDTO = new ProjectDTO();
     projectDTO.setName(project.getName());
     projectDTO.setEmployees(project.getEmployees());
@@ -76,7 +76,7 @@ public class FromDOToDTO {
     return projectDTO;
   }
 
-  public ReportDTO MapReport(Report report) {
+  public ReportDTO mapReport(Report report) {
     ReportDTO reportDTO = new ReportDTO();
     reportDTO.setTitle(report.getTitle());
     reportDTO.setContent(report.getContent());
@@ -84,7 +84,7 @@ public class FromDOToDTO {
     return reportDTO;
   }
 
-  public TaskDTO MapTask(Task task) {
+  public TaskDTO mapTask(Task task) {
     TaskDTO taskDTO = new TaskDTO();
     taskDTO.setDescription(task.getDescription());
     taskDTO.setPriority(task.getPriority());
@@ -94,7 +94,7 @@ public class FromDOToDTO {
     return taskDTO;
   }
 
-  public WorkCalendarDTO MapWorkCalendar(WorkCalendar workCalendar) {
+  public WorkCalendarDTO mapWorkCalendar(WorkCalendar workCalendar) {
     WorkCalendarDTO workCalendarDTO = new WorkCalendarDTO();
     workCalendarDTO.setStartTime(workCalendar.getStartTime());
     workCalendarDTO.setEndTime(workCalendar.getEndTime());
