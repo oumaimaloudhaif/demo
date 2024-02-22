@@ -9,7 +9,9 @@ import com.example.demo.servicesImpl.AddressServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -57,5 +59,29 @@ public class AddressController {
     } else {
       return addressMapper.toAddressResponse(addressServiceImpl.getAllAddresses());
     }
+  }
+
+  /**
+   * Retrieves an address by its ID and deletes it.
+   *
+   * @param addressId the ID of the address to delete
+   * @return true if the address was successfully deleted, false otherwise
+   */
+  @DeleteMapping("/addresses/{id}")
+  public boolean deleteAddressById(@PathVariable("id") Long addressId) {
+
+    return addressServiceImpl.deleteAddressById(addressId);
+  }
+
+  /**
+   * Retrieves an address by its ID.
+   *
+   * @param addressId the ID of the address to retrieve
+   * @return AddressDTO corresponding to the address, or null if the address does not exist
+   */
+  @GetMapping("/addresses/{id}")
+  public AddressDTO getAddressById(@PathVariable("id") Long addressId) {
+
+    return addressServiceImpl.getAddressById(addressId);
   }
 }

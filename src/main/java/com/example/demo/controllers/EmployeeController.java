@@ -79,4 +79,16 @@ public class EmployeeController {
       return employeeMapper.toFetchEmployeeResponse(employees);
     }
   }
+
+  /**
+   * Retrieves an employee by its ID.
+   *
+   * @param employeeId the ID of the employee to retrieve
+   * @return EmployeeDTO corresponding to the employee, or null if the employee does not exist
+   */
+  @GetMapping("/employees/{id}")
+  public EmployeeDTO getEmployeeById(@PathVariable("id") Long employeeId) {
+
+    return employeeServiceImpl.getEmployeeById(employeeId);
+  }
 }

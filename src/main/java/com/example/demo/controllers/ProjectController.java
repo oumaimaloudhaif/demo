@@ -9,7 +9,9 @@ import com.example.demo.servicesImpl.ProjectServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +60,29 @@ public class ProjectController {
     } else {
       return projectMapper.toProjectResponse(projectServiceImpl.getAllProjects());
     }
+  }
+
+  /**
+   * Retrieves a project by its ID and deletes it.
+   *
+   * @param projectId the ID of the project to delete
+   * @return true if the project was successfully deleted, false otherwise
+   */
+  @DeleteMapping("/projects/{id}")
+  public boolean deleteProjectById(@PathVariable("id") Long projectId) {
+
+    return projectServiceImpl.deleteProjectById(projectId);
+  }
+
+  /**
+   * Retrieves a project by its ID.
+   *
+   * @param projectId the ID of the project to retrieve
+   * @return ProjectDTO corresponding to the project, or null if the project does not exist
+   */
+  @GetMapping("/projects/{id}")
+  public ProjectDTO getProjectById(@PathVariable("id") Long projectId) {
+
+    return projectServiceImpl.getProjectById(projectId);
   }
 }

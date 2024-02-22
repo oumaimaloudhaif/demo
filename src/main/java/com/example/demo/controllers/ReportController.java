@@ -9,7 +9,9 @@ import com.example.demo.servicesImpl.ReportServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +60,29 @@ public class ReportController {
     } else {
       return reportMapper.toReportResponse(reportServiceImpl.getAllReports());
     }
+  }
+
+  /**
+   * Retrieves a report by its ID and deletes it.
+   *
+   * @param reportId the ID of the report to delete
+   * @return true if the report was successfully deleted, false otherwise
+   */
+  @DeleteMapping("/reports/{id}")
+  public boolean deleteReportById(@PathVariable("id") Long reportId) {
+
+    return reportServiceImpl.deleteReportById(reportId);
+  }
+
+  /**
+   * Retrieves a report by its ID.
+   *
+   * @param reportId the ID of the report to retrieve
+   * @return ReportDTO corresponding to the report, or null if the report does not exist
+   */
+  @GetMapping("/reports/{id}")
+  public ReportDTO getReportById(@PathVariable("id") Long reportId) {
+
+    return reportServiceImpl.getReportById(reportId);
   }
 }
