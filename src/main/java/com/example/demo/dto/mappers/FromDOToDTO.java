@@ -98,6 +98,7 @@ public class FromDOToDTO {
     WorkCalendarDTO workCalendarDTO = new WorkCalendarDTO();
     workCalendarDTO.setStartTime(workCalendar.getStartTime());
     workCalendarDTO.setEndTime(workCalendar.getEndTime());
+    workCalendarDTO.setTag(workCalendar.getTag());
 
     return workCalendarDTO;
   }
