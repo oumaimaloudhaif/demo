@@ -214,7 +214,7 @@ class EmployeesUseCase extends AbstractTest {
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    assertEquals("Employee not deleted successfully", content);
+    assertEquals("Employee not found", content);
   }
 
   @Test
