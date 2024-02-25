@@ -66,8 +66,10 @@ Then, your environment will be configured to access the database using the provi
 
 ## Test
 Test application is supported by unit tests and integration tests.
+
 Unit tests are found under : src/test/java/com/example/demo
-- The unit tests mocks all dependencies and focus only on the behaviour of the current class in isolation.
-  Integration tests are found under: src/test/java/com/example/demo/useCase
-- The integration tests focus in the behaviour of end to end interaction.
+ - The unit tests mocks all dependencies and focus only on the behaviour of the current class in isolation.
+
+Integration tests are found under: src/test/java/com/example/demo/useCase
+ - The integration tests focus in the behaviour of end to end interaction.
  
