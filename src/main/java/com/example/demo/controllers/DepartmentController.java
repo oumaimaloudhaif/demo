@@ -9,7 +9,9 @@ import com.example.demo.servicesImpl.DepartmentServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +60,29 @@ public class DepartmentController {
     } else {
       return departmentMapper.toDepartmentResponse(departmentServiceImpl.getAllDepartments());
     }
+  }
+
+  /**
+   * Retrieves a department by its ID and deletes it.
+   *
+   * @param departmentId the ID of the department to delete
+   * @return true if the department was successfully deleted, false otherwise
+   */
+  @DeleteMapping("/departments/{id}")
+  public boolean deleteDepartmentById(@PathVariable("id") Long departmentId) {
+
+    return departmentServiceImpl.deleteDepartmentById(departmentId);
+  }
+
+  /**
+   * Retrieves a department by its ID.
+   *
+   * @param departmentId the ID of the department to retrieve
+   * @return DepartmentDTO corresponding to the department, or null if the department does not exist
+   */
+  @GetMapping("/departments/{id}")
+  public DepartmentDTO getDepartmentById(@PathVariable("id") Long departmentId) {
+
+    return departmentServiceImpl.getDepartmentById(departmentId);
   }
 }

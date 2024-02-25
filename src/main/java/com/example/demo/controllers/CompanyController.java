@@ -9,7 +9,9 @@ import com.example.demo.servicesImpl.CompanyServiceImpl;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -58,5 +60,29 @@ public class CompanyController {
     } else {
       return companyMapper.toCompanyResponse(companyServiceImpl.getAllCompanies());
     }
+  }
+
+  /**
+   * Retrieves a company by its ID and deletes it.
+   *
+   * @param companyId the ID of the company to delete
+   * @return true if the company was successfully deleted, false otherwise
+   */
+  @DeleteMapping("/companies/{id}")
+  public boolean deleteCompanyById(@PathVariable("id") Long companyId) {
+
+    return companyServiceImpl.deleteCompanyById(companyId);
+  }
+
+  /**
+   * Retrieves a company by its ID.
+   *
+   * @param companyId the ID of the company to retrieve
+   * @return CompanyDTO corresponding to the company, or null if the company does not exist
+   */
+  @GetMapping("/companies/{id}")
+  public CompanyDTO getCompanyById(@PathVariable("id") Long companyId) {
+
+    return companyServiceImpl.getCompanyById(companyId);
   }
 }
