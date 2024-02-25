@@ -7,13 +7,13 @@ on:
     # Paths of files to consider when changed
     paths:
       - "src/**"
-      - ".github/springBootWorkflow.yml"
+      - ".github/workflows/springBootWorkflow.yml"
   pull_request:
     # Branches to focus to consider when changed
     branches: [main]
     paths:
       - "src/**"
-      - ".github/springBootWorkflow.yml"
+      - ".github/workflows/springBootWorkflow.yml"
 
 jobs:
   project_build:
