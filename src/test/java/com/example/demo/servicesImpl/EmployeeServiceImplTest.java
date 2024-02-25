@@ -56,8 +56,8 @@ public class EmployeeServiceImplTest {
 
     // When
     when(employeeRepository.findAll()).thenReturn(mockedEmployees);
-    when(fromDOToDTO.MapEmployee(employee1)).thenReturn(employee1DTO);
-    when(fromDOToDTO.MapEmployee(employee2)).thenReturn(employee2DTO);
+    when(fromDOToDTO.mapEmployee(employee1)).thenReturn(employee1DTO);
+    when(fromDOToDTO.mapEmployee(employee2)).thenReturn(employee2DTO);
     final List<EmployeeDTO> employees = employeeService.getAllEmployees();
 
     // Then
@@ -80,8 +80,8 @@ public class EmployeeServiceImplTest {
 
     // When
     when(employeeRepository.findByNameContaining(keyword)).thenReturn(mockedEmployees);
-    when(fromDOToDTO.MapEmployee(employee1)).thenReturn(employee1DTO);
-    when(fromDOToDTO.MapEmployee(employee2)).thenReturn(employee2DTO);
+    when(fromDOToDTO.mapEmployee(employee1)).thenReturn(employee1DTO);
+    when(fromDOToDTO.mapEmployee(employee2)).thenReturn(employee2DTO);
     final List<EmployeeDTO> employees = employeeService.searchEmployees(keyword);
 
     // Then

@@ -76,7 +76,7 @@ public class DepartmentServiceImplTest {
 
     // When
     when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);
-    when(fromDOToDTO.MapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
+    when(fromDOToDTO.mapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
     DepartmentDTO resultDepartmentDTO = departmentService.addDepartment(inputDepartment);
 
     // Then
@@ -90,8 +90,8 @@ public class DepartmentServiceImplTest {
 
     // When
     when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);
-    when(fromDOToDTO.MapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
-    DepartmentDTO resultDepartmentDTO = departmentService.addDepartment(inputDepartment);
+    when(fromDOToDTO.mapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
+    DepartmentDTO resultDepartmentDTO = departmentService.updateDepartment(inputDepartment);
 
     // Then
     assertEquals(expectedDepartmentDTO, resultDepartmentDTO);

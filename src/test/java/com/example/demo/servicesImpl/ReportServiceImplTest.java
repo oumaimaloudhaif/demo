@@ -48,8 +48,8 @@ public class ReportServiceImplTest {
 
     // When
     when(ReportRepository.findAll()).thenReturn(mockedReports);
-    when(fromDOToDTO.MapReport(Report)).thenReturn(ReportDTO);
-    when(fromDOToDTO.MapReport(Report1)).thenReturn(Report1DTO);
+    when(fromDOToDTO.mapReport(Report)).thenReturn(ReportDTO);
+    when(fromDOToDTO.mapReport(Report1)).thenReturn(Report1DTO);
     final List<ReportDTO> Reports = ReportService.getAllReports();
 
     // Then
@@ -68,8 +68,8 @@ public class ReportServiceImplTest {
 
     // When
     when(ReportRepository.findByTitle(keyword)).thenReturn(mockedReports);
-    when(fromDOToDTO.MapReport(Report)).thenReturn(ReportDTO);
-    when(fromDOToDTO.MapReport(Report1)).thenReturn(Report1DTO);
+    when(fromDOToDTO.mapReport(Report)).thenReturn(ReportDTO);
+    when(fromDOToDTO.mapReport(Report1)).thenReturn(Report1DTO);
     List<ReportDTO> Reports = ReportService.searchReports(keyword);
 
     // Then
@@ -84,7 +84,7 @@ public class ReportServiceImplTest {
 
     // When
     when(ReportRepository.save(inputReport)).thenReturn(inputReport);
-    when(fromDOToDTO.MapReport(inputReport)).thenReturn(expectedReportDTO);
+    when(fromDOToDTO.mapReport(inputReport)).thenReturn(expectedReportDTO);
     final ReportDTO resultReportDTO = ReportService.addReport(inputReport);
 
     // Then
@@ -99,8 +99,8 @@ public class ReportServiceImplTest {
 
     // When
     when(ReportRepository.save(updatedReport)).thenReturn(updatedReport);
-    when(fromDOToDTO.MapReport(updatedReport)).thenReturn(expectedReportDTO);
-    final ReportDTO resultReportDTO = ReportService.addReport(updatedReport);
+    when(fromDOToDTO.mapReport(updatedReport)).thenReturn(expectedReportDTO);
+    final ReportDTO resultReportDTO = ReportService.updateReport(updatedReport);
 
     // Then
     assertEquals(expectedReportDTO, resultReportDTO);
