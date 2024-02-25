@@ -63,3 +63,11 @@ If no msg is received, then a problem has occurred.
 To configure your environment and access the database in your project, you need to create a .env in the root directory of your project. 
 Inside the .env file, define the necessary environment variables required for accessing the database. These include database connection details such database url, username and password.
 Then, your environment will be configured to access the database using the provided environment variables.
+
+## Test
+Test application is supported by unit tests and integration tests.
+Unit tests are found under : src/test/java/com/example/demo
+- The unit tests mocks all dependencies and focus only on the behaviour of the current class in isolation.
+  Integration tests are found under: src/test/java/com/example/demo/useCase
+- The integration tests focus in the behaviour of end to end interaction.
+ 
