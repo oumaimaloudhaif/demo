@@ -8,6 +8,7 @@ import com.example.demo.dto.MeetingDTO;
 import com.example.demo.dto.ProjectDTO;
 import com.example.demo.dto.ReportDTO;
 import com.example.demo.dto.TaskDTO;
+import com.example.demo.dto.WorkCalendarDTO;
 import com.example.demo.entities.Address;
 import com.example.demo.entities.Company;
 import com.example.demo.entities.Department;
@@ -16,12 +17,13 @@ import com.example.demo.entities.Meeting;
 import com.example.demo.entities.Project;
 import com.example.demo.entities.Report;
 import com.example.demo.entities.Task;
+import com.example.demo.entities.WorkCalendar;
 import org.springframework.stereotype.Component;
 
 @Component
 public class FromDTOToDO {
 
-  public Address MapAddressDTO(AddressDTO addressDTO) {
+  public Address mapAddressDTO(AddressDTO addressDTO) {
     Address address = new Address();
     address.setCity(addressDTO.getCity());
     address.setPostalCode(addressDTO.getPostalCode());
@@ -30,14 +32,14 @@ public class FromDTOToDO {
     return address;
   }
 
-  public Company MapCompanyDTO(CompanyDTO companyDTO) {
+  public Company mapCompanyDTO(CompanyDTO companyDTO) {
     Company company = new Company();
     company.setName(companyDTO.getName());
 
     return company;
   }
 
-  public Department MapDepartmentDTO(DepartmentDTO departmentDTO) {
+  public Department mapDepartmentDTO(DepartmentDTO departmentDTO) {
     Department department = new Department();
     department.setName(departmentDTO.getName());
     department.setEmployees(departmentDTO.getEmployees());
@@ -45,7 +47,7 @@ public class FromDTOToDO {
     return department;
   }
 
-  public Employee MapEmployeeDTO(EmployeeDTO employeeDTO) {
+  public Employee mapEmployeeDTO(EmployeeDTO employeeDTO) {
     Employee employee = new Employee();
     employee.setName(employeeDTO.getName());
     employee.setAddress(employeeDTO.getAddress());
@@ -58,7 +60,7 @@ public class FromDTOToDO {
     return employee;
   }
 
-  public Meeting MapMeetingDTO(MeetingDTO meetingDTO) {
+  public Meeting mapMeetingDTO(MeetingDTO meetingDTO) {
     Meeting meeting = new Meeting();
     meeting.setTitle(meetingDTO.getTitle());
     meeting.setStartTime(meetingDTO.getStartTime());
@@ -66,7 +68,7 @@ public class FromDTOToDO {
     return meeting;
   }
 
-  public Project MapProjectDTO(ProjectDTO projectDTO) {
+  public Project mapProjectDTO(ProjectDTO projectDTO) {
     Project project = new Project();
     project.setName(projectDTO.getName());
     project.setEmployees(projectDTO.getEmployees());
@@ -74,7 +76,7 @@ public class FromDTOToDO {
     return project;
   }
 
-  public Report MapReport(ReportDTO reportDTO) {
+  public Report mapReport(ReportDTO reportDTO) {
     Report report = new Report();
     report.setTitle(reportDTO.getTitle());
     report.setContent(reportDTO.getContent());
@@ -82,7 +84,7 @@ public class FromDTOToDO {
     return report;
   }
 
-  public Task MapTask(TaskDTO taskDTO) {
+  public Task mapTask(TaskDTO taskDTO) {
     Task task = new Task();
     task.setName(taskDTO.getName());
     task.setDescription(taskDTO.getDescription());
@@ -90,5 +92,13 @@ public class FromDTOToDO {
     task.setTaskStatus(taskDTO.getTaskStatus());
 
     return task;
+  }
+
+  public WorkCalendar mapWorkCalendar(WorkCalendarDTO workCalendarDTO) {
+    WorkCalendar workCalendar = new WorkCalendar();
+    workCalendar.setTag(workCalendarDTO.getTag());
+    workCalendar.setStartTime(workCalendarDTO.getStartTime());
+    workCalendar.setEndTime(workCalendarDTO.getEndTime());
+    return workCalendar;
   }
 }
