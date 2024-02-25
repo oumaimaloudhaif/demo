@@ -1,0 +1,1 @@
+INSERT INTO report (id,title,content,created,updated) values(1,'test','test','2023-03-14','2024-06-25');

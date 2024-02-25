@@ -1,0 +1,2 @@
+CREATE TABLE `report`(`id` int not null AUTO_INCREMENT,`title` varchar(200) default null,`content` varchar(200) default null,`created` date DEFAULT NULL,
+                       `updated` date DEFAULT current_timestamp(),  PRIMARY KEY (`id`));
