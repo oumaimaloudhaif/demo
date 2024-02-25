@@ -13,4 +13,8 @@ public interface ProjectService {
   ProjectDTO addProject(Project project);
 
   ProjectDTO updateProject(Project project);
+
+  ProjectDTO getProjectById(Long meetingId);
+
+  boolean deleteProjectById(Long meetingId);
 }

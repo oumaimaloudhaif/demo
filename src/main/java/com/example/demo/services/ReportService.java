@@ -13,4 +13,8 @@ public interface ReportService {
   ReportDTO addReport(Report report);
 
   ReportDTO updateReport(Report report);
+
+  ReportDTO getReportById(Long projectId);
+
+  boolean deleteReportById(Long reportId);
 }

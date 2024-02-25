@@ -26,7 +26,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     List<EmployeeDTO> employeesDto = new ArrayList<>();
     employees.forEach(
         employee -> {
-          EmployeeDTO employeeDTO = fromDOToDTO.MapEmployee(employee);
+          EmployeeDTO employeeDTO = fromDOToDTO.mapEmployee(employee);
           employeesDto.add(employeeDTO);
         });
 
@@ -37,6 +37,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employee the employee object to be added
    * @return String
    */
+  @Override
   public String addEmployee(Employee employee) {
     final Employee savedEmployee = employeeRepository.save(employee);
     if (savedEmployee.getEmployee_id() != null) {
@@ -52,6 +53,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employee the employee object to be updated
    * @return String
    */
+  @Override
   public String updateEmployee(Employee employee) {
     final Employee updatedEmployee = employeeRepository.save(employee);
     if (updatedEmployee.getEmployee_id() != null) {
@@ -67,11 +69,11 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employeeId the ID of the employee to be deleted
    * @return String
    */
+  @Override
   public String deleteEmployee(Long employeeId) {
     final Optional<Employee> employee = employeeRepository.findById(employeeId);
     if (employee.isPresent()) {
       employeeRepository.delete(employee.get());
-
       return "Employee is deleted successfully";
     } else {
 
@@ -85,12 +87,13 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param keyword a keyword (employee name) to search for employees
    * @return List<EmployeeDTO>
    */
+  @Override
   public List<EmployeeDTO> searchEmployees(String keyword) {
     final List<Employee> employees = employeeRepository.findByNameContaining(keyword);
     List<EmployeeDTO> employeesDto = new ArrayList<>();
     employees.forEach(
         employee -> {
-          EmployeeDTO employeeDTO = fromDOToDTO.MapEmployee(employee);
+          EmployeeDTO employeeDTO = fromDOToDTO.mapEmployee(employee);
           employeesDto.add(employeeDTO);
         });
 
@@ -105,6 +108,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @return List<Employee> A list of employees with experience equal to or greater than the
    *     specified years.
    */
+  @Override
   public List<Employee> getExperiencedEmployees(int yearsOfExperience) {
 
     return employeeRepository
@@ -120,7 +124,9 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param joiningDate The joining date of the employee.
    * @return int The number of years of experience since the joining date.
    */
-  private int calculateExperience(LocalDate joiningDate) {
+  @Override
+  public int calculateExperience(LocalDate joiningDate) {
+
     return Period.between(joiningDate, LocalDate.now()).getYears();
   }
 
@@ -131,6 +137,7 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param maxAge The maximum age
    * @return List<Employee> A list of employees within the specified age range.
    */
+  @Override
   public List<Employee> filterEmployeesByAge(int minAge, int maxAge) {
     final List<Employee> employees = employeeRepository.findAll();
 
@@ -151,7 +158,27 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param dateOfBirth The date of birth of the employee.
    * @return int The age calculated from the date of birth.
    */
-  private int calculateAge(LocalDate dateOfBirth) {
+  @Override
+  public int calculateAge(LocalDate dateOfBirth) {
+
     return Period.between(dateOfBirth, LocalDate.now()).getYears();
+  }
+
+  /**
+   * Retrieves a department by its ID.
+   *
+   * @param employee_Id the ID of the employee to retrieve
+   * @return the EmployeeDTO corresponding to the employee, or null if the employee does not exist
+   */
+  @Override
+  public EmployeeDTO getEmployeeById(Long employee_Id) {
+    final Employee employee = employeeRepository.findById(employee_Id).orElse(null);
+    if (employee != null) {
+
+      return fromDOToDTO.mapEmployee(employee);
+    } else {
+
+      return null;
+    }
   }
 }
