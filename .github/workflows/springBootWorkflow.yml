@@ -1,0 +1,49 @@
+# Name of the workflow
+name: demo application workflow
+
+# Event that triggers the CI
+on:
+  push:
+    # Paths of files to consider when changed
+    paths:
+      - "src/**"
+      - ".github/springBootWorkflow.yml"
+  pull_request:
+    # Branches to focus to consider when changed
+    branches: [main]
+    paths:
+      - "src/**"
+      - ".github/springBootWorkflow.yml"
+
+jobs:
+  project_build:
+
+    # Install ubuntu in the server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.1.1
+
+      # Install the java version 17 (the version used in springBoot demo project) in the server
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+            java-version: '17'
+            distribution: 'adopt'
+
+      # Set up the maven dependencies caching to use pom in the cache when the pom is non changed
+      - name: Set up the Maven dependencies caching
+        uses: actions/cache@v4
+        with:
+            path: ~/.m2
+            key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+            restore-keys: ${{ runner.os }}-m2
+
+      # Install maven in the server
+      - name: Install Maven dependencies
+        run: mvn install
+
+      # Run tests of the springBoot demo project
+      - name: Run tests
+        run: mvn --batch-mode --update-snapshots verify
+
+
