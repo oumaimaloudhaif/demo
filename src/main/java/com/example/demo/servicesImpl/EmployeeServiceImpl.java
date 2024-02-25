@@ -69,15 +69,20 @@ public class EmployeeServiceImpl implements EmployeeService {
    * @param employeeId the ID of the employee to be deleted
    * @return String
    */
-  @Override
   public String deleteEmployee(Long employeeId) {
-    final Optional<Employee> employee = employeeRepository.findById(employeeId);
-    if (employee.isPresent()) {
-      employeeRepository.delete(employee.get());
+    Optional<Employee> employeeOptional = employeeRepository.findById(employeeId);
+    if (employeeOptional.isPresent()) {
+      Employee employee = employeeOptional.get();
+
+      employee.getProjects().forEach(project -> project.getEmployees().remove(employee));
+
+      employee.getWorkCalendars().forEach(workCalendar -> workCalendar.setEmployee(null));
+
+      employeeRepository.delete(employee);
+
       return "Employee is deleted successfully";
     } else {
-
-      return "Employee not deleted successfully";
+      return "Employee not found";
     }
   }
 
