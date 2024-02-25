@@ -95,6 +95,7 @@ public class CompanyServiceImpl implements CompanyService {
   public boolean deleteCompanyById(Long companyId) {
     final Company company = companyRepository.findById(companyId).orElse(null);
     if (company != null) {
+      company.getDepartments().forEach(department -> {department.setCompany(null);});
       companyRepository.delete(company);
       return true;
     } else {
