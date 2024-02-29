@@ -1,6 +1,7 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -117,5 +118,67 @@ public class TaskServiceImplTest {
 
     // Then
     assertEquals(expectedTaskDTO, resultTaskDTO);
+  }
+
+  @Test
+  public void testGetTaskExist() {
+    // Given
+    final long task_Id = 1L;
+    final Task inputTask =
+        TaskTools.createTask(task_Id, "Task", "description", TaskStatus.PENDING, Priority.HIGH);
+    final TaskDTO expectedTaskDTO =
+        TaskDTOTools.createTaskDTO("Task", "description", TaskStatus.PENDING, Priority.HIGH);
+
+    // When
+    when(taskRepository.findById(task_Id)).thenReturn(java.util.Optional.of(inputTask));
+    when(fromDOToDTO.mapTask(inputTask)).thenReturn(expectedTaskDTO);
+    final TaskDTO resultTaskDTO = taskService.getTaskById(task_Id);
+
+    // Then
+    assertEquals(expectedTaskDTO.getName(), resultTaskDTO.getName());
+    assertEquals(expectedTaskDTO.getTaskStatus(), resultTaskDTO.getTaskStatus());
+    assertEquals(expectedTaskDTO.getPriority(), resultTaskDTO.getPriority());
+    assertEquals(expectedTaskDTO.getDescription(), resultTaskDTO.getDescription());
+  }
+
+  @Test
+  public void testGetTaskNonExist() {
+    // Given
+    final long task_Id = 1L;
+
+    // When
+    when(taskRepository.findById(task_Id)).thenReturn(java.util.Optional.empty());
+    final TaskDTO resultTaskDTO = taskService.getTaskById(task_Id);
+
+    // Then
+    assertNull(resultTaskDTO);
+  }
+
+  @Test
+  public void testDeleteTaskExist() {
+    // Given
+    final long task_Id = 1L;
+    final Task inputTask =
+        TaskTools.createTask(task_Id, "Task", "description", TaskStatus.PENDING, Priority.HIGH);
+
+    // When
+    when(taskRepository.findById(task_Id)).thenReturn(java.util.Optional.of(inputTask));
+    final boolean resultTaskDTO = taskService.deleteTaskById(task_Id);
+
+    // Then
+    assertTrue(resultTaskDTO);
+  }
+
+  @Test
+  public void testDeleteTaskNonExist() {
+    // Given
+    final long report_Id = 1L;
+
+    // When
+    when(taskRepository.findById(report_Id)).thenReturn(java.util.Optional.empty());
+    final boolean resultTaskDTO = taskService.deleteTaskById(report_Id);
+
+    // Then
+    assertFalse(resultTaskDTO);
   }
 }

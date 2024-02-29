@@ -1,6 +1,6 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -113,5 +113,66 @@ public class AddressServiceImplTest {
     assertEquals(expectedAddressDTO.getPostalCode(), resultAddressDTO.getPostalCode());
     assertEquals(expectedAddressDTO.getCity(), resultAddressDTO.getCity());
     assertEquals(expectedAddressDTO.getStreet(), resultAddressDTO.getStreet());
+  }
+
+  @Test
+  public void testGetAddressExist() {
+    // Given
+    final long address_id = 1L;
+    final Address inputAddress =
+        AddressTools.createAddress(address_id, "street", "city", "codePostal");
+    final AddressDTO expectedAddressDTO =
+        AddressDTOTools.createAddressDTO("street", "city", "codePostal");
+
+    // When
+    when(addressRepository.findById(address_id)).thenReturn(java.util.Optional.of(inputAddress));
+    when(fromDOToDTO.mapAddress(inputAddress)).thenReturn(expectedAddressDTO);
+    final AddressDTO resultAddressDTO = addressService.getAddressById(inputAddress.getAddress_id());
+
+    // Then
+    assertEquals(expectedAddressDTO.getPostalCode(), resultAddressDTO.getPostalCode());
+    assertEquals(expectedAddressDTO.getCity(), resultAddressDTO.getCity());
+    assertEquals(expectedAddressDTO.getStreet(), resultAddressDTO.getStreet());
+  }
+
+  @Test
+  public void testGetAddressNonExist() {
+    // Given
+    final long address_id = 1L;
+
+    // When
+    when(addressRepository.getById(address_id)).thenReturn(null);
+    final AddressDTO resultAddressDTO = addressService.getAddressById(address_id);
+
+    // Then
+    assertNull(resultAddressDTO);
+  }
+
+  @Test
+  public void testDeleteAddressExist() {
+    // Given
+    final long address_id = 1L;
+    final Address inputAddress =
+        AddressTools.createAddress(address_id, "street", "city", "codePostal");
+
+    // When
+    when(addressRepository.findById(address_id)).thenReturn(java.util.Optional.of(inputAddress));
+    final boolean resultAddressDTO = addressService.deleteAddressById(inputAddress.getAddress_id());
+
+    // Then
+    assertTrue(resultAddressDTO);
+  }
+
+  @Test
+  public void testDeleteAddressNonExist() {
+    // Given
+    final long address_id = 1L;
+
+    // When
+    when(addressRepository.getById(address_id)).thenReturn(null);
+    final boolean resultAddressDTO = addressService.deleteAddressById(address_id);
+
+    // Then
+    assertFalse(resultAddressDTO);
   }
 }

@@ -189,4 +189,80 @@ class DepartmentControllerTest extends AbstractTest {
     DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
     assertEquals(departmentDTO.getName(), result.getName());
   }
+
+  @Test
+  public void getDepartmentNotExistTest() throws Exception {
+    // Given
+    String uri = "/departments/30";
+
+    // When
+    when(departmentServiceImpl.getDepartmentById(30L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getDepartmentExistTest() throws Exception {
+    // Given
+    String uri = "/departments/1";
+    final DepartmentDTO departmentDTO = new DepartmentDTO("department");
+
+    // When
+    when(departmentServiceImpl.getDepartmentById(1L)).thenReturn(departmentDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
+    assertEquals(departmentDTO.getName(), result.getName());
+  }
+
+  @Test
+  public void deleteDepartmentNotExistTest() throws Exception {
+    // Given
+    String uri = "/departments/290";
+
+    // When
+    when(departmentServiceImpl.deleteDepartmentById(290L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteDepartmentExistTest() throws Exception {
+    // Given
+    String uri = "/departments/11";
+
+    // When
+    when(departmentServiceImpl.deleteDepartmentById(11L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }

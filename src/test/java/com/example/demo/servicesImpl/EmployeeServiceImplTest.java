@@ -62,6 +62,14 @@ public class EmployeeServiceImplTest {
 
     // Then
     assertEquals(mockedEmployees.size(), employees.size());
+    assertEquals("Oumaima L", employees.get(0).getName());
+    assertEquals("Oumaima L", employees.get(1).getName());
+    assertEquals(1000, employees.get(0).getSalary());
+    assertEquals(1000, employees.get(1).getSalary());
+    assertEquals(Gender.FEMALE, employees.get(0).getGender());
+    assertEquals(Gender.FEMALE, employees.get(1).getGender());
+    assertEquals(ContractType.CDI, employees.get(0).getContractType());
+    assertEquals(ContractType.CDD, employees.get(1).getContractType());
   }
 
   @Test
@@ -86,6 +94,14 @@ public class EmployeeServiceImplTest {
 
     // Then
     assertEquals(mockedEmployees.size(), employees.size());
+    assertEquals("Oumaima L", employees.get(0).getName());
+    assertEquals("Oumaima L", employees.get(1).getName());
+    assertEquals(1000, employees.get(0).getSalary());
+    assertEquals(1000, employees.get(1).getSalary());
+    assertEquals(Gender.FEMALE, employees.get(0).getGender());
+    assertEquals(Gender.FEMALE, employees.get(1).getGender());
+    assertEquals(ContractType.CDI, employees.get(0).getContractType());
+    assertEquals(ContractType.CDI, employees.get(1).getContractType());
   }
 
   @Test
@@ -93,9 +109,9 @@ public class EmployeeServiceImplTest {
     // Given
     final int yearsOfExperience = 5;
     final Employee employee1 =
-        EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+        EmployeeTools.createEmployee(1L, "Oumaima L", 7000, Gender.FEMALE, ContractType.CDI);
     final Employee employee2 =
-        EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+        EmployeeTools.createEmployee(2L, "Oumaima L1", 1000, Gender.FEMALE, ContractType.CDD);
     final List<Employee> mockedEmployees = Arrays.asList(employee1, employee2);
 
     // When
@@ -107,6 +123,10 @@ public class EmployeeServiceImplTest {
 
     // Then
     assertEquals(1, experiencedEmployees.size());
+    assertEquals("Oumaima L", experiencedEmployees.get(0).getName());
+    assertEquals(7000, experiencedEmployees.get(0).getSalary());
+    assertEquals(Gender.FEMALE, experiencedEmployees.get(0).getGender());
+    assertEquals(ContractType.CDI, experiencedEmployees.get(0).getContractType());
   }
 
   @Test
@@ -114,10 +134,10 @@ public class EmployeeServiceImplTest {
     // Given
     final int minAge = 25;
     final int maxAge = 35;
-    Employee employee1 =
-        EmployeeTools.createEmployee(1L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
-    Employee employee2 =
-        EmployeeTools.createEmployee(2L, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final Employee employee1 =
+        EmployeeTools.createEmployee(1L, "Oumaima L", 7000, Gender.FEMALE, ContractType.CDI);
+    final Employee employee2 =
+        EmployeeTools.createEmployee(2L, "Oumaima L1", 1000, Gender.FEMALE, ContractType.CDD);
     final List<Employee> mockedEmployees = Arrays.asList(employee1, employee2);
 
     // When
@@ -128,5 +148,73 @@ public class EmployeeServiceImplTest {
 
     // Then
     assertEquals(1, filteredEmployees.size());
+    assertEquals(1, filteredEmployees.size());
+    assertEquals("Oumaima L", filteredEmployees.get(0).getName());
+    assertEquals(7000, filteredEmployees.get(0).getSalary());
+    assertEquals(Gender.FEMALE, filteredEmployees.get(0).getGender());
+    assertEquals(ContractType.CDI, filteredEmployees.get(0).getContractType());
+  }
+
+  @Test
+  public void testGetEmployeeExist() {
+    // Given
+    final long employee_Id = 1L;
+    final Employee employee =
+        EmployeeTools.createEmployee(
+            employee_Id, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    final EmployeeDTO employeeDTO =
+        EmployeeDTOTools.createEmployeeDTO("Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+    // When
+    when(employeeRepository.findById(employee_Id)).thenReturn(java.util.Optional.of(employee));
+    when(fromDOToDTO.mapEmployee(employee)).thenReturn(employeeDTO);
+    final EmployeeDTO resultAddressDTO = employeeService.getEmployeeById(employee_Id);
+
+    // Then
+    assertEquals("Oumaima L", resultAddressDTO.getName());
+    assertEquals(1000, resultAddressDTO.getSalary());
+    assertEquals(Gender.FEMALE, resultAddressDTO.getGender());
+    assertEquals(ContractType.CDI, resultAddressDTO.getContractType());
+  }
+
+  @Test
+  public void testGetEmployeeNonExist() {
+    // Given
+    final long employee_Id = 1L;
+
+    // When
+    when(employeeRepository.getById(employee_Id)).thenReturn(null);
+    final EmployeeDTO resultEmployeeDTO = employeeService.getEmployeeById(employee_Id);
+
+    // Then
+    assertNull(resultEmployeeDTO);
+  }
+
+  @Test
+  public void testDeleteEmployeeExist() {
+    // Given
+    final long employee_Id = 1L;
+    final Employee employee =
+        EmployeeTools.createEmployee(
+            employee_Id, "Oumaima L", 1000, Gender.FEMALE, ContractType.CDI);
+
+    // When
+    when(employeeRepository.findById(employee_Id)).thenReturn(java.util.Optional.of(employee));
+    final String resultEmployeeDTO = employeeService.deleteEmployee(employee_Id);
+
+    // Then
+    assertEquals("Employee is deleted successfully", resultEmployeeDTO);
+  }
+
+  @Test
+  public void testDeleteEmployeeNonExist() {
+    // Given
+    final long employee_Id = 1L;
+
+    // When
+    when(employeeRepository.getById(employee_Id)).thenReturn(null);
+    final String resultEmployeeDTO = employeeService.deleteEmployee(employee_Id);
+
+    // Then
+    assertEquals("Employee not found", resultEmployeeDTO);
   }
 }

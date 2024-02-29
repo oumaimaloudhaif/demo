@@ -19,11 +19,8 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-import java.util.List;
-
 class CompanyUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   @BeforeEach
@@ -56,8 +53,8 @@ class CompanyUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -71,8 +68,8 @@ class CompanyUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -91,12 +88,12 @@ class CompanyUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -113,15 +110,14 @@ class CompanyUseCase extends AbstractTest {
     final String uri = "/companies";
     CompanyRequest companyRequest = new CompanyRequest();
     companyRequest.setKeyword("t");
-    final List<CompanyDTO> listOfCompanies = List.of();
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -139,14 +135,14 @@ class CompanyUseCase extends AbstractTest {
     CompanyRequest companyRequest = new CompanyRequest();
     companyRequest.setKeyword("");
     mvc.perform(
-                    MockMvcRequestBuilders.get(uri)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
-            .andExpect(
-                    result ->
-                            assertInstanceOf(
-                                    MethodArgumentNotValidException.class, result.getResolvedException()))
-            .andExpect(status().isBadRequest());
+            MockMvcRequestBuilders.get(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(companyRequest.getKeyword())))
+        .andExpect(
+            result ->
+                assertInstanceOf(
+                    MethodArgumentNotValidException.class, result.getResolvedException()))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -160,11 +156,11 @@ class CompanyUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -185,11 +181,11 @@ class CompanyUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -206,8 +202,8 @@ class CompanyUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then

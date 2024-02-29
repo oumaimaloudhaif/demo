@@ -1,6 +1,7 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -104,5 +105,61 @@ public class MeetingServiceImplTest {
 
     // Then
     assertEquals(expectedMeetingDTO, resultMeetingDTO);
+  }
+
+  @Test
+  public void testGetMeetingExist() {
+    // Given
+    final long meeting_id = 1L;
+    final Meeting inputMeeting = MeetingTools.createMeeting(1L, "Meeting");
+    final MeetingDTO expectedMeetingDTO = MeetingDTOTools.createMeeting("Meeting1");
+
+    // When
+    when(meetingRepository.findById(meeting_id)).thenReturn(java.util.Optional.of(inputMeeting));
+    when(fromDOToDTO.mapMeeting(inputMeeting)).thenReturn(expectedMeetingDTO);
+    final MeetingDTO resultMeetingDTO = meetingService.getMeetingById(meeting_id);
+
+    // Then
+    assertEquals(expectedMeetingDTO.getTitle(), resultMeetingDTO.getTitle());
+  }
+
+  @Test
+  public void testGetMeetingNonExist() {
+    // Given
+    final long meeting_id = 1L;
+
+    // When
+    when(meetingRepository.findById(meeting_id)).thenReturn(java.util.Optional.empty());
+    final MeetingDTO resultDepartmentDTO = meetingService.getMeetingById(meeting_id);
+
+    // Then
+    assertNull(resultDepartmentDTO);
+  }
+
+  @Test
+  public void testDeleteMeetingExist() {
+    // Given
+    final long meeting_id = 1L;
+    final Meeting inputMeeting = MeetingTools.createMeeting(1L, "Meeting");
+
+    // When
+    when(meetingRepository.findById(meeting_id)).thenReturn(java.util.Optional.of(inputMeeting));
+    final boolean resultMeetingDTO = meetingService.deleteMeetingById(meeting_id);
+
+    // Then
+    assertTrue(resultMeetingDTO);
+  }
+
+  @Test
+  public void testDeleteMeetingNonExist() {
+    // Given
+    final long meeting_id = 1L;
+
+    // When
+    when(meetingRepository.findById(meeting_id)).thenReturn(java.util.Optional.empty());
+    final boolean resultDepartmentDTO = meetingService.deleteMeetingById(meeting_id);
+
+    // Then
+    assertFalse(resultDepartmentDTO);
   }
 }

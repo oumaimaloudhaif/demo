@@ -36,7 +36,7 @@ class WorkCalendarControllerTest extends AbstractTest {
     // Given
     final String uri = "/workCalendars";
     final WorkCalendarDTO workCalendarDTO = new WorkCalendarDTO("tag");
-    final WorkCalendarDTO workCalendarDTO1 = new WorkCalendarDTO("tag");
+    final WorkCalendarDTO workCalendarDTO1 = new WorkCalendarDTO("tag1");
     final List<WorkCalendarDTO> workCalendarDTOS = List.of(workCalendarDTO, workCalendarDTO1);
 
     // When
@@ -51,6 +51,8 @@ class WorkCalendarControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     WorkCalendarResponse workCalendars = super.mapFromJson(content, WorkCalendarResponse.class);
     assertEquals(2, workCalendars.getResult().size());
+    assertEquals("tag", workCalendars.getResult().get(0).getTag());
+    assertEquals("tag1", workCalendars.getResult().get(1).getTag());
   }
 
   @Test
@@ -163,6 +165,7 @@ class WorkCalendarControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
     assertEquals(workCalendarDTO.getStartTime(), result.getStartTime());
+    assertEquals(workCalendarDTO.getTag(), result.getTag());
   }
 
   @Test
@@ -191,5 +194,81 @@ class WorkCalendarControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
     assertEquals(workCalendarDTO.getStartTime(), result.getStartTime());
+  }
+
+  @Test
+  public void getWorkCalendarNotExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/39";
+
+    // When
+    when(workCalendarServiceImpl.getWorkCalendarById(39L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getWorkCalendarsExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/11";
+    final WorkCalendarDTO workCalendarDTO = new WorkCalendarDTO("tag");
+
+    // When
+    when(workCalendarServiceImpl.getWorkCalendarById(11L)).thenReturn(workCalendarDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
+    assertEquals(workCalendarDTO.getTag(), result.getTag());
+  }
+
+  @Test
+  public void deleteWorkCalendarsNotExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/39";
+
+    // When
+    when(workCalendarServiceImpl.deleteWorkCalendarById(39L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteWorkCalendarsExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/1";
+
+    // When
+    when(workCalendarServiceImpl.deleteWorkCalendarById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
   }
 }

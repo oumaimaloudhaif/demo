@@ -236,4 +236,80 @@ class CompanyControllerTest extends AbstractTest {
     CompanyDTO result = objectMapper.readValue(content, CompanyDTO.class);
     assertEquals(companyDTO.getName(), result.getName());
   }
+
+  @Test
+  public void getCompanyNotExistTest() throws Exception {
+    // Given
+    String uri = "/companies/200";
+
+    // When
+    when(companyServiceImpl.getCompanyById(200L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getCompanyExistTest() throws Exception {
+    // Given
+    String uri = "/companies/1";
+    final CompanyDTO companyDTO = new CompanyDTO("company");
+
+    // When
+    when(companyServiceImpl.getCompanyById(1L)).thenReturn(companyDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    CompanyDTO result = objectMapper.readValue(content, CompanyDTO.class);
+    assertEquals(companyDTO.getName(), result.getName());
+  }
+
+  @Test
+  public void deleteCompanyNotExistTest() throws Exception {
+    // Given
+    String uri = "/companies/10";
+
+    // When
+    when(companyServiceImpl.deleteCompanyById(10L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteCompanyExistTest() throws Exception {
+    // Given
+    String uri = "/companies/1";
+
+    // When
+    when(companyServiceImpl.deleteCompanyById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }

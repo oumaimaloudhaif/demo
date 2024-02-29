@@ -1,6 +1,6 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -28,8 +28,8 @@ import org.springframework.test.context.junit4.SpringRunner;
     classes = DemoApplication.class)
 @AutoConfigureMockMvc
 public class ReportServiceImplTest {
-  @MockBean private ReportRepository ReportRepository;
-  @Autowired private ReportServiceImpl ReportService;
+  @MockBean private ReportRepository reportRepository;
+  @Autowired private ReportServiceImpl reportService;
   @MockBean private FromDOToDTO fromDOToDTO;
 
   @BeforeEach
@@ -47,10 +47,10 @@ public class ReportServiceImplTest {
     final List<Report> mockedReports = Arrays.asList(Report, Report1);
 
     // When
-    when(ReportRepository.findAll()).thenReturn(mockedReports);
+    when(reportRepository.findAll()).thenReturn(mockedReports);
     when(fromDOToDTO.mapReport(Report)).thenReturn(ReportDTO);
     when(fromDOToDTO.mapReport(Report1)).thenReturn(Report1DTO);
-    final List<ReportDTO> Reports = ReportService.getAllReports();
+    final List<ReportDTO> Reports = reportService.getAllReports();
 
     // Then
     assertEquals(mockedReports.size(), Reports.size());
@@ -67,10 +67,10 @@ public class ReportServiceImplTest {
     final List<Report> mockedReports = Arrays.asList(Report, Report1);
 
     // When
-    when(ReportRepository.findByTitle(keyword)).thenReturn(mockedReports);
+    when(reportRepository.findByTitle(keyword)).thenReturn(mockedReports);
     when(fromDOToDTO.mapReport(Report)).thenReturn(ReportDTO);
     when(fromDOToDTO.mapReport(Report1)).thenReturn(Report1DTO);
-    List<ReportDTO> Reports = ReportService.searchReports(keyword);
+    List<ReportDTO> Reports = reportService.searchReports(keyword);
 
     // Then
     assertEquals(mockedReports.size(), Reports.size());
@@ -83,9 +83,9 @@ public class ReportServiceImplTest {
     final ReportDTO expectedReportDTO = ReportDTOTools.createReportDTO("Report1");
 
     // When
-    when(ReportRepository.save(inputReport)).thenReturn(inputReport);
+    when(reportRepository.save(inputReport)).thenReturn(inputReport);
     when(fromDOToDTO.mapReport(inputReport)).thenReturn(expectedReportDTO);
-    final ReportDTO resultReportDTO = ReportService.addReport(inputReport);
+    final ReportDTO resultReportDTO = reportService.addReport(inputReport);
 
     // Then
     assertEquals(expectedReportDTO, resultReportDTO);
@@ -98,11 +98,67 @@ public class ReportServiceImplTest {
     final ReportDTO expectedReportDTO = ReportDTOTools.createReportDTO("Report1");
 
     // When
-    when(ReportRepository.save(updatedReport)).thenReturn(updatedReport);
+    when(reportRepository.save(updatedReport)).thenReturn(updatedReport);
     when(fromDOToDTO.mapReport(updatedReport)).thenReturn(expectedReportDTO);
-    final ReportDTO resultReportDTO = ReportService.updateReport(updatedReport);
+    final ReportDTO resultReportDTO = reportService.updateReport(updatedReport);
 
     // Then
     assertEquals(expectedReportDTO, resultReportDTO);
+  }
+
+  @Test
+  public void testGetReportExist() {
+    // Given
+    final long report_Id = 1L;
+    final Report inputReport = ReportTools.createReport(report_Id, "Report");
+    final ReportDTO expectedReportDTO = ReportDTOTools.createReportDTO("Report1");
+
+    // When
+    when(reportRepository.findById(report_Id)).thenReturn(java.util.Optional.of(inputReport));
+    when(fromDOToDTO.mapReport(inputReport)).thenReturn(expectedReportDTO);
+    final ReportDTO resultReportDTO = reportService.getReportById(report_Id);
+
+    // Then
+    assertEquals(expectedReportDTO.getTitle(), resultReportDTO.getTitle());
+  }
+
+  @Test
+  public void testGetReportNonExist() {
+    // Given
+    final long report_Id = 1L;
+
+    // When
+    when(reportRepository.findById(report_Id)).thenReturn(java.util.Optional.empty());
+    final ReportDTO resultReportDTO = reportService.getReportById(report_Id);
+
+    // Then
+    assertNull(resultReportDTO);
+  }
+
+  @Test
+  public void testDeleteReportExist() {
+    // Given
+    final long report_Id = 1L;
+    final Report inputReport = ReportTools.createReport(report_Id, "Report");
+
+    // When
+    when(reportRepository.findById(report_Id)).thenReturn(java.util.Optional.of(inputReport));
+    final boolean resultReportDTO = reportService.deleteReportById(report_Id);
+
+    // Then
+    assertTrue(resultReportDTO);
+  }
+
+  @Test
+  public void testDeleteReportNonExist() {
+    // Given
+    final long report_Id = 1L;
+
+    // When
+    when(reportRepository.findById(report_Id)).thenReturn(java.util.Optional.empty());
+    final boolean resultReportDTO = reportService.deleteReportById(report_Id);
+
+    // Then
+    assertFalse(resultReportDTO);
   }
 }

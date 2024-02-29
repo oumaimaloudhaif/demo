@@ -17,10 +17,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-
 class TasksUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   @BeforeEach
@@ -45,6 +43,7 @@ class TasksUseCase extends AbstractTest {
     TaskResponse reports = super.mapFromJson(content, TaskResponse.class);
     Assertions.assertEquals(4, reports.getResult().size());
   }
+
   @Test
   public void getAllTasksTestWhenNoTaskExist() throws Exception {
     // Given
@@ -52,8 +51,8 @@ class TasksUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -70,8 +69,8 @@ class TasksUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -84,11 +83,11 @@ class TasksUseCase extends AbstractTest {
     final String uri = "/tasks";
     // when
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", (String) null)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // then
@@ -106,12 +105,12 @@ class TasksUseCase extends AbstractTest {
     taskRequest.setKeyword("");
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(taskRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(taskRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -132,11 +131,11 @@ class TasksUseCase extends AbstractTest {
     String inputJson = new ObjectMapper().writeValueAsString(task);
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -157,11 +156,11 @@ class TasksUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -178,8 +177,8 @@ class TasksUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -221,4 +220,3 @@ class TasksUseCase extends AbstractTest {
     assertEquals(true, actualValue);
   }
 }
-

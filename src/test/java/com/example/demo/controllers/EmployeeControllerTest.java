@@ -55,6 +55,16 @@ class EmployeeControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse employees = super.mapFromJson(content, FetchEmployeeResponse.class);
     assertEquals(2, employees.getResult().size());
+    assertEquals(2, employees.getResult().size());
+    assertEquals(2, employees.getResult().size());
+    assertEquals("oma", employees.getResult().get(0).getName());
+    assertEquals("oma1", employees.getResult().get(1).getName());
+    assertEquals(5000, employees.getResult().get(0).getSalary());
+    assertEquals(2000, employees.getResult().get(1).getSalary());
+    assertEquals(Gender.FEMALE, employees.getResult().get(0).getGender());
+    assertEquals(Gender.FEMALE, employees.getResult().get(1).getGender());
+    assertEquals(ContractType.CDI, employees.getResult().get(0).getContractType());
+    assertEquals(ContractType.CDI, employees.getResult().get(1).getContractType());
   }
 
   @Test
@@ -137,6 +147,12 @@ class EmployeeControllerTest extends AbstractTest {
     assertEquals(2, employees.getResult().size());
     assertEquals("oma", employees.getResult().get(0).getName());
     assertEquals("oma1", employees.getResult().get(1).getName());
+    assertEquals(5000, employees.getResult().get(0).getSalary());
+    assertEquals(2000, employees.getResult().get(1).getSalary());
+    assertEquals(Gender.FEMALE, employees.getResult().get(0).getGender());
+    assertEquals(Gender.FEMALE, employees.getResult().get(1).getGender());
+    assertEquals(ContractType.CDI, employees.getResult().get(0).getContractType());
+    assertEquals(ContractType.CDI, employees.getResult().get(1).getContractType());
   }
 
   @Test
@@ -191,6 +207,15 @@ class EmployeeControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse result = objectMapper.readValue(content, FetchEmployeeResponse.class);
     assertEquals(2, result.getResult().size());
+    assertEquals(2, result.getResult().size());
+    assertEquals("oma", result.getResult().get(0).getName());
+    assertEquals("oma1", result.getResult().get(1).getName());
+    assertEquals(5000, result.getResult().get(0).getSalary());
+    assertEquals(2000, result.getResult().get(1).getSalary());
+    assertEquals(Gender.FEMALE, result.getResult().get(0).getGender());
+    assertEquals(Gender.FEMALE, result.getResult().get(1).getGender());
+    assertEquals(ContractType.CDI, result.getResult().get(0).getContractType());
+    assertEquals(ContractType.CDI, result.getResult().get(1).getContractType());
   }
 
   @Test
@@ -305,5 +330,46 @@ class EmployeeControllerTest extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     assertEquals("Employee not deleted successfully", content);
+  }
+
+  @Test
+  public void getEmployeeNotExistTest() throws Exception {
+    // Given
+    String uri = "/employees/70";
+
+    // When
+    when(employeeServiceImpl.getEmployeeById(70L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getEmployeeExistTest() throws Exception {
+    // Given
+    String uri = "/employees/1";
+    final EmployeeDTO employeeDTO = new EmployeeDTO("oma", 5000, Gender.FEMALE, ContractType.CDI);
+
+    // When
+    when(employeeServiceImpl.getEmployeeById(1L)).thenReturn(employeeDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    EmployeeDTO result = objectMapper.readValue(content, EmployeeDTO.class);
+    assertEquals(employeeDTO.getName(), result.getName());
+    assertEquals(employeeDTO.getSalary(), result.getSalary());
+    assertEquals(employeeDTO.getGender(), result.getGender());
+    assertEquals(employeeDTO.getContractType(), result.getContractType());
   }
 }

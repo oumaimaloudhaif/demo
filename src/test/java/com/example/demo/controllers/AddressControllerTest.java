@@ -113,7 +113,7 @@ class AddressControllerTest extends AbstractTest {
   }
 
   @Test
-  public void getAddressWithNullKeywordReturnsEmptyList() throws Exception {
+  public void getAddressWithNullKeywordReturnsBadRequest() throws Exception {
     // Given
     final String uri = "/addresses";
     AddressRequest addressRequest = new AddressRequest();
@@ -140,8 +140,10 @@ class AddressControllerTest extends AbstractTest {
     final String uri = "/addresses";
     Address address = new Address();
     address.setCity("city");
+    address.setStreet("street");
+    address.setPostalCode("7034");
     String inputJson = new ObjectMapper().writeValueAsString(address);
-    final AddressDTO addressDTO = new AddressDTO("street", "city", "address");
+    final AddressDTO addressDTO = new AddressDTO("street", "city", "7034");
 
     // When
     when(addressServiceImpl.addAddress(any(Address.class))).thenReturn(addressDTO);
@@ -159,6 +161,8 @@ class AddressControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
     assertEquals(addressDTO.getCity(), result.getCity());
+    assertEquals(addressDTO.getStreet(), result.getStreet());
+    assertEquals(addressDTO.getPostalCode(), result.getPostalCode());
   }
 
   @Test
@@ -166,9 +170,11 @@ class AddressControllerTest extends AbstractTest {
     // Given
     final String uri = "/addresses";
     Address address = new Address();
-    address.setCity("address");
+    address.setCity("street1");
+    address.setStreet("street");
+    address.setPostalCode("7034");
     String inputJson = new ObjectMapper().writeValueAsString(address);
-    final AddressDTO addressDTO = new AddressDTO("street", "city", "address");
+    final AddressDTO addressDTO = new AddressDTO("street1", "city1", "7034");
 
     // When
     when(addressServiceImpl.updateAddress(any(Address.class))).thenReturn(addressDTO);
@@ -185,5 +191,85 @@ class AddressControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
     assertEquals(addressDTO.getCity(), result.getCity());
+    assertEquals(addressDTO.getStreet(), result.getStreet());
+    assertEquals("7034", result.getPostalCode());
+  }
+
+  @Test
+  public void getAddressNotExistTest() throws Exception {
+    // Given
+    String uri = "/addresses/30";
+
+    // When
+    when(addressServiceImpl.getAddressById(30L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getAddressExistTest() throws Exception {
+    // Given
+    String uri = "/addresses/1";
+    final AddressDTO addressDTO = new AddressDTO("street", "city", "7034");
+
+    // When
+    when(addressServiceImpl.getAddressById(1L)).thenReturn(addressDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
+    assertEquals(addressDTO.getCity(), result.getCity());
+    assertEquals(addressDTO.getStreet(), result.getStreet());
+    assertEquals(addressDTO.getPostalCode(), result.getPostalCode());
+  }
+
+  @Test
+  public void deleteAddressNotExistTest() throws Exception {
+    // Given
+    String uri = "/addresses/30";
+
+    // When
+    when(addressServiceImpl.deleteAddressById(30L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteAddressExistTest() throws Exception {
+    // Given
+    String uri = "/addresses/1";
+
+    // When
+    when(addressServiceImpl.deleteAddressById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
   }
 }

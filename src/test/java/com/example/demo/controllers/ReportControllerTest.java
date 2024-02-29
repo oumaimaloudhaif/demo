@@ -189,4 +189,80 @@ class ReportControllerTest extends AbstractTest {
     ReportDTO result = objectMapper.readValue(content, ReportDTO.class);
     assertEquals(reportDTO.getTitle(), result.getTitle());
   }
+
+  @Test
+  public void getReportNotExistTest() throws Exception {
+    // Given
+    String uri = "/reports/30";
+
+    // When
+    when(reportServiceImpl.getReportById(30L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getReportExistTest() throws Exception {
+    // Given
+    String uri = "/reports/1";
+    final ReportDTO reportDTO = new ReportDTO("report");
+
+    // When
+    when(reportServiceImpl.getReportById(1L)).thenReturn(reportDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    ReportDTO result = objectMapper.readValue(content, ReportDTO.class);
+    assertEquals(reportDTO.getTitle(), result.getTitle());
+  }
+
+  @Test
+  public void deleteReportNotExistTest() throws Exception {
+    // Given
+    String uri = "/reports/21";
+
+    // When
+    when(reportServiceImpl.deleteReportById(21L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteReportExistTest() throws Exception {
+    // Given
+    String uri = "/reports/1";
+
+    // When
+    when(reportServiceImpl.deleteReportById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }

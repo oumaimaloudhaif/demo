@@ -1,6 +1,7 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -38,7 +39,7 @@ public class WorkCalendarImplTest {
   }
 
   @Test
-  public void testGetAllTasks() {
+  public void testGetAllWorkCalendars() {
     // Given
     final WorkCalendar workCalendar = WorkCalendarTools.createWorkCalendar(1L, "WorkCalendar");
     final WorkCalendar workCalendar1 = WorkCalendarTools.createWorkCalendar(2L, "WorkCalendar");
@@ -59,7 +60,7 @@ public class WorkCalendarImplTest {
   }
 
   @Test
-  public void testSearchTasks() {
+  public void testSearchWorkCalendars() {
     // Given
     final String keyword = "Oumaima";
     final WorkCalendar workCalendar = WorkCalendarTools.createWorkCalendar(1L, "WorkCalendar");
@@ -81,11 +82,12 @@ public class WorkCalendarImplTest {
   }
 
   @Test
-  public void testAddTask() {
+  public void testAddWorkCalendar() {
     // Given
     final WorkCalendar workCalendar = WorkCalendarTools.createWorkCalendar(1L, "WorkCalendar");
     final WorkCalendarDTO workCalendarDTO =
         WorkCalendarDTOTools.createWorkCalendarDTO("WorkCalendar");
+
     // When
     when(workCalendarRepository.save(workCalendar)).thenReturn(workCalendar);
     when(fromDOToDTO.mapWorkCalendar(workCalendar)).thenReturn(workCalendarDTO);
@@ -97,11 +99,12 @@ public class WorkCalendarImplTest {
   }
 
   @Test
-  public void testUpdateTask() {
+  public void testUpdateWorkCalendar() {
     // Given
     final WorkCalendar workCalendar = WorkCalendarTools.createWorkCalendar(1L, "WorkCalendar");
     final WorkCalendarDTO workCalendarDTO =
         WorkCalendarDTOTools.createWorkCalendarDTO("WorkCalendar");
+
     // When
     when(workCalendarRepository.save(workCalendar)).thenReturn(workCalendar);
     when(fromDOToDTO.mapWorkCalendar(workCalendar)).thenReturn(workCalendarDTO);
@@ -110,5 +113,68 @@ public class WorkCalendarImplTest {
 
     // Then
     assertEquals(workCalendarDTO, resultWorkCalendarDTODTO);
+  }
+
+  @Test
+  public void testGetWorkCalendarExist() {
+    // Given
+    final long workCalendar_Id = 1L;
+    final WorkCalendar workCalendar =
+        WorkCalendarTools.createWorkCalendar(workCalendar_Id, "WorkCalendar");
+    final WorkCalendarDTO workCalendarDTO =
+        WorkCalendarDTOTools.createWorkCalendarDTO("WorkCalendar");
+
+    // When
+    when(workCalendarRepository.findById(workCalendar_Id))
+        .thenReturn(java.util.Optional.of(workCalendar));
+    when(fromDOToDTO.mapWorkCalendar(workCalendar)).thenReturn(workCalendarDTO);
+    final WorkCalendarDTO resultWorkCalendar =
+        workCalendarService.getWorkCalendarById(workCalendar_Id);
+
+    // Then
+    assertEquals(workCalendarDTO.getTag(), resultWorkCalendar.getTag());
+  }
+
+  @Test
+  public void testGetWorkCalendarNonExist() {
+    // Given
+    final long workCalendar_Id = 1L;
+
+    // When
+    when(workCalendarRepository.findById(workCalendar_Id)).thenReturn(java.util.Optional.empty());
+    final WorkCalendarDTO resultWorkCalendar =
+        workCalendarService.getWorkCalendarById(workCalendar_Id);
+
+    // Then
+    assertNull(resultWorkCalendar);
+  }
+
+  @Test
+  public void testDeleteWorkCalendarExist() {
+    // Given
+    final long workCalendar_Id = 1L;
+    final WorkCalendar workCalendar =
+        WorkCalendarTools.createWorkCalendar(workCalendar_Id, "WorkCalendar");
+
+    // When
+    when(workCalendarRepository.findById(workCalendar_Id))
+        .thenReturn(java.util.Optional.of(workCalendar));
+    final boolean resultWorkCalendar = workCalendarService.deleteWorkCalendarById(workCalendar_Id);
+
+    // Then
+    assertTrue(resultWorkCalendar);
+  }
+
+  @Test
+  public void testDeleteWorkCalendarNonExist() {
+    // Given
+    final long workCalendar_Id = 1L;
+
+    // When
+    when(workCalendarRepository.findById(workCalendar_Id)).thenReturn(java.util.Optional.empty());
+    final boolean resultWorkCalendar = workCalendarService.deleteWorkCalendarById(workCalendar_Id);
+
+    // Then
+    assertFalse(resultWorkCalendar);
   }
 }

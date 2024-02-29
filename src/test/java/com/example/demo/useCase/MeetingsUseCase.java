@@ -9,7 +9,6 @@ import com.example.demo.controllers.response.MeetingResponse;
 import com.example.demo.dto.MeetingDTO;
 import com.example.demo.entities.Meeting;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +16,8 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-
 class MeetingsUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   @BeforeEach
@@ -53,8 +50,8 @@ class MeetingsUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -68,11 +65,11 @@ class MeetingsUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", (String) null)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // then
@@ -91,12 +88,12 @@ class MeetingsUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(meetingRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(meetingRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -118,11 +115,11 @@ class MeetingsUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -132,6 +129,7 @@ class MeetingsUseCase extends AbstractTest {
     MeetingDTO result = objectMapper.readValue(content, MeetingDTO.class);
     assertEquals("Team Meeting", result.getTitle());
   }
+
   @Test
   public void updateMeeting() throws Exception {
     // Given
@@ -142,11 +140,11 @@ class MeetingsUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -163,8 +161,8 @@ class MeetingsUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -206,4 +204,3 @@ class MeetingsUseCase extends AbstractTest {
     assertEquals(true, actualValue);
   }
 }
-

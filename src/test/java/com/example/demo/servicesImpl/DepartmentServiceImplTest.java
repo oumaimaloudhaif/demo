@@ -1,6 +1,7 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -85,8 +86,8 @@ public class DepartmentServiceImplTest {
 
   @Test
   public void testUpdateDepartment() {
-    Department inputDepartment = DepartmentTools.createDepartment(1L, "Department1");
-    DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
+    final Department inputDepartment = DepartmentTools.createDepartment(1L, "Department1");
+    final DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
 
     // When
     when(departmentRepository.save(inputDepartment)).thenReturn(inputDepartment);
@@ -95,5 +96,65 @@ public class DepartmentServiceImplTest {
 
     // Then
     assertEquals(expectedDepartmentDTO, resultDepartmentDTO);
+  }
+
+  @Test
+  public void testGetDepartmentExist() {
+    // Given
+    final long department_id = 1L;
+    final Department inputDepartment =
+        DepartmentTools.createDepartment(department_id, "Department1");
+    final DepartmentDTO expectedDepartmentDTO = new DepartmentDTO("Department1");
+
+    // When
+    when(departmentRepository.findById(department_id))
+        .thenReturn(java.util.Optional.of(inputDepartment));
+    when(fromDOToDTO.mapDepartment(inputDepartment)).thenReturn(expectedDepartmentDTO);
+    final DepartmentDTO resultDepartmentDTO = departmentService.getDepartmentById(department_id);
+
+    // Then
+    assertEquals(expectedDepartmentDTO.getName(), resultDepartmentDTO.getName());
+  }
+
+  @Test
+  public void testGetCompanyNonExist() {
+    // Given
+    final long department_id = 1L;
+
+    // When
+    when(departmentRepository.findById(department_id)).thenReturn(java.util.Optional.empty());
+    final DepartmentDTO resultDepartmentDTO = departmentService.getDepartmentById(department_id);
+
+    // Then
+    assertNull(resultDepartmentDTO);
+  }
+
+  @Test
+  public void testDeleteDepartmentExist() {
+    // Given
+    final long department_id = 1L;
+    final Department inputDepartment =
+        DepartmentTools.createDepartment(department_id, "Department1");
+
+    // When
+    when(departmentRepository.findById(department_id))
+        .thenReturn(java.util.Optional.of(inputDepartment));
+    final boolean resultDepartmentDTO = departmentService.deleteDepartmentById(department_id);
+
+    // Then
+    assertTrue(resultDepartmentDTO);
+  }
+
+  @Test
+  public void testDeleteDepartmentNonExist() {
+    // Given
+    final long department_id = 1L;
+
+    // When
+    when(departmentRepository.findById(department_id)).thenReturn(java.util.Optional.empty());
+    final boolean resultDepartmentDTO = departmentService.deleteDepartmentById(department_id);
+
+    // Then
+    assertFalse(resultDepartmentDTO);
   }
 }

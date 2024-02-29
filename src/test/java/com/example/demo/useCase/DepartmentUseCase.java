@@ -18,8 +18,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 class DepartmentUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   @BeforeEach
@@ -34,8 +33,8 @@ class DepartmentUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(url).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(url).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -52,8 +51,8 @@ class DepartmentUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -67,11 +66,11 @@ class DepartmentUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", (String) null)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // then
@@ -91,11 +90,11 @@ class DepartmentUseCase extends AbstractTest {
     String inputJson = new ObjectMapper().writeValueAsString(department);
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -116,11 +115,11 @@ class DepartmentUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -139,12 +138,12 @@ class DepartmentUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(departmentRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(departmentRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -162,8 +161,8 @@ class DepartmentUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then

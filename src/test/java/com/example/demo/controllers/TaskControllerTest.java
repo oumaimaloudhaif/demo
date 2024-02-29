@@ -40,7 +40,7 @@ class TaskControllerTest extends AbstractTest {
     final TaskDTO taskDTO =
         new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
     final TaskDTO taskDTO1 =
-        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+        new TaskDTO("task1", "description1", Priority.HIGH, TaskStatus.IN_PROGRESS);
     final List<TaskDTO> listOfTasks = List.of(taskDTO, taskDTO1);
 
     // When
@@ -55,6 +55,14 @@ class TaskControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     TaskResponse tasks = super.mapFromJson(content, TaskResponse.class);
     assertEquals(2, tasks.getResult().size());
+    assertEquals("task", tasks.getResult().get(0).getName());
+    assertEquals("task1", tasks.getResult().get(1).getName());
+    assertEquals("description", tasks.getResult().get(0).getDescription());
+    assertEquals("description1", tasks.getResult().get(1).getDescription());
+    assertEquals(Priority.HIGH, tasks.getResult().get(0).getPriority());
+    assertEquals(Priority.HIGH, tasks.getResult().get(1).getPriority());
+    assertEquals(TaskStatus.IN_PROGRESS, tasks.getResult().get(0).getTaskStatus());
+    assertEquals(TaskStatus.IN_PROGRESS, tasks.getResult().get(1).getTaskStatus());
   }
 
   @Test
@@ -167,6 +175,9 @@ class TaskControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     TaskDTO result = objectMapper.readValue(content, TaskDTO.class);
     assertEquals(taskDTO.getName(), result.getName());
+    assertEquals(taskDTO.getTaskStatus(), result.getTaskStatus());
+    assertEquals(taskDTO.getPriority(), result.getPriority());
+    assertEquals(taskDTO.getDescription(), result.getDescription());
   }
 
   @Test
@@ -194,5 +205,88 @@ class TaskControllerTest extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     TaskDTO result = objectMapper.readValue(content, TaskDTO.class);
     assertEquals(taskDTO.getName(), result.getName());
+    assertEquals(taskDTO.getTaskStatus(), result.getTaskStatus());
+    assertEquals(taskDTO.getPriority(), result.getPriority());
+    assertEquals(taskDTO.getDescription(), result.getDescription());
+  }
+
+  @Test
+  public void getTaskNotExistTest() throws Exception {
+    // Given
+    String uri = "/tasks/13";
+
+    // When
+    when(taskServiceImpl.getTaskById(13L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getTaskExistTest() throws Exception {
+    // Given
+    String uri = "/tasks/1";
+    final TaskDTO taskDTO =
+        new TaskDTO("task", "description", Priority.HIGH, TaskStatus.IN_PROGRESS);
+
+    // When
+    when(taskServiceImpl.getTaskById(1L)).thenReturn(taskDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    TaskDTO result = objectMapper.readValue(content, TaskDTO.class);
+    assertEquals(taskDTO.getName(), result.getName());
+    assertEquals(taskDTO.getTaskStatus(), result.getTaskStatus());
+    assertEquals(taskDTO.getPriority(), result.getPriority());
+    assertEquals(taskDTO.getDescription(), result.getDescription());
+  }
+
+  @Test
+  public void deleteTaskNotExistTest() throws Exception {
+    // Given
+    String uri = "/tasks/30";
+
+    // When
+    when(taskServiceImpl.deleteTaskById(30L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteTaskExistTest() throws Exception {
+    // Given
+    String uri = "/tasks/1";
+
+    // When
+    when(taskServiceImpl.deleteTaskById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
   }
 }

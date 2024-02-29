@@ -6,20 +6,20 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.demo.controllers.AbstractTest;
 import com.example.demo.controllers.request.EmployeeRequest;
 import com.example.demo.controllers.response.FetchEmployeeResponse;
-import com.example.demo.dto.DepartmentDTO;
+import com.example.demo.dto.EmployeeDTO;
 import com.example.demo.entities.Employee;
+import com.example.demo.enums.ContractType;
+import com.example.demo.enums.Gender;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 class EmployeesUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
   @Override
   @BeforeEach
@@ -42,7 +42,14 @@ class EmployeesUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse employees = objectMapper.readValue(content, FetchEmployeeResponse.class);
-    Assertions.assertEquals(2, employees.getResult().size());
+    assertEquals(2, employees.getResult().size());
+    assertEquals("Oumaima", employees.getResult().get(0).getName());
+    assertEquals("Mayssa", employees.getResult().get(1).getName());
+    assertEquals(50000, employees.getResult().get(0).getSalary());
+    assertEquals(60000, employees.getResult().get(1).getSalary());
+    assertEquals(Gender.FEMALE, employees.getResult().get(1).getGender());
+    assertEquals(ContractType.CDI, employees.getResult().get(0).getContractType());
+    assertEquals(ContractType.CDI, employees.getResult().get(1).getContractType());
   }
 
   @Test
@@ -52,8 +59,8 @@ class EmployeesUseCase extends AbstractTest {
 
     // when
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -68,11 +75,11 @@ class EmployeesUseCase extends AbstractTest {
     // when
 
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", keyword)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", keyword)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // then
@@ -80,6 +87,8 @@ class EmployeesUseCase extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse employees = objectMapper.readValue(content, FetchEmployeeResponse.class);
     assertEquals("Oumaima", employees.getResult().get(0).getName());
+    assertEquals(50000, employees.getResult().get(0).getSalary());
+    assertEquals(ContractType.CDI, employees.getResult().get(0).getContractType());
   }
 
   @Test
@@ -88,18 +97,21 @@ class EmployeesUseCase extends AbstractTest {
     final String uri = "/employees";
     // when
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", (String) null)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    FetchEmployeeResponse result = objectMapper.readValue(content, FetchEmployeeResponse.class);
-    assertEquals(2, result.getResult().size());
+    FetchEmployeeResponse employees = objectMapper.readValue(content, FetchEmployeeResponse.class);
+    assertEquals(2, employees.getResult().size());
+    assertEquals("Oumaima", employees.getResult().get(0).getName());
+    assertEquals(50000, employees.getResult().get(0).getSalary());
+    assertEquals(ContractType.CDI, employees.getResult().get(0).getContractType());
   }
 
   @Test
@@ -110,13 +122,13 @@ class EmployeesUseCase extends AbstractTest {
     employeeRequest.setKeyword("Oumaima");
 
     // when
-      MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(employeeRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(employeeRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -125,6 +137,8 @@ class EmployeesUseCase extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse result = objectMapper.readValue(content, FetchEmployeeResponse.class);
     assertEquals(1, result.getResult().size());
+    assertEquals("Oumaima", result.getResult().get(0).getName());
+    assertEquals(50000, result.getResult().get(0).getSalary());
   }
 
   @Test
@@ -135,12 +149,12 @@ class EmployeesUseCase extends AbstractTest {
     employeeRequest.setKeyword("");
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .contentType(MediaType.APPLICATION_JSON)
-                                    .content(objectMapper.writeValueAsString(employeeRequest.getKeyword())))
-                    .andExpect(status().isOk())
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(employeeRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -149,6 +163,9 @@ class EmployeesUseCase extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     FetchEmployeeResponse result = objectMapper.readValue(content, FetchEmployeeResponse.class);
     assertEquals(2, result.getResult().size());
+    assertEquals("Oumaima", result.getResult().get(0).getName());
+    assertEquals(50000, result.getResult().get(0).getSalary());
+    assertEquals(ContractType.CDI, result.getResult().get(0).getContractType());
   }
 
   @Test
@@ -162,12 +179,12 @@ class EmployeesUseCase extends AbstractTest {
     String inputJson = new ObjectMapper().writeValueAsString(employee);
 
     // When
-     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -189,11 +206,11 @@ class EmployeesUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -239,14 +256,16 @@ class EmployeesUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
-    DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
+    EmployeeDTO result = objectMapper.readValue(content, EmployeeDTO.class);
     assertEquals("Oumaima", result.getName());
+    assertEquals(50000, result.getSalary());
+    assertEquals(ContractType.CDI, result.getContractType());
   }
 }

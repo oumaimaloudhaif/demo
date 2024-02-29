@@ -11,7 +11,6 @@ import com.example.demo.controllers.response.AddressResponse;
 import com.example.demo.dto.AddressDTO;
 import com.example.demo.entities.Address;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +19,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
-
 class AddressUseCase extends AbstractTest {
-  @Autowired
-  private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
+
   @Override
   @BeforeEach
   public void setUp() {
@@ -45,7 +43,7 @@ class AddressUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     AddressResponse reports = super.mapFromJson(content, AddressResponse.class);
-    Assertions.assertEquals(3, reports.getResult().size());
+    assertEquals(3, reports.getResult().size());
   }
 
   @Test
@@ -55,8 +53,8 @@ class AddressUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -73,8 +71,8 @@ class AddressUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -88,11 +86,11 @@ class AddressUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.get(uri)
-                                    .param("keyword", (String) null)
-                                    .accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -113,14 +111,14 @@ class AddressUseCase extends AbstractTest {
     CompanyRequest companyRequest = new CompanyRequest();
     companyRequest.setKeyword("");
     mvc.perform(
-                    MockMvcRequestBuilders.get(uri)
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(addressRequest.getKeyword())))
-            .andExpect(
-                    result ->
-                            assertInstanceOf(
-                                    MethodArgumentNotValidException.class, result.getResolvedException()))
-            .andExpect(status().isBadRequest());
+            MockMvcRequestBuilders.get(uri)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(addressRequest.getKeyword())))
+        .andExpect(
+            result ->
+                assertInstanceOf(
+                    MethodArgumentNotValidException.class, result.getResolvedException()))
+        .andExpect(status().isBadRequest());
   }
 
   @Test
@@ -130,15 +128,17 @@ class AddressUseCase extends AbstractTest {
     final String uri = "/addresses";
     Address address = new Address();
     address.setCity("city");
+    address.setPostalCode("7034");
+    address.setStreet("street");
     String inputJson = new ObjectMapper().writeValueAsString(address);
 
     // When
-     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.post(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
     int status = mvcResult.getResponse().getStatus();
 
@@ -146,7 +146,9 @@ class AddressUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
-    assertEquals("city", result.getCity());
+    assertEquals(address.getCity(), result.getCity());
+    assertEquals(address.getStreet(), result.getStreet());
+    assertEquals(address.getPostalCode(), result.getPostalCode());
   }
 
   @Test
@@ -155,22 +157,26 @@ class AddressUseCase extends AbstractTest {
     final String uri = "/addresses";
     Address address = new Address();
     address.setCity("city1");
+    address.setPostalCode("7034");
+    address.setStreet("street1");
     String inputJson = new ObjectMapper().writeValueAsString(address);
 
     // When
     MvcResult mvcResult =
-            mvc.perform(
-                            MockMvcRequestBuilders.put(uri)
-                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                    .content(inputJson))
-                    .andReturn();
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
-    assertEquals("city1", result.getCity());
+    assertEquals(address.getCity(), result.getCity());
+    assertEquals(address.getStreet(), result.getStreet());
+    assertEquals(address.getPostalCode(), result.getPostalCode());
   }
 
   @Test
@@ -180,8 +186,8 @@ class AddressUseCase extends AbstractTest {
 
     // When
     MvcResult mvcResult =
-            mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                    .andReturn();
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
     int status = mvcResult.getResponse().getStatus();
 
     // Then
@@ -189,6 +195,8 @@ class AddressUseCase extends AbstractTest {
     String content = mvcResult.getResponse().getContentAsString();
     AddressDTO result = objectMapper.readValue(content, AddressDTO.class);
     assertEquals("street", result.getStreet());
+    assertEquals("city", result.getCity());
+    assertEquals("12345", result.getPostalCode());
   }
 
   @Test
@@ -223,4 +231,3 @@ class AddressUseCase extends AbstractTest {
     assertEquals(true, actualValue);
   }
 }
-

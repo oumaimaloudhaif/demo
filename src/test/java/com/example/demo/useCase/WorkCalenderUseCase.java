@@ -1,5 +1,8 @@
 package com.example.demo.useCase;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import com.example.demo.controllers.AbstractTest;
 import com.example.demo.controllers.request.WorkCalendarRequest;
 import com.example.demo.controllers.response.WorkCalendarResponse;
@@ -13,194 +16,189 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 class WorkCalenderUseCase extends AbstractTest {
-    @Autowired
-    private ObjectMapper objectMapper;
+  @Autowired private ObjectMapper objectMapper;
 
-    @Override
-    @BeforeEach
-    public void setUp() {
-        super.setUp();
-    }
-    @Test
-    public void getAllWorkCalendarsTestWhenWorkCalendarExist() throws Exception {
-        // Given
-        final String uri = "/workCalendars";
+  @Override
+  @BeforeEach
+  public void setUp() {
+    super.setUp();
+  }
 
-        // When
-        MvcResult mvcResult =
-                mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                        .andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void getAllWorkCalendarsTestWhenWorkCalendarExist() throws Exception {
+    // Given
+    final String uri = "/workCalendars";
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarResponse workCalendars = super.mapFromJson(content, WorkCalendarResponse.class);
-        assertEquals(2, workCalendars.getResult().size());
-    }
+    // When
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void getAllWorkCalendarsTestWrongPath() throws Exception {
-        // given
-        final String uri = "/workCalendarss";
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarResponse workCalendars = super.mapFromJson(content, WorkCalendarResponse.class);
+    assertEquals(2, workCalendars.getResult().size());
+  }
 
-        // when
-        MvcResult mvcResult =
-                mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                        .andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void getAllWorkCalendarsTestWrongPath() throws Exception {
+    // given
+    final String uri = "/workCalendarss";
 
-        // Then
-        assertEquals(404, status);
-    }
+    // when
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void searchWorkCalendarTestWhenKeywordIsNull() throws Exception {
-        // given
-        final String uri = "/workCalendars";
-        // when
-        MvcResult mvcResult =
-                mvc.perform(
-                                MockMvcRequestBuilders.get(uri)
-                                        .param("keyword", (String) null)
-                                        .accept(MediaType.APPLICATION_JSON_VALUE))
-                        .andReturn();
-        int status = mvcResult.getResponse().getStatus();
+    // Then
+    assertEquals(404, status);
+  }
 
-        // then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarResponse workCalendars = super.mapFromJson(content, WorkCalendarResponse.class);
-        assertEquals(3, workCalendars.getResult().size());
-    }
+  @Test
+  public void searchWorkCalendarTestWhenKeywordIsNull() throws Exception {
+    // given
+    final String uri = "/workCalendars";
+    // when
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .param("keyword", (String) null)
+                    .accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void fetchWorkCalendarsWithNullKeywordReturnsEmptyList() throws Exception {
-        // Given
-        final String uri = "/workCalendars";
-        WorkCalendarRequest workCalendarRequest = new WorkCalendarRequest();
-        workCalendarRequest.setKeyword("");
-        // When
-        MvcResult mvcResult =
-                mvc.perform(
-                                MockMvcRequestBuilders.get(uri)
-                                        .contentType(MediaType.APPLICATION_JSON)
-                                        .content(objectMapper.writeValueAsString(workCalendarRequest.getKeyword())))
-                        .andExpect(status().isOk())
-                        .andReturn();
+    // then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarResponse workCalendars = super.mapFromJson(content, WorkCalendarResponse.class);
+    assertEquals(3, workCalendars.getResult().size());
+  }
 
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void fetchWorkCalendarsWithNullKeywordReturnsEmptyList() throws Exception {
+    // Given
+    final String uri = "/workCalendars";
+    WorkCalendarRequest workCalendarRequest = new WorkCalendarRequest();
+    workCalendarRequest.setKeyword("");
+    // When
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.get(uri)
+                    .contentType(MediaType.APPLICATION_JSON)
+                    .content(objectMapper.writeValueAsString(workCalendarRequest.getKeyword())))
+            .andExpect(status().isOk())
+            .andReturn();
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarResponse result = objectMapper.readValue(content, WorkCalendarResponse.class);
-        assertEquals(3, result.getResult().size());
-    }
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void addWorkCalendarTest() throws Exception {
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarResponse result = objectMapper.readValue(content, WorkCalendarResponse.class);
+    assertEquals(3, result.getResult().size());
+  }
 
-        // Given
-        final String uri = "/workCalendars";
-        WorkCalendar WorkCalendar = new WorkCalendar();
-        WorkCalendar.setTag("Meeting");
-        String inputJson = new ObjectMapper().writeValueAsString(WorkCalendar);
+  @Test
+  public void addWorkCalendarTest() throws Exception {
 
-        // When
-        MvcResult mvcResult =
-                mvc.perform(
-                                MockMvcRequestBuilders.post(uri)
-                                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                        .content(inputJson))
-                        .andReturn();
+    // Given
+    final String uri = "/workCalendars";
+    WorkCalendar WorkCalendar = new WorkCalendar();
+    WorkCalendar.setTag("Meeting");
+    String inputJson = new ObjectMapper().writeValueAsString(WorkCalendar);
 
-        int status = mvcResult.getResponse().getStatus();
+    // When
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.post(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
-        assertEquals("Meeting", result.getTag());
-    }
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void updateWorkCalendar() throws Exception {
-        // Given
-        final String uri = "/workCalendars";
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
+    assertEquals("Meeting", result.getTag());
+  }
 
-        WorkCalendar WorkCalendar = new WorkCalendar();
-        WorkCalendar.setTag("Meeting1");
-        String inputJson = new ObjectMapper().writeValueAsString(WorkCalendar);
-        // When
-        MvcResult mvcResult =
-                mvc.perform(
-                                MockMvcRequestBuilders.put(uri)
-                                        .contentType(MediaType.APPLICATION_JSON_VALUE)
-                                        .content(inputJson))
-                        .andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void updateWorkCalendar() throws Exception {
+    // Given
+    final String uri = "/workCalendars";
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
-        assertEquals("Meeting1", result.getTag());
-    }
+    WorkCalendar WorkCalendar = new WorkCalendar();
+    WorkCalendar.setTag("Meeting1");
+    String inputJson = new ObjectMapper().writeValueAsString(WorkCalendar);
+    // When
+    MvcResult mvcResult =
+        mvc.perform(
+                MockMvcRequestBuilders.put(uri)
+                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                    .content(inputJson))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void findWorkCalendarById() throws Exception {
-        // Given
-        final String uri = "/workCalendars/2";
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
+    assertEquals("Meeting1", result.getTag());
+  }
 
-        // When
-        MvcResult mvcResult =
-                mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
-                        .andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void findWorkCalendarById() throws Exception {
+    // Given
+    final String uri = "/workCalendars/2";
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
-        assertEquals("Training", result.getTag());
-    }
+    // When
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void deleteWorkCalendarNotExistTest() throws Exception {
-        // Given
-        String uri = "/workCalendars/118";
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    WorkCalendarDTO result = objectMapper.readValue(content, WorkCalendarDTO.class);
+    assertEquals("Training", result.getTag());
+  }
 
-        // when
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void deleteWorkCalendarNotExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/118";
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        Boolean actualValue = Boolean.valueOf(content);
-        assertEquals(false, actualValue);
-    }
+    // when
+    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
+    int status = mvcResult.getResponse().getStatus();
 
-    @Test
-    public void deleteWorkCalendarExistTest() throws Exception {
-        // Given
-        String uri = "/workCalendars/1";
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
 
-        // when
-        MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
-        int status = mvcResult.getResponse().getStatus();
+  @Test
+  public void deleteWorkCalendarExistTest() throws Exception {
+    // Given
+    String uri = "/workCalendars/1";
 
-        // Then
-        assertEquals(200, status);
-        String content = mvcResult.getResponse().getContentAsString();
-        Boolean actualValue = Boolean.valueOf(content);
-        assertEquals(true, actualValue);
-    }
+    // when
+    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(uri)).andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }
-
-

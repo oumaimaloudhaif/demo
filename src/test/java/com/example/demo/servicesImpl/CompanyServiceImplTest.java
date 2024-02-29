@@ -1,6 +1,7 @@
 package com.example.demo.servicesImpl;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.mockito.Mockito.when;
 
 import com.example.demo.DemoApplication;
@@ -108,5 +109,61 @@ public class CompanyServiceImplTest {
 
     // Then
     assertEquals(expectedCompanyDTO.getName(), resultCompanyDTO.getName());
+  }
+
+  @Test
+  public void testGetCompanyExist() {
+    // Given
+    final long company_id = 1L;
+    final Company inputCompany = CompanyTools.createCompany(company_id, "Company1");
+    final CompanyDTO expectedCompanyDTO = CompanyDTOTools.createCompanyDTO("Company1");
+
+    // When
+    when(companyRepository.findById(company_id)).thenReturn(java.util.Optional.of(inputCompany));
+    when(fromDOToDTO.mapCompany(inputCompany)).thenReturn(expectedCompanyDTO);
+    final CompanyDTO resultCompanyDTO = companyService.getCompanyById(inputCompany.getCompany_id());
+
+    // Then
+    assertEquals(expectedCompanyDTO.getName(), resultCompanyDTO.getName());
+  }
+
+  @Test
+  public void testGetCompanyNonExist() {
+    // Given
+    final long company_id = 1L;
+
+    // When
+    when(companyRepository.findById(company_id)).thenReturn(java.util.Optional.empty());
+    final CompanyDTO resultCompanyDTO = companyService.getCompanyById(company_id);
+
+    // Then
+    assertNull(resultCompanyDTO);
+  }
+
+  @Test
+  public void testDeleteCompanyExist() {
+    // Given
+    final long company_id = 1L;
+    final Company inputCompany = CompanyTools.createCompany(company_id, "Company1");
+
+    // When
+    when(companyRepository.findById(company_id)).thenReturn(java.util.Optional.of(inputCompany));
+    final boolean resultCompanyDTO = companyService.deleteCompanyById(company_id);
+
+    // Then
+    assertTrue(resultCompanyDTO);
+  }
+
+  @Test
+  public void testDeleteCompanyNonExist() {
+    // Given
+    final long company_id = 1L;
+
+    // When
+    when(companyRepository.findById(company_id)).thenReturn(java.util.Optional.empty());
+    final boolean resultCompanyDTO = companyService.deleteCompanyById(company_id);
+
+    // Then
+    assertFalse(resultCompanyDTO);
   }
 }

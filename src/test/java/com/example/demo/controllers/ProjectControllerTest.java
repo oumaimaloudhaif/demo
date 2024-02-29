@@ -191,4 +191,80 @@ class ProjectControllerTest extends AbstractTest {
     ProjectDTO result = objectMapper.readValue(content, ProjectDTO.class);
     assertEquals(projectDTO.getName(), result.getName());
   }
+
+  @Test
+  public void getProjectNotExistTest() throws Exception {
+    // Given
+    String uri = "/projects/20";
+
+    // When
+    when(projectServiceImpl.getProjectById(20L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getProjectExistTest() throws Exception {
+    // Given
+    String uri = "/projects/1";
+    final ProjectDTO project = new ProjectDTO("project");
+
+    // When
+    when(projectServiceImpl.getProjectById(1L)).thenReturn(project);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    ProjectDTO result = objectMapper.readValue(content, ProjectDTO.class);
+    assertEquals(project.getName(), result.getName());
+  }
+
+  @Test
+  public void deleteProjectNotExistTest() throws Exception {
+    // Given
+    String uri = "/projects/30";
+
+    // When
+    when(projectServiceImpl.deleteProjectById(30L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteProjectExistTest() throws Exception {
+    // Given
+    String uri = "/projects/1";
+
+    // When
+    when(projectServiceImpl.deleteProjectById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }

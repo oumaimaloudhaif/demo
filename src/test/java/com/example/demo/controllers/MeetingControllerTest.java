@@ -190,4 +190,80 @@ class MeetingControllerTest extends AbstractTest {
     MeetingDTO result = objectMapper.readValue(content, MeetingDTO.class);
     assertEquals(meetingDTO.getTitle(), result.getTitle());
   }
+
+  @Test
+  public void getMeetingNotExistTest() throws Exception {
+    // Given
+    String uri = "/meetings/30";
+
+    // When
+    when(meetingServiceImpl.getMeetingById(30L)).thenReturn(null);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    assertEquals("", content);
+  }
+
+  @Test
+  public void getMeetingExistTest() throws Exception {
+    // Given
+    String uri = "/meetings/1";
+    final MeetingDTO meetingDTO = new MeetingDTO("meeting");
+
+    // When
+    when(meetingServiceImpl.getMeetingById(1L)).thenReturn(meetingDTO);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.get(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    MeetingDTO result = objectMapper.readValue(content, MeetingDTO.class);
+    assertEquals(meetingDTO.getTitle(), result.getTitle());
+  }
+
+  @Test
+  public void deleteMeetingNotExistTest() throws Exception {
+    // Given
+    String uri = "/meetings/30";
+
+    // When
+    when(meetingServiceImpl.deleteMeetingById(30L)).thenReturn(false);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(false, actualValue);
+  }
+
+  @Test
+  public void deleteMeetingExistTest() throws Exception {
+    // Given
+    String uri = "/meetings/1";
+
+    // When
+    when(meetingServiceImpl.deleteMeetingById(1L)).thenReturn(true);
+    MvcResult mvcResult =
+        mvc.perform(MockMvcRequestBuilders.delete(uri).accept(MediaType.APPLICATION_JSON_VALUE))
+            .andReturn();
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    Boolean actualValue = Boolean.valueOf(content);
+    assertEquals(true, actualValue);
+  }
 }
