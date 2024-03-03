@@ -9,14 +9,17 @@ import com.example.demo.controllers.response.ReportResponse;
 import com.example.demo.dto.ReportDTO;
 import com.example.demo.entities.Report;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class ReportUseCase extends AbstractTest {
   @Autowired private ObjectMapper objectMapper;
 
@@ -27,6 +30,7 @@ class ReportUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(1)
   public void fetchAllReportsTest() throws Exception {
     // Given
     String url = "/reports";
@@ -41,10 +45,11 @@ class ReportUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     ReportResponse reports = super.mapFromJson(content, ReportResponse.class);
-    Assertions.assertEquals(2, reports.getResult().size());
+    assertEquals(2, reports.getResult().size());
   }
 
   @Test
+  @Order(2)
   public void getAllReportsTestWrongPath() throws Exception {
     // given
     final String uri = "/reportss";
@@ -60,6 +65,33 @@ class ReportUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(3)
+  public void addReportTest() throws Exception {
+
+    // Given
+    final String uri = "/reports";
+    Report report = new Report();
+    report.setTitle("test");
+    String inputJson = new ObjectMapper().writeValueAsString(report);
+
+    // When
+    MvcResult mvcResult =
+            mvc.perform(
+                            MockMvcRequestBuilders.post(uri)
+                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                    .content(inputJson))
+                    .andReturn();
+
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    ReportDTO result = objectMapper.readValue(content, ReportDTO.class);
+    assertEquals("test", result.getTitle());
+  }
+  @Test
+  @Order(4)
   public void searchReportTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/reports";
@@ -76,65 +108,16 @@ class ReportUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     ReportResponse reports = super.mapFromJson(content, ReportResponse.class);
-    assertEquals(2, reports.getResult().size());
+    assertEquals(3, reports.getResult().size());
   }
 
   @Test
-  public void fetchReportsWithNullKeywordReturnsEmptyList() throws Exception {
-    // Given
-    final String uri = "/reports";
-    ReportRequest reportRequest = new ReportRequest();
-    reportRequest.setKeyword("");
-
-    // When
-    MvcResult mvcResult =
-        mvc.perform(
-                MockMvcRequestBuilders.get(uri)
-                    .contentType(MediaType.APPLICATION_JSON)
-                    .content(objectMapper.writeValueAsString(reportRequest.getKeyword())))
-            .andExpect(status().isOk())
-            .andReturn();
-
-    int status = mvcResult.getResponse().getStatus();
-
-    // Then
-    assertEquals(200, status);
-    String content = mvcResult.getResponse().getContentAsString();
-    ReportResponse result = objectMapper.readValue(content, ReportResponse.class);
-    assertEquals(2, result.getResult().size());
-  }
-
-  @Test
-  public void addReportTest() throws Exception {
-
-    // Given
-    final String uri = "/reports";
-    Report report = new Report();
-    report.setTitle("test");
-    String inputJson = new ObjectMapper().writeValueAsString(report);
-
-    // When
-    MvcResult mvcResult =
-        mvc.perform(
-                MockMvcRequestBuilders.post(uri)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(inputJson))
-            .andReturn();
-
-    int status = mvcResult.getResponse().getStatus();
-
-    // Then
-    assertEquals(200, status);
-    String content = mvcResult.getResponse().getContentAsString();
-    ReportDTO result = objectMapper.readValue(content, ReportDTO.class);
-    assertEquals("test", result.getTitle());
-  }
-
-  @Test
+  @Order(5)
   public void updateReport() throws Exception {
     // Given
     final String uri = "/reports";
     Report report = new Report();
+    report.setId(1L);
     report.setTitle("test1");
     String inputJson = new ObjectMapper().writeValueAsString(report);
 
@@ -155,6 +138,7 @@ class ReportUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(6)
   public void findReportById() throws Exception {
     // Given
     final String uri = "/reports/2";
@@ -173,6 +157,7 @@ class ReportUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(7)
   public void deleteReportNotExistTest() throws Exception {
     // Given
     String uri = "/reports/29";
@@ -189,6 +174,7 @@ class ReportUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(8)
   public void deleteReportExistTest() throws Exception {
     // Given
     String uri = "/reports/1";
@@ -203,4 +189,31 @@ class ReportUseCase extends AbstractTest {
     Boolean actualValue = Boolean.valueOf(content);
     assertEquals(true, actualValue);
   }
+
+  @Test
+  @Order(9)
+  public void fetchReportsWithNullKeywordReturnsEmptyList() throws Exception {
+    // Given
+    final String uri = "/reports";
+    ReportRequest reportRequest = new ReportRequest();
+    reportRequest.setKeyword("");
+
+    // When
+    MvcResult mvcResult =
+            mvc.perform(
+                            MockMvcRequestBuilders.get(uri)
+                                    .contentType(MediaType.APPLICATION_JSON)
+                                    .content(objectMapper.writeValueAsString(reportRequest.getKeyword())))
+                    .andExpect(status().isOk())
+                    .andReturn();
+
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    ReportResponse result = objectMapper.readValue(content, ReportResponse.class);
+    assertEquals(2, result.getResult().size());
+  }
+
 }

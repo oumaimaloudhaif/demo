@@ -9,14 +9,17 @@ import com.example.demo.controllers.response.DepartmentResponse;
 import com.example.demo.dto.DepartmentDTO;
 import com.example.demo.entities.Department;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Order;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class DepartmentUseCase extends AbstractTest {
   @Autowired private ObjectMapper objectMapper;
 
@@ -27,6 +30,7 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(1)
   public void fetchAllDepartmentsTest() throws Exception {
     // Given
     String url = "/departments";
@@ -41,10 +45,11 @@ class DepartmentUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     DepartmentResponse reports = super.mapFromJson(content, DepartmentResponse.class);
-    Assertions.assertEquals(2, reports.getResult().size());
+    assertEquals(2, reports.getResult().size());
   }
 
   @Test
+  @Order(2)
   public void getAllDepartmentsTestWrongPath() throws Exception {
     // given
     final String uri = "/departmentss";
@@ -60,6 +65,33 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(3)
+  public void addDepartmentTest() throws Exception {
+
+    // Given
+    final String uri = "/departments";
+    Department department = new Department();
+    department.setName("Engineering1");
+    String inputJson = new ObjectMapper().writeValueAsString(department);
+    // When
+    MvcResult mvcResult =
+            mvc.perform(
+                            MockMvcRequestBuilders.post(uri)
+                                    .contentType(MediaType.APPLICATION_JSON_VALUE)
+                                    .content(inputJson))
+                    .andReturn();
+
+    int status = mvcResult.getResponse().getStatus();
+
+    // Then
+    assertEquals(200, status);
+    String content = mvcResult.getResponse().getContentAsString();
+    DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
+    assertEquals("Engineering1", result.getName());
+  }
+
+  @Test
+  @Order(4)
   public void searchDepartmentTestWhenKeywordIsNull() throws Exception {
     // given
     final String uri = "/departments";
@@ -81,35 +113,12 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
-  public void addDepartmentTest() throws Exception {
-
-    // Given
-    final String uri = "/departments";
-    Department department = new Department();
-    department.setName("Engineering1");
-    String inputJson = new ObjectMapper().writeValueAsString(department);
-    // When
-    MvcResult mvcResult =
-        mvc.perform(
-                MockMvcRequestBuilders.post(uri)
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .content(inputJson))
-            .andReturn();
-
-    int status = mvcResult.getResponse().getStatus();
-
-    // Then
-    assertEquals(200, status);
-    String content = mvcResult.getResponse().getContentAsString();
-    DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
-    assertEquals("Engineering1", result.getName());
-  }
-
-  @Test
+  @Order(5)
   public void updateDepartment() throws Exception {
     // Given
     final String uri = "/departments";
     Department department = new Department();
+    department.setDepartment_id(1L);
     department.setName("department1");
     String inputJson = new ObjectMapper().writeValueAsString(department);
 
@@ -130,6 +139,7 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(6)
   public void fetchDepartmentsWithNullKeywordReturnsNonEmptyList() throws Exception {
     // Given
     final String uri = "/departments";
@@ -155,6 +165,7 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(7)
   public void findDepartmentById() throws Exception {
     // Given
     final String uri = "/departments/1";
@@ -169,10 +180,11 @@ class DepartmentUseCase extends AbstractTest {
     assertEquals(200, status);
     String content = mvcResult.getResponse().getContentAsString();
     DepartmentDTO result = objectMapper.readValue(content, DepartmentDTO.class);
-    assertEquals("Engineering", result.getName());
+    assertEquals("department1", result.getName());
   }
 
   @Test
+  @Order(8)
   public void deleteDepartmentNotExistTest() throws Exception {
     // Given
     String uri = "/departments/30";
@@ -189,6 +201,7 @@ class DepartmentUseCase extends AbstractTest {
   }
 
   @Test
+  @Order(9)
   public void deleteDepartmentExistTest() throws Exception {
     // Given
     String uri = "/departments/1";
